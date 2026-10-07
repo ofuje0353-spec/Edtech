@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>FAVOJE Admin — Course Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        :root{--primary:#6366F1;--primary-hover:#5558E6;--primary-light:rgba(99,102,241,0.12);--primary-glow:rgba(99,102,241,0.3);--secondary:#4F46E5;--bg:#080B14;--bg-secondary:#0D1117;--surface:#111827;--surface-hover:#1a2234;--surface-border:rgba(255,255,255,0.06);--surface-border-hover:rgba(255,255,255,0.12);--accent:#F97316;--accent-light:rgba(249,115,22,0.12);--success:#10B981;--success-light:rgba(16,185,129,0.12);--danger:#EF4444;--danger-light:rgba(239,68,68,0.12);--warning:#F59E0B;--warning-light:rgba(245,158,11,0.12);--text-primary:#F8FAFC;--text-secondary:#94A3B8;--text-tertiary:#64748B;--text-muted:#475569;--card-radius:16px;--btn-radius:12px;--input-radius:12px;--transition-fast:0.15s ease;--transition-normal:0.3s ease;--transition-smooth:0.4s cubic-bezier(0.4,0,0.2,1);--shadow-sm:0 1px 3px rgba(0,0,0,0.3);--shadow-md:0 4px 12px rgba(0,0,0,0.4);--shadow-lg:0 8px 32px rgba(0,0,0,0.5);--font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;--sidebar-width:260px}
+        [data-theme="light"]{--bg:#F1F5F9;--bg-secondary:#E2E8F0;--surface:#FFFFFF;--surface-hover:#F8FAFC;--surface-border:rgba(0,0,0,0.08);--surface-border-hover:rgba(0,0,0,0.15);--text-primary:#0F172A;--text-secondary:#475569;--text-tertiary:#64748B;--text-muted:#94A3B8;--shadow-sm:0 1px 3px rgba(0,0,0,0.08);--shadow-md:0 4px 12px rgba(0,0,0,0.1);--shadow-lg:0 8px 32px rgba(0,0,0,0.12);--primary-light:rgba(99,102,241,0.08);--accent-light:rgba(249,115,22,0.08);--success-light:rgba(16,185,129,0.08);--danger-light:rgba(239,68,68,0.08);--warning-light:rgba(245,158,11,0.08)}
+        *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+        body{font-family:var(--font);background:var(--bg);color:var(--text-primary);min-height:100vh;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+        ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--text-muted);border-radius:3px}
+
+        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+        @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes fadeInDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes fadeInLeft{from{opacity:0;transform:translateX(-30px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes fadeInRight{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes scaleIn{from{opacity:0;transform:scale(0.88)}to{opacity:1;transform:scale(1)}}
+        @keyframes bounceIn{0%{opacity:0;transform:scale(0.3)}50%{opacity:1;transform:scale(1.06)}70%{transform:scale(0.94)}100%{opacity:1;transform:scale(1)}}
+        @keyframes slideUp{from{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}
+        @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        @keyframes popIn{0%{opacity:0;transform:scale(0) rotate(-8deg)}60%{transform:scale(1.12) rotate(2deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
+        @keyframes barGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+        @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+        @keyframes glowPulse{0%,100%{box-shadow:0 0 8px var(--primary-glow)}50%{box-shadow:0 0 28px var(--primary-glow)}}
+        @keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+        @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+        @keyframes particleFloat{0%,100%{transform:translate(0,0) rotate(0);opacity:0}10%{opacity:.4}90%{opacity:.4}100%{transform:translate(var(--tx),var(--ty)) rotate(360deg);opacity:0}}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+        @keyframes ripple{to{transform:scale(4);opacity:0}}
+        @keyframes countUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes slideInRight{from{opacity:0;transform:translateX(60px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes slideInLeft{from{opacity:0;transform:translateX(-60px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes expandHeight{from{max-height:0;opacity:0;padding-top:0;padding-bottom:0}to{max-height:600px;opacity:1}}
+        @keyframes checkPop{0%{transform:scale(0)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
+        @keyframes borderDance{0%{border-color:var(--primary)}33%{border-color:var(--accent)}66%{border-color:var(--success)}100%{border-color:var(--primary)}}
+
+        .bg-particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+        .particle{position:absolute;width:3px;height:3px;background:var(--primary);border-radius:50%;opacity:0}
+
+        /* LOADING */
+        .loading-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:20000;transition:opacity .6s,visibility .6s}
+        .loading-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none}
+        .lo-icon{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;animation:bounceIn .8s ease,float 2s ease-in-out infinite .8s;box-shadow:0 4px 20px rgba(99,102,241,0.4)}
+        .lo-icon i{width:30px;height:30px;color:#fff}
+        .lo-bar{width:100px;height:3px;background:var(--surface);border-radius:3px;overflow:hidden;margin-top:20px}
+        .lo-bar-inner{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent),var(--primary));width:40%;animation:shimmer 1.4s ease-in-out infinite;background-size:200% 100%;border-radius:3px}
+
+        /* TOAST */
+        .toast-container{position:fixed;top:20px;right:20px;z-index:10000;display:flex;flex-direction:column;gap:8px;width:380px;max-width:calc(100% - 40px)}
+        .toast{display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);box-shadow:var(--shadow-lg);animation:fadeInRight .4s ease;position:relative;overflow:hidden}
+        .toast::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px}
+        .toast.success::before{background:var(--success)}.toast.error::before{background:var(--danger)}.toast.info::before{background:var(--primary)}.toast.warning::before{background:var(--warning)}
+        .toast .ti{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .toast.success .ti{background:var(--success-light);color:var(--success)}.toast.error .ti{background:var(--danger-light);color:var(--danger)}.toast.info .ti{background:var(--primary-light);color:var(--primary)}.toast.warning .ti{background:var(--warning-light);color:var(--warning)}
+        .toast .ti i{width:18px;height:18px}.toast .tb{flex:1}.toast .tt{font-size:14px;font-weight:600}.toast .tm{font-size:13px;color:var(--text-secondary)}
+        .toast .tc{background:none;border:none;color:var(--text-muted);cursor:pointer;padding:4px;display:flex}.toast .tc i{width:16px;height:16px}
+        .toast.removing{animation:fadeIn .3s ease reverse forwards}
+
+        /* SIDEBAR */
+        .admin-sidebar{position:fixed;top:0;left:0;width:var(--sidebar-width);height:100%;background:var(--surface);border-right:1px solid var(--surface-border);z-index:1001;display:flex;flex-direction:column;transition:transform .3s ease;overflow-y:auto}
+        .admin-sidebar.collapsed{transform:translateX(-100%)}
+        .sidebar-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:1000;display:none}.sidebar-overlay.open{display:block}
+        .sb-header{padding:20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--surface-border)}
+        .sb-logo{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(99,102,241,.3);flex-shrink:0}
+        .sb-logo i{width:22px;height:22px;color:#fff}
+        .sb-brand-name{font-size:18px;font-weight:800;letter-spacing:-1px;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .sb-brand-sub{font-size:11px;color:var(--text-muted);font-weight:600}
+        .sb-nav{flex:1;padding:16px 12px;display:flex;flex-direction:column;gap:3px}
+        .sb-nav-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-muted);padding:12px 16px 6px;margin-top:8px}
+        .sb-nav-item{display:flex;align-items:center;gap:12px;padding:11px 16px;border-radius:12px;color:var(--text-secondary);font-size:13px;font-weight:500;cursor:pointer;transition:all var(--transition-normal);text-decoration:none}
+        .sb-nav-item:hover{background:var(--surface-hover);color:var(--text-primary)}
+        .sb-nav-item.active{background:var(--primary-light);color:var(--primary);font-weight:600}
+        .sb-nav-item i{width:20px;height:20px;flex-shrink:0}
+
+        /* TOPBAR */
+        .admin-topbar{position:sticky;top:0;z-index:100;background:rgba(8,11,20,0.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--surface-border);padding:12px 24px;margin-left:var(--sidebar-width);transition:margin-left .3s ease}
+        [data-theme="light"] .admin-topbar{background:rgba(241,245,249,0.88)}
+        .topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:16px}
+        .tb-left{display:flex;align-items:center;gap:12px}
+        .tb-menu{width:38px;height:38px;border-radius:10px;background:var(--surface);border:1px solid var(--surface-border);display:none;align-items:center;justify-content:center;cursor:pointer;color:var(--text-secondary);transition:all var(--transition-normal)}
+        .tb-menu:hover{color:var(--primary);border-color:var(--primary)}.tb-menu i{width:20px;height:20px}
+        .tb-title{font-size:20px;font-weight:700;letter-spacing:-.3px}
+        .tb-sub{font-size:12px;color:var(--text-tertiary)}
+        .tb-right{display:flex;align-items:center;gap:10px}
+        .tb-btn{width:38px;height:38px;border-radius:10px;background:var(--surface);border:1px solid var(--surface-border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-secondary);transition:all var(--transition-normal)}
+        .tb-btn:hover{background:var(--surface-hover);color:var(--primary);border-color:var(--primary);transform:translateY(-1px)}.tb-btn i{width:20px;height:20px}
+
+        /* MAIN */
+        .admin-main{margin-left:var(--sidebar-width);padding:24px;min-height:calc(100vh - 64px);transition:margin-left .3s ease;position:relative;z-index:1}
+
+        /* TAB VIEWS */
+        .view{display:none;opacity:0}.view.active{display:block;animation:fadeIn .4s ease forwards}
+
+        /* MAIN TABS */
+        .main-tabs{display:flex;background:var(--surface);border-radius:14px;padding:4px;margin-bottom:24px;border:1px solid var(--surface-border);animation:fadeInUp .5s ease .1s both;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+        .main-tabs::-webkit-scrollbar{display:none}
+        .mt-tab{flex:1;padding:12px 18px;text-align:center;font-size:13px;font-weight:600;color:var(--text-secondary);background:transparent;border:none;border-radius:11px;cursor:pointer;transition:all var(--transition-normal);font-family:var(--font);white-space:nowrap;display:flex;align-items:center;justify-content:center;gap:7px;min-width:0;position:relative}
+        .mt-tab:hover{color:var(--text-primary);background:var(--surface-hover)}
+        .mt-tab.active{background:var(--primary);color:#fff;box-shadow:0 2px 12px rgba(99,102,241,0.3)}
+        .mt-tab i{width:16px;height:16px}
+        .mt-tab .mt-count{padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700}
+        .mt-tab.active .mt-count{background:rgba(255,255,255,.2)}
+        .mt-tab:not(.active) .mt-count{background:var(--surface-hover);color:var(--text-muted)}
+
+        /* STATS ROW */
+        .stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:24px}
+        .stat-card{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);padding:20px;animation:fadeInUp .5s ease both;transition:all var(--transition-smooth);cursor:default;position:relative;overflow:hidden}
+        .stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;opacity:0;transition:opacity var(--transition-normal)}
+        .stat-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--surface-border-hover)}
+        .stat-card:hover::before{opacity:1}
+        .sc-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
+        .sc-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+        .sc-icon i{width:22px;height:22px}
+        .sc-value{font-size:28px;font-weight:900;letter-spacing:-1px;margin-bottom:2px;animation:countUp .6s ease .3s both}
+        .sc-label{font-size:12px;color:var(--text-tertiary);font-weight:500}
+
+        /* TOOLBAR */
+        .toolbar{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;animation:fadeInUp .5s ease .2s both}
+        .search-wrap{flex:1;min-width:200px;position:relative}
+        .search-wrap .s-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted)}.search-wrap .s-icon i{width:18px;height:18px}
+        .search-input{width:100%;padding:12px 14px 12px 44px;background:var(--surface);border:1.5px solid var(--surface-border);border-radius:var(--input-radius);color:var(--text-primary);font-size:14px;font-family:var(--font);outline:none;transition:all var(--transition-normal)}
+        .search-input::placeholder{color:var(--text-muted)}.search-input:focus{border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-light)}
+        .filter-select{padding:12px 36px 12px 14px;background:var(--surface);border:1.5px solid var(--surface-border);border-radius:var(--input-radius);color:var(--text-primary);font-size:13px;font-family:var(--font);outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;transition:all var(--transition-normal)}
+        .filter-select:focus{border-color:var(--primary)}
+        .toolbar-btn{padding:12px 20px;border:none;border-radius:var(--btn-radius);font-size:13px;font-weight:600;font-family:var(--font);cursor:pointer;transition:all var(--transition-normal);display:flex;align-items:center;gap:8px;white-space:nowrap}
+        .toolbar-btn:hover{transform:translateY(-2px)}.toolbar-btn i{width:18px;height:18px}
+        .toolbar-btn.primary{background:var(--primary);color:#fff;box-shadow:0 2px 10px rgba(99,102,241,.2)}
+        .toolbar-btn.secondary{background:var(--surface);color:var(--text-primary);border:1px solid var(--surface-border)}
+        .toolbar-btn.secondary:hover{border-color:var(--primary);color:var(--primary)}
+        .toolbar-btn.success{background:var(--success);color:#fff}
+        .toolbar-btn.danger{background:var(--danger);color:#fff}
+
+        /* CARDS GRID */
+        .cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+        .data-card{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);padding:22px;animation:fadeInUp .4s ease both;transition:all var(--transition-smooth);position:relative;overflow:hidden}
+        .data-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;opacity:0;transition:opacity var(--transition-normal)}
+        .data-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--surface-border-hover)}
+        .data-card:hover::before{opacity:1}
+        .data-card .dc-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px}
+        .data-card .dc-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .data-card .dc-icon i{width:22px;height:22px}
+        .data-card .dc-actions{display:flex;gap:4px}
+        .data-card .dc-title{font-size:16px;font-weight:700;margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+        .data-card .dc-sub{font-size:13px;color:var(--text-tertiary);margin-bottom:12px}
+        .data-card .dc-meta{display:flex;flex-wrap:wrap;gap:8px;font-size:12px;color:var(--text-muted)}
+        .data-card .dc-meta span{display:flex;align-items:center;gap:4px;padding:4px 10px;background:var(--bg);border-radius:6px}
+        .data-card .dc-meta span i{width:13px;height:13px}
+        .dc-badge{padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:4px}
+        .dc-badge i{width:12px;height:12px}
+        .dc-badge.core{background:var(--primary-light);color:var(--primary)}
+        .dc-badge.elective{background:var(--accent-light);color:var(--accent)}
+        .dc-badge.general{background:var(--success-light);color:var(--success)}
+        .dc-badge.published{background:var(--success-light);color:var(--success)}
+
+        .action-btn{width:32px;height:32px;border-radius:8px;background:var(--bg);border:1px solid var(--surface-border);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-muted);transition:all var(--transition-normal)}
+        .action-btn:hover{color:var(--primary);border-color:var(--primary);background:var(--primary-light)}
+        .action-btn.danger:hover{color:var(--danger);border-color:var(--danger);background:var(--danger-light)}
+        .action-btn i{width:14px;height:14px}
+
+        /* MODAL */
+        .modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:5000;display:none;align-items:center;justify-content:center;padding:20px;animation:fadeIn .3s ease}
+        .modal-overlay.open{display:flex}
+        @media(max-width:640px){.modal-overlay{align-items:flex-end;padding:0}.modal{border-radius:20px 20px 0 0!important;max-height:92vh}}
+        .modal{background:var(--surface);border:1px solid var(--surface-border);border-radius:20px;padding:28px;max-width:580px;width:100%;animation:scaleIn .3s ease;position:relative;max-height:90vh;overflow-y:auto}
+        .modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:8px;background:var(--bg);border:none;color:var(--text-muted);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--transition-fast)}
+        .modal-close:hover{color:var(--danger);background:var(--danger-light)}.modal-close i{width:18px;height:18px}
+        .modal-handle{width:40px;height:4px;background:var(--text-muted);border-radius:4px;margin:0 auto 20px;opacity:.4;display:none}
+        @media(max-width:640px){.modal-handle{display:block}}
+        .modal h3{font-size:20px;font-weight:700;margin-bottom:4px}
+        .modal .modal-desc{font-size:14px;color:var(--text-secondary);margin-bottom:24px}
+        .form-group{margin-bottom:18px;opacity:0;animation:fadeInUp .4s ease forwards}
+        .form-label{display:block;font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:8px;letter-spacing:.3px}
+        .form-label .req{color:var(--danger);margin-left:2px}
+        .form-input,.form-textarea,.form-select-styled{width:100%;padding:13px 16px;background:var(--bg);border:1.5px solid var(--surface-border);border-radius:var(--input-radius);color:var(--text-primary);font-size:14px;font-family:var(--font);outline:none;transition:all var(--transition-normal)}
+        .form-input:focus,.form-textarea:focus,.form-select-styled:focus{border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-light)}
+        .form-input::placeholder,.form-textarea::placeholder{color:var(--text-muted)}
+        .form-textarea{resize:vertical;min-height:80px;line-height:1.6}
+        .form-select-styled{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+        .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+        .form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+        @media(max-width:480px){.form-row,.form-row-3{grid-template-columns:1fr}}
+        .form-hint{font-size:12px;color:var(--text-muted);margin-top:4px}
+        .form-error{font-size:12px;color:var(--danger);margin-top:4px;display:none;animation:shake .4s ease}
+        .form-error.visible{display:block}
+
+        .modal-actions{display:flex;gap:10px;margin-top:24px}
+        .m-btn{flex:1;padding:14px;border:none;border-radius:var(--btn-radius);font-size:15px;font-weight:600;font-family:var(--font);cursor:pointer;transition:all var(--transition-normal);display:flex;align-items:center;justify-content:center;gap:8px;position:relative;overflow:hidden}
+        .m-btn::after{content:'';position:absolute;top:50%;left:50%;width:0;height:0;background:rgba(255,255,255,.12);border-radius:50%;transform:translate(-50%,-50%);transition:width .5s,height .5s}
+        .m-btn:active::after{width:300%;height:300%}
+        .m-btn i{width:18px;height:18px}
+        .m-btn.cancel{background:var(--bg);color:var(--text-secondary)}.m-btn.cancel:hover{color:var(--text-primary)}
+        .m-btn.primary{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;box-shadow:0 4px 16px rgba(99,102,241,.3)}
+        .m-btn.primary:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(99,102,241,.4)}
+        .m-btn.primary:disabled{opacity:.5;cursor:not-allowed;transform:none}
+        .m-btn.danger{background:var(--danger);color:#fff}
+        .m-btn-spinner{display:none;width:20px;height:20px;border:2.5px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite}
+        .m-btn.loading .m-btn-text{display:none}.m-btn.loading .m-btn-spinner{display:inline-block}.m-btn.loading{pointer-events:none}
+
+        /* TREE VIEW */
+        .tree-container{display:flex;flex-direction:column;gap:10px}
+        .tree-node{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);overflow:hidden;animation:fadeInLeft .4s ease both;transition:all var(--transition-smooth)}
+        .tree-node:hover{border-color:var(--surface-border-hover)}
+        .tree-header{display:flex;align-items:center;gap:12px;padding:16px 18px;cursor:pointer;transition:background var(--transition-fast)}
+        .tree-header:hover{background:var(--surface-hover)}
+        .tree-toggle{width:28px;height:28px;border-radius:8px;background:var(--bg);display:flex;align-items:center;justify-content:center;transition:all var(--transition-normal);flex-shrink:0;color:var(--text-muted)}
+        .tree-toggle i{width:16px;height:16px;transition:transform var(--transition-normal)}
+        .tree-node.open .tree-toggle i{transform:rotate(90deg)}
+        .tree-node.open .tree-toggle{background:var(--primary-light);color:var(--primary)}
+        .tree-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .tree-icon i{width:20px;height:20px}
+        .tree-info{flex:1;min-width:0}
+        .tree-name{font-size:15px;font-weight:700}
+        .tree-detail{font-size:12px;color:var(--text-tertiary)}
+        .tree-actions{display:flex;gap:4px}
+        .tree-children{display:none;padding:0 18px 14px 68px;animation:expandHeight .3s ease}
+        .tree-node.open>.tree-children{display:block}
+        .tree-child{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg);border-radius:10px;margin-bottom:6px;transition:all var(--transition-normal);animation:fadeInLeft .3s ease both}
+        .tree-child:hover{background:var(--surface-hover);transform:translateX(4px)}
+        .tree-child .tc-icon{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .tree-child .tc-icon i{width:16px;height:16px}
+        .tree-child .tc-name{flex:1;font-size:13px;font-weight:600}
+        .tree-child .tc-actions{display:flex;gap:3px}
+        .tree-child .tc-actions .action-btn{width:28px;height:28px}
+
+        .add-child-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;background:none;border:1px dashed var(--surface-border);border-radius:8px;color:var(--text-muted);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font);transition:all var(--transition-normal);margin-top:4px}
+        .add-child-btn:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-light)}
+        .add-child-btn i{width:14px;height:14px}
+
+        .empty-state{text-align:center;padding:60px 20px;animation:fadeIn .5s ease}
+        .empty-icon{width:72px;height:72px;border-radius:50%;background:var(--surface);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:var(--text-muted)}
+        .empty-icon i{width:32px;height:32px}
+        .empty-state h4{font-size:18px;font-weight:700;margin-bottom:6px}
+        .empty-state p{font-size:14px;color:var(--text-secondary)}
+
+        .skeleton{background:linear-gradient(90deg,var(--surface) 25%,var(--surface-hover) 50%,var(--surface) 75%);background-size:200% 100%;animation:shimmer 1.5s ease infinite;border-radius:12px}
+
+        /* CONFIRM MODAL */
+        .confirm-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:6000;display:none;align-items:center;justify-content:center;padding:20px;animation:fadeIn .2s ease}
+        .confirm-overlay.open{display:flex}
+        .confirm-box{background:var(--surface);border:1px solid var(--surface-border);border-radius:16px;padding:24px;max-width:400px;width:100%;animation:scaleIn .2s ease;text-align:center}
+        .confirm-box h4{font-size:17px;font-weight:700;margin-bottom:6px}
+        .confirm-box p{font-size:14px;color:var(--text-secondary);margin-bottom:20px}
+        .confirm-btns{display:flex;gap:10px}
+        .confirm-btns .cb{flex:1;padding:12px;border:none;border-radius:var(--btn-radius);font-size:14px;font-weight:600;font-family:var(--font);cursor:pointer;transition:all var(--transition-normal)}
+        .cb.c-cancel{background:var(--bg);color:var(--text-secondary)}.cb.c-cancel:hover{color:var(--text-primary)}
+        .cb.c-danger{background:var(--danger);color:#fff}.cb.c-danger:hover{opacity:.9}
+
+        /* RESPONSIVE */
+        @media(max-width:1024px){.admin-sidebar{transform:translateX(-100%)}.admin-sidebar.open{transform:translateX(0)}.admin-topbar{margin-left:0}.admin-main{margin-left:0}.tb-menu{display:flex}}
+        @media(max-width:600px){.admin-main{padding:16px}.stats-row{grid-template-columns:repeat(2,1fr)}.cards-grid{grid-template-columns:1fr}}
+        @media(max-width:360px){.stats-row{grid-template-columns:1fr}.sc-value{font-size:24px}}
+    </style>
+</head>
+<body>
+    <div class="loading-overlay" id="loadingOverlay"><div class="lo-icon"><i data-lucide="book-open"></i></div><div class="lo-bar"><div class="lo-bar-inner"></div></div></div>
+    <div class="bg-particles" id="bgParticles"></div>
+    <div class="toast-container" id="toastContainer"></div>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <nav class="admin-sidebar" id="adminSidebar">
+        <div class="sb-header"><div class="sb-logo"><i data-lucide="graduation-cap"></i></div><div><span class="sb-brand-name">FAVOJE</span><div class="sb-brand-sub">Admin Panel</div></div></div>
+        <div class="sb-nav">
+            <div class="sb-nav-label">Main</div>
+            <a class="sb-nav-item" href="admin.html"><i data-lucide="layout-dashboard"></i>Dashboard</a>
+            <a class="sb-nav-item" href="admin.html?page=users"><i data-lucide="users"></i>Users</a>
+            <div class="sb-nav-label">Content</div>
+            <a class="sb-nav-item active" href="admin-courses.html"><i data-lucide="book-marked"></i>Courses</a>
+            <a class="sb-nav-item" href="admin-content.html"><i data-lucide="help-circle"></i>Questions</a>
+            <div class="sb-nav-label">Finance</div>
+            <a class="sb-nav-item" href="admin-finance.html"><i data-lucide="wallet"></i>Finance</a>
+        </div>
+    </nav>
+
+    <header class="admin-topbar"><div class="topbar-inner">
+        <div class="tb-left"><button class="tb-menu" id="menuToggle"><i data-lucide="menu"></i></button><div><div class="tb-title">Course Management</div><div class="tb-sub">Universities, faculties, departments & courses</div></div></div>
+        <div class="tb-right"><button class="tb-btn" id="themeToggle"><i data-lucide="moon"></i></button><button class="tb-btn" onclick="location.href='admin.html'"><i data-lucide="layout-dashboard"></i></button></div>
+    </div></header>
+
+    <main class="admin-main" id="adminMain">
+        <div class="stats-row" id="statsRow"></div>
+
+        <div class="main-tabs" id="mainTabs">
+            <button class="mt-tab active" data-tab="universities"><i data-lucide="building-2"></i>Universities<span class="mt-count" id="uniCount">0</span></button>
+            <button class="mt-tab" data-tab="courses"><i data-lucide="book-marked"></i>Courses<span class="mt-count" id="courseCount">0</span></button>
+            <button class="mt-tab" data-tab="topics"><i data-lucide="list"></i>Topics<span class="mt-count" id="topicCount">0</span></button>
+        </div>
+
+        <!-- UNIVERSITIES TAB (Tree: University → Faculty → Department) -->
+        <div class="view active" id="universitiesView">
+            <div class="toolbar"><div class="search-wrap"><span class="s-icon"><i data-lucide="search"></i></span><input class="search-input" id="uniSearch" placeholder="Search universities..."></div><button class="toolbar-btn primary" id="addUniBtn"><i data-lucide="plus"></i>Add University</button></div>
+            <div class="tree-container" id="uniTree"></div>
+        </div>
+
+        <!-- COURSES TAB -->
+        <div class="view" id="coursesView">
+            <div class="toolbar" id="courseToolbar"></div>
+            <div class="cards-grid" id="courseGrid"></div>
+        </div>
+
+        <!-- TOPICS TAB -->
+        <div class="view" id="topicsView">
+            <div class="toolbar" id="topicToolbar"></div>
+            <div class="cards-grid" id="topicGrid"></div>
+        </div>
+    </main>
+
+    <!-- University Modal -->
+    <div class="modal-overlay" id="uniModal"><div class="modal" id="uniModalBody"></div></div>
+    <!-- Faculty Modal -->
+    <div class="modal-overlay" id="facModal"><div class="modal" id="facModalBody"></div></div>
+    <!-- Department Modal -->
+    <div class="modal-overlay" id="deptModal"><div class="modal" id="deptModalBody"></div></div>
+    <!-- Course Modal -->
+    <div class="modal-overlay" id="courseModal"><div class="modal" id="courseModalBody"></div></div>
+    <!-- Topic Modal -->
+    <div class="modal-overlay" id="topicModal"><div class="modal" id="topicModalBody"></div></div>
+    <!-- Confirm -->
+    <div class="confirm-overlay" id="confirmOverlay"><div class="confirm-box" id="confirmBox"></div></div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+    <script>
+    const firebaseConfig={apiKey: "AIzaSyC1SmazNPbak8vMvi-jD40EGqpvWmWdd0U",
+  authDomain: "favoje-fcb02.firebaseapp.com",
+  projectId: "favoje-fcb02",
+  storageBucket: "favoje-fcb02.firebasestorage.app",
+  messagingSenderId: "837946471768",
+  appId: "1:837946471768:web:6ea76eee926fe77bdc212d"};
+    firebase.initializeApp(firebaseConfig);const auth=firebase.auth(),db=firebase.firestore();
+    const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s),fmt=n=>new Intl.NumberFormat('en-NG').format(n||0);
+    const S={user:null,profile:null,universities:[],faculties:{},departments:{},courses:[],topics:[],theme:localStorage.getItem('favoje-theme')||'dark'};
+    const Toast={show(t,ti,m,d=4e3){const ic={success:'check-circle',error:'x-circle',warning:'alert-triangle',info:'info'};const el=document.createElement('div');el.className=`toast ${t}`;el.innerHTML=`<div class="ti"><i data-lucide="${ic[t]}"></i></div><div class="tb"><div class="tt">${ti}</div><div class="tm">${m}</div></div><button class="tc"><i data-lucide="x"></i></button>`;$('#toastContainer').appendChild(el);lucide.createIcons({nodes:[el]});const cl=()=>{el.classList.add('removing');setTimeout(()=>el.remove(),300)};el.querySelector('.tc').onclick=cl;setTimeout(cl,d)}};
+    const Theme={init(){this.apply(S.theme);$('#themeToggle').onclick=()=>this.toggle()},apply(t){document.documentElement.setAttribute('data-theme',t);S.theme=t;localStorage.setItem('favoje-theme',t);this.icon()},toggle(){this.apply(S.theme==='dark'?'light':'dark')},icon(){const b=$('#themeToggle');b.innerHTML=`<i data-lucide="${S.theme==='dark'?'sun':'moon'}"></i>`;lucide.createIcons({nodes:[b]})}};
+    function initParticles(){const c=$('#bgParticles');for(let i=0;i<14;i++){const p=document.createElement('div');p.className='particle';p.style.left=Math.random()*100+'%';p.style.top=Math.random()*100+'%';p.style.setProperty('--tx',(Math.random()*200-100)+'px');p.style.setProperty('--ty',(Math.random()*200-100)+'px');p.style.animation=`particleFloat ${5+Math.random()*10}s ease-in-out infinite`;p.style.animationDelay=Math.random()*5+'s';const sz=(2+Math.random()*3)+'px';p.style.width=sz;p.style.height=sz;c.appendChild(p)}}
+    function initNav(){$('#menuToggle').onclick=()=>{$('#adminSidebar').classList.toggle('open');$('#sidebarOverlay').classList.toggle('open')};$('#sidebarOverlay').onclick=()=>{$('#adminSidebar').classList.remove('open');$('#sidebarOverlay').classList.remove('open')}}
+    function initTabs(){$$('.mt-tab').forEach(tab=>{tab.onclick=()=>{$$('.mt-tab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');$$('.view').forEach(v=>v.classList.remove('active'));$(`#${tab.dataset.tab}View`).classList.add('active')}})}
+    function closeModal(id){$(`#${id}`).classList.remove('open')}
+    function confirm(title,msg,cb){const o=$('#confirmOverlay');$('#confirmBox').innerHTML=`<h4>${title}</h4><p>${msg}</p><div class="confirm-btns"><button class="cb c-cancel" onclick="$('#confirmOverlay').classList.remove('open')">Cancel</button><button class="cb c-danger" id="confirmYes">Delete</button></div>`;o.classList.add('open');$('#confirmYes').onclick=()=>{o.classList.remove('open');cb()}}
+
+    // ===== LOAD ALL DATA =====
+    async function loadAll(){
+        try{
+            // Universities
+            const uSnap=await db.collection('universities').get();S.universities=[];uSnap.forEach(d=>S.universities.push({id:d.id,...d.data()}));
+            // Faculties & Departments for each uni
+            for(const uni of S.universities){
+                const fSnap=await db.collection('universities').doc(uni.id).collection('faculties').get();
+                S.faculties[uni.id]=[];fSnap.forEach(d=>S.faculties[uni.id].push({id:d.id,...d.data()}));
+                S.departments[uni.id]={};
+                for(const fac of S.faculties[uni.id]){
+                    const dSnap=await db.collection('universities').doc(uni.id).collection('faculties').doc(fac.id).collection('departments').get();
+                    S.departments[uni.id][fac.id]=[];dSnap.forEach(d=>S.departments[uni.id][fac.id].push({id:d.id,...d.data()}));
+                }
+            }
+            // Courses
+            const cSnap=await db.collection('courses').get();S.courses=[];cSnap.forEach(d=>S.courses.push({id:d.id,...d.data()}));
+            // Topics
+            const tSnap=await db.collection('topics').get();S.topics=[];tSnap.forEach(d=>S.topics.push({id:d.id,...d.data()}));
+            renderStats();renderUniTree();renderCourses();renderTopics();
+        }catch(e){console.error(e);Toast.show('error','Load Error',e.message)}
+    }
+
+    function renderStats(){
+        let totalFac=0,totalDept=0;
+        Object.values(S.faculties).forEach(f=>totalFac+=f.length);
+        Object.values(S.departments).forEach(ud=>Object.values(ud).forEach(d=>totalDept+=d.length));
+        const stats=[
+            {label:'Universities',value:S.universities.length,icon:'building-2',color:'primary'},
+            {label:'Faculties',value:totalFac,icon:'library',color:'accent'},
+            {label:'Departments',value:totalDept,icon:'book-open',color:'success'},
+            {label:'Courses',value:S.courses.length,icon:'book-marked',color:'warning'},
+            {label:'Topics',value:S.topics.length,icon:'list',color:'primary'}
+        ];
+        $('#statsRow').innerHTML=stats.map((s,i)=>`<div class="stat-card" style="animation-delay:${.1+i*.06}s"><div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--${s.color})"></div><div class="sc-top"><div class="sc-icon" style="background:var(--${s.color}-light);color:var(--${s.color})"><i data-lucide="${s.icon}"></i></div></div><div class="sc-value">${s.value}</div><div class="sc-label">${s.label}</div></div>`).join('');
+        $('#uniCount').textContent=S.universities.length;$('#courseCount').textContent=S.courses.length;$('#topicCount').textContent=S.topics.length;
+        lucide.createIcons({nodes:[$('#statsRow')]});
+    }
+
+    // ===== UNIVERSITY TREE =====
+    function renderUniTree(search=''){
+        const tree=$('#uniTree');tree.innerHTML='';
+        let unis=[...S.universities];
+        if(search){const s=search.toLowerCase();unis=unis.filter(u=>(u.name||'').toLowerCase().includes(s)||(u.shortName||'').toLowerCase().includes(s))}
+        if(!unis.length){tree.innerHTML=`<div class="empty-state"><div class="empty-icon"><i data-lucide="building-2"></i></div><h4>No Universities</h4><p>Add your first university to get started</p></div>`;lucide.createIcons({nodes:[tree]});return}
+        unis.forEach((uni,idx)=>{
+            const facs=S.faculties[uni.id]||[];
+            const node=document.createElement('div');node.className='tree-node';node.style.animationDelay=`${idx*0.06}s`;
+            let childrenHtml='';
+            facs.forEach((fac,fi)=>{
+                const depts=S.departments[uni.id]?.[fac.id]||[];
+                let deptsHtml=depts.map((d,di)=>`<div class="tree-child" style="animation-delay:${di*0.04}s"><div class="tc-icon" style="background:var(--success-light);color:var(--success)"><i data-lucide="book-open"></i></div><span class="tc-name">${d.name}</span><div class="tc-actions"><button class="action-btn danger" data-action="del-dept" data-uid="${uni.id}" data-fid="${fac.id}" data-did="${d.id}" data-name="${d.name}"><i data-lucide="trash-2"></i></button></div></div>`).join('');
+                childrenHtml+=`<div class="tree-child" style="animation-delay:${fi*0.05}s;background:var(--surface);border:1px solid var(--surface-border);padding:12px 14px;border-radius:12px;margin-bottom:8px;cursor:pointer" data-fac-toggle="${fac.id}"><div class="tc-icon" style="background:var(--accent-light);color:var(--accent)"><i data-lucide="library"></i></div><span class="tc-name" style="font-size:14px;font-weight:700">${fac.name}</span><span style="font-size:11px;color:var(--text-muted);margin-left:auto;margin-right:8px">${depts.length} depts</span><div class="tc-actions"><button class="action-btn" data-action="add-dept" data-uid="${uni.id}" data-fid="${fac.id}" data-fname="${fac.name}" title="Add Department"><i data-lucide="plus"></i></button><button class="action-btn danger" data-action="del-fac" data-uid="${uni.id}" data-fid="${fac.id}" data-name="${fac.name}"><i data-lucide="trash-2"></i></button></div></div><div class="tree-children" id="fac-children-${fac.id}" style="display:none;padding-left:44px;margin-bottom:4px">${deptsHtml}</div>`;
+            });
+            node.innerHTML=`
+                <div class="tree-header" data-uid="${uni.id}">
+                    <div class="tree-toggle"><i data-lucide="chevron-right"></i></div>
+                    <div class="tree-icon" style="background:var(--primary-light);color:var(--primary)"><i data-lucide="building-2"></i></div>
+                    <div class="tree-info"><div class="tree-name">${uni.shortName||uni.name}</div><div class="tree-detail">${uni.name} · ${facs.length} faculties</div></div>
+                    <div class="tree-actions">
+                        <button class="action-btn" data-action="add-fac" data-uid="${uni.id}" data-uname="${uni.shortName}" title="Add Faculty"><i data-lucide="plus"></i></button>
+                        <button class="action-btn danger" data-action="del-uni" data-uid="${uni.id}" data-name="${uni.shortName}"><i data-lucide="trash-2"></i></button>
+                    </div>
+                </div>
+                <div class="tree-children">${childrenHtml}<button class="add-child-btn" data-action="add-fac" data-uid="${uni.id}"><i data-lucide="plus"></i>Add Faculty</button></div>
+            `;
+            tree.appendChild(node);
+        });
+        lucide.createIcons({nodes:[tree]});
+        // Toggle tree nodes
+        tree.querySelectorAll('.tree-header').forEach(h=>{h.onclick=e=>{if(e.target.closest('.action-btn'))return;h.parentElement.classList.toggle('open')}});
+        tree.querySelectorAll('[data-fac-toggle]').forEach(el=>{el.onclick=e=>{if(e.target.closest('.action-btn'))return;const c=$(`#fac-children-${el.dataset.facToggle}`);c.style.display=c.style.display==='none'?'block':'none'}});
+        // Actions
+        tree.querySelectorAll('[data-action="add-fac"]').forEach(btn=>{btn.onclick=e=>{e.stopPropagation();openFacModal(btn.dataset.uid)}});
+        tree.querySelectorAll('[data-action="add-dept"]').forEach(btn=>{btn.onclick=e=>{e.stopPropagation();openDeptModal(btn.dataset.uid,btn.dataset.fid,btn.dataset.fname)}});
+        tree.querySelectorAll('[data-action="del-uni"]').forEach(btn=>{btn.onclick=e=>{e.stopPropagation();confirm('Delete University?',`Remove "${btn.dataset.name}" and all its data?`,()=>deleteUni(btn.dataset.uid))}});
+        tree.querySelectorAll('[data-action="del-fac"]').forEach(btn=>{btn.onclick=e=>{e.stopPropagation();confirm('Delete Faculty?',`Remove "${btn.dataset.name}"?`,()=>deleteFac(btn.dataset.uid,btn.dataset.fid))}});
+        tree.querySelectorAll('[data-action="del-dept"]').forEach(btn=>{btn.onclick=e=>{e.stopPropagation();confirm('Delete Department?',`Remove "${btn.dataset.name}"?`,()=>deleteDept(btn.dataset.uid,btn.dataset.fid,btn.dataset.did))}});
+    }
+    // Search
+    let uniTimer;$('#uniSearch')?.addEventListener?.('input',e=>{clearTimeout(uniTimer);uniTimer=setTimeout(()=>renderUniTree(e.target.value),300)});
+
+    // ADD UNIVERSITY
+    $('#addUniBtn').onclick=()=>{
+        const modal=$('#uniModal');$('#uniModalBody').innerHTML=`<div class="modal-handle"></div><button class="modal-close" onclick="closeModal('uniModal')"><i data-lucide="x"></i></button><h3>Add University</h3><p class="modal-desc">Add a new university to the platform</p><div class="form-group" style="animation-delay:.1s"><label class="form-label">University Name <span class="req">*</span></label><input class="form-input" id="uniNameInput" placeholder="e.g. Federal University of Technology, Minna"></div><div class="form-group" style="animation-delay:.15s"><label class="form-label">Short Name <span class="req">*</span></label><input class="form-input" id="uniShortInput" placeholder="e.g. FUTMINNA"><div class="form-hint">This will be displayed to students</div></div><div class="modal-actions"><button class="m-btn cancel" onclick="closeModal('uniModal')">Cancel</button><button class="m-btn primary" id="saveUniBtn"><i data-lucide="plus"></i><span class="m-btn-text">Add University</span><div class="m-btn-spinner"></div></button></div>`;
+        modal.classList.add('open');lucide.createIcons({nodes:[$('#uniModalBody')]});
+        $('#saveUniBtn').onclick=async()=>{const name=$('#uniNameInput').value.trim();const short=$('#uniShortInput').value.trim().toUpperCase();if(!name||!short){Toast.show('warning','Required','Fill all fields');return}const btn=$('#saveUniBtn');btn.classList.add('loading');try{await db.collection('universities').add({name,shortName:short,createdAt:firebase.firestore.FieldValue.serverTimestamp(),createdBy:S.user.uid});btn.classList.remove('loading');closeModal('uniModal');Toast.show('success','Added',`${short} university added`);loadAll()}catch(e){btn.classList.remove('loading');Toast.show('error','Error',e.message)}};
+    };
+
+    // ADD FACULTY
+    function openFacModal(uid){const uni=S.universities.find(u=>u.id===uid);const modal=$('#facModal');$('#facModalBody').innerHTML=`<div class="modal-handle"></div><button class="modal-close" onclick="closeModal('facModal')"><i data-lucide="x"></i></button><h3>Add Faculty</h3><p class="modal-desc">Add faculty to ${uni?.shortName||'university'}</p><div class="form-group" style="animation-delay:.1s"><label class="form-label">Faculty / College Name <span class="req">*</span></label><input class="form-input" id="facNameInput" placeholder="e.g. School of Life Sciences"></div><div class="modal-actions"><button class="m-btn cancel" onclick="closeModal('facModal')">Cancel</button><button class="m-btn primary" id="saveFacBtn"><i data-lucide="plus"></i><span class="m-btn-text">Add Faculty</span><div class="m-btn-spinner"></div></button></div>`;modal.classList.add('open');lucide.createIcons({nodes:[$('#facModalBody')]});$('#saveFacBtn').onclick=async()=>{const name=$('#facNameInput').value.trim();if(!name){Toast.show('warning','Required','Enter faculty name');return}const btn=$('#saveFacBtn');btn.classList.add('loading');try{await db.collection('universities').doc(uid).collection('faculties').add({name,createdAt:firebase.firestore.FieldValue.serverTimestamp(),createdBy:S.user.uid});btn.classList.remove('loading');closeModal('facModal');Toast.show('success','Added',`${name} added`);loadAll()}catch(e){btn.classList.remove('loading');Toast.show('error','Error',e.message)}}}
+
+    // ADD DEPARTMENT
+    function openDeptModal(uid,fid,fname){const modal=$('#deptModal');$('#deptModalBody').innerHTML=`<div class="modal-handle"></div><button class="modal-close" onclick="closeModal('deptModal')"><i data-lucide="x"></i></button><h3>Add Department</h3><p class="modal-desc">Add department to ${fname||'faculty'}</p><div class="form-group" style="animation-delay:.1s"><label class="form-label">Department Name <span class="req">*</span></label><input class="form-input" id="deptNameInput" placeholder="e.g. Biochemistry"></div><div class="modal-actions"><button class="m-btn cancel" onclick="closeModal('deptModal')">Cancel</button><button class="m-btn primary" id="saveDeptBtn"><i data-lucide="plus"></i><span class="m-btn-text">Add Department</span><div class="m-btn-spinner"></div></button></div>`;modal.classList.add('open');lucide.createIcons({nodes:[$('#deptModalBody')]});$('#saveDeptBtn').onclick=async()=>{const name=$('#deptNameInput').value.trim();if(!name){Toast.show('warning','Required','Enter department name');return}const btn=$('#saveDeptBtn');btn.classList.add('loading');try{await db.collection('universities').doc(uid).collection('faculties').doc(fid).collection('departments').add({name,createdAt:firebase.firestore.FieldValue.serverTimestamp(),createdBy:S.user.uid});btn.classList.remove('loading');closeModal('deptModal');Toast.show('success','Added',`${name} added`);loadAll()}catch(e){btn.classList.remove('loading');Toast.show('error','Error',e.message)}}}
+
+    // DELETE
+    async function deleteUni(uid){try{await db.collection('universities').doc(uid).delete();Toast.show('info','Deleted','University removed');loadAll()}catch(e){Toast.show('error','Error',e.message)}}
+    async function deleteFac(uid,fid){try{await db.collection('universities').doc(uid).collection('faculties').doc(fid).delete();Toast.show('info','Deleted','Faculty removed');loadAll()}catch(e){Toast.show('error','Error',e.message)}}
+    async function deleteDept(uid,fid,did){try{await db.collection('universities').doc(uid).collection('faculties').doc(fid).collection('departments').doc(did).delete();Toast.show('info','Deleted','Department removed');loadAll()}catch(e){Toast.show('error','Error',e.message)}}
+
+    // ===== COURSES =====
+    function renderCourses(){
+        const allDepts=[];S.universities.forEach(u=>{Object.values(S.departments[u.id]||{}).forEach(dArr=>dArr.forEach(d=>allDepts.push({...d,universityId:u.id,uniName:u.shortName})))});
+        $('#courseToolbar').innerHTML=`<div class="search-wrap"><span class="s-icon"><i data-lucide="search"></i></span><input class="search-input" id="courseSearch" placeholder="Search courses..."></div><select class="filter-select" id="courseLevelFilter"><option value="">All Levels</option><option value="100">100</option><option value="200">200</option><option value="300">300</option><option value="400">400</option><option value="500">500</option></select><select class="filter-select" id="courseSemFilter"><option value="">All Semesters</option><option value="first">First</option><option value="second">Second</option></select><button class="toolbar-btn primary" id="addCourseBtn"><i data-lucide="plus"></i>Add Course</button>`;
+        lucide.createIcons({nodes:[$('#courseToolbar')]});
+        let timer;$('#courseSearch').oninput=e=>{clearTimeout(timer);timer=setTimeout(()=>renderCourseCards(e.target.value),300)};
+        $('#courseLevelFilter').onchange=$('#courseSemFilter').onchange=()=>renderCourseCards($('#courseSearch').value);
+        $('#addCourseBtn').onclick=()=>openCourseModal();
+        renderCourseCards();
+    }
+    function renderCourseCards(search=''){
+        const grid=$('#courseGrid');grid.innerHTML='';
+        let filtered=[...S.courses];
+        if(search){const s=search.toLowerCase();filtered=filtered.filter(c=>(c.code||'').toLowerCase().includes(s)||(c.name||'').toLowerCase().includes(s))}
+        const lf=$('#courseLevelFilter')?.value;if(lf)filtered=filtered.filter(c=>c.level===lf);
+        const sf=$('#courseSemFilter')?.value;if(sf)filtered=filtered.filter(c=>c.semester===sf);
+        if(!filtered.length){grid.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon"><i data-lucide="book-marked"></i></div><h4>No Courses Found</h4><p>Add courses for students to select</p></div>`;lucide.createIcons({nodes:[grid]});return}
+        filtered.forEach((c,i)=>{
+            const card=document.createElement('div');card.className='data-card';card.style.animationDelay=`${.05+i*.04}s`;
+            card.style.setProperty('--card-color',c.type==='core'?'var(--primary)':c.type==='elective'?'var(--accent)':'var(--success)');
+            card.innerHTML=`<div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--card-color)"></div><div class="dc-top"><div class="dc-icon" style="background:var(--primary-light);color:var(--primary)"><i data-lucide="book-marked"></i></div><div class="dc-actions"><button class="action-btn" data-edit="${c.id}"><i data-lucide="pencil"></i></button><button class="action-btn danger" data-del="${c.id}" data-name="${c.code}"><i data-lucide="trash-2"></i></button></div></div><div class="dc-title">${c.code} — ${c.name}</div><div class="dc-sub">${c.level||'?'}L · ${c.semester==='first'?'1st':'2nd'} Semester · ${c.units||3} Units</div><div class="dc-meta"><span class="dc-badge ${c.type||'core'}"><i data-lucide="${c.type==='core'?'star':c.type==='elective'?'shuffle':'globe'}"></i>${(c.type||'core').charAt(0).toUpperCase()+(c.type||'core').slice(1)}</span><span class="dc-badge published"><i data-lucide="check-circle"></i>${c.status||'published'}</span></div>`;
+            card.querySelector('[data-edit]').onclick=()=>openCourseModal(c.id);
+            card.querySelector('[data-del]').onclick=()=>confirm('Delete Course?',`Remove "${c.code}"?`,async()=>{try{await db.collection('courses').doc(c.id).delete();Toast.show('info','Deleted','Course removed');loadAll()}catch(e){Toast.show('error','Error',e.message)}});
+            grid.appendChild(card);
+        });lucide.createIcons({nodes:[grid]});
+    }
+
+    function openCourseModal(cId){
+        const isEdit=!!cId;const c=isEdit?S.courses.find(x=>x.id===cId):null;
+        // Build dept options
+        let deptOptions='<option value="">Select department</option>';
+        S.universities.forEach(u=>{Object.entries(S.departments[u.id]||{}).forEach(([fid,depts])=>{depts.forEach(d=>{deptOptions+=`<option value="${d.id}" data-uid="${u.id}" ${c?.departmentId===d.id?'selected':''}>${u.shortName} — ${d.name}</option>`})})});
+        const modal=$('#courseModal');
+        $('#courseModalBody').innerHTML=`<div class="modal-handle"></div><button class="modal-close" onclick="closeModal('courseModal')"><i data-lucide="x"></i></button><h3>${isEdit?'Edit':'Add'} Course</h3><p class="modal-desc">${isEdit?'Update course details':'Create a new course for students'}</p>
+        <div class="form-row"><div class="form-group" style="animation-delay:.05s"><label class="form-label">Course Code <span class="req">*</span></label><input class="form-input" id="cmCode" value="${c?.code||''}" placeholder="e.g. BCH 201"></div><div class="form-group" style="animation-delay:.1s"><label class="form-label">Course Name <span class="req">*</span></label><input class="form-input" id="cmName" value="${c?.name||''}" placeholder="e.g. General Biochemistry"></div></div>
+        <div class="form-group" style="animation-delay:.12s"><label class="form-label">University <span class="req">*</span></label><select class="form-select-styled" id="cmUni"><option value="">Select university</option>${S.universities.map(u=>`<option value="${u.id}" ${c?.universityId===u.id?'selected':''}>${u.shortName} — ${u.name}</option>`).join('')}</select></div>
+        <div class="form-group" style="animation-delay:.14s"><label class="form-label">Department <span class="req">*</span></label><select class="form-select-styled" id="cmDept">${deptOptions}</select></div>
+        <div class="form-row-3"><div class="form-group" style="animation-delay:.16s"><label class="form-label">Level <span class="req">*</span></label><select class="form-select-styled" id="cmLevel"><option value="100" ${c?.level==='100'?'selected':''}>100</option><option value="200" ${c?.level==='200'||!c?'selected':''}>200</option><option value="300" ${c?.level==='300'?'selected':''}>300</option><option value="400" ${c?.level==='400'?'selected':''}>400</option><option value="500" ${c?.level==='500'?'selected':''}>500</option></select></div><div class="form-group" style="animation-delay:.18s"><label class="form-label">Semester <span class="req">*</span></label><select class="form-select-styled" id="cmSem"><option value="first" ${c?.semester==='first'||!c?'selected':''}>First</option><option value="second" ${c?.semester==='second'?'selected':''}>Second</option></select></div><div class="form-group" style="animation-delay:.2s"><label class="form-label">Units</label><input class="form-input" id="cmUnits" type="number" value="${c?.units||3}" min="1" max="6"></div></div>
+        <div class="form-row"><div class="form-group" style="animation-delay:.22s"><label class="form-label">Type</label><select class="form-select-styled" id="cmType"><option value="core" ${c?.type==='core'||!c?'selected':''}>Core</option><option value="elective" ${c?.type==='elective'?'selected':''}>Elective</option><option value="general" ${c?.type==='general'?'selected':''}>General</option></select></div><div class="form-group" style="animation-delay:.24s"><label class="form-label">Status</label><select class="form-select-styled" id="cmStatus"><option value="published" ${c?.status==='published'||!c?'selected':''}>Published</option><option value="draft" ${c?.status==='draft'?'selected':''}>Draft</option></select></div></div>
+        <div class="modal-actions"><button class="m-btn cancel" onclick="closeModal('courseModal')">Cancel</button><button class="m-btn primary" id="saveCourseBtn"><i data-lucide="save"></i><span class="m-btn-text">${isEdit?'Update':'Create'} Course</span><div class="m-btn-spinner"></div></button></div>`;
+        modal.classList.add('open');lucide.createIcons({nodes:[$('#courseModalBody')]});
+        $('#saveCourseBtn').onclick=async()=>{
+            const code=$('#cmCode').value.trim().toUpperCase();const name=$('#cmName').value.trim();const uid=$('#cmUni').value;const did=$('#cmDept').value;const level=$('#cmLevel').value;const sem=$('#cmSem').value;
+            if(!code||!name||!uid||!did){Toast.show('warning','Required','Fill all required fields');return}
+            const btn=$('#saveCourseBtn');btn.classList.add('loading');
+            const data={code,name,universityId:uid,departmentId:did,level,semester:sem,units:parseInt($('#cmUnits').value)||3,type:$('#cmType').value,status:$('#cmStatus').value,isGeneral:$('#cmType').value==='general',updatedAt:firebase.firestore.FieldValue.serverTimestamp()};
+            try{if(isEdit)await db.collection('courses').doc(cId).update(data);else{data.createdAt=firebase.firestore.FieldValue.serverTimestamp();data.createdBy=S.user.uid;await db.collection('courses').add(data)}btn.classList.remove('loading');closeModal('courseModal');Toast.show('success','Saved',`${code} — ${name} ${isEdit?'updated':'created'}`);loadAll()}catch(e){btn.classList.remove('loading');Toast.show('error','Error',e.message)}
+        };
+    }
+
+    // ===== TOPICS =====
+    function renderTopics(){
+        $('#topicToolbar').innerHTML=`<div class="search-wrap"><span class="s-icon"><i data-lucide="search"></i></span><input class="search-input" id="topicSearch" placeholder="Search topics..."></div><select class="filter-select" id="topicCourseFilter"><option value="">All Courses</option>${S.courses.map(c=>`<option value="${c.id}">${c.code}</option>`).join('')}</select><button class="toolbar-btn primary" id="addTopicBtn"><i data-lucide="plus"></i>Add Topic</button>`;
+        lucide.createIcons({nodes:[$('#topicToolbar')]});
+        let timer;$('#topicSearch').oninput=e=>{clearTimeout(timer);timer=setTimeout(()=>renderTopicCards(e.target.value),300)};
+        $('#topicCourseFilter').onchange=()=>renderTopicCards($('#topicSearch').value);
+        $('#addTopicBtn').onclick=()=>openTopicModal();
+        renderTopicCards();
+    }
+    function renderTopicCards(search=''){
+        const grid=$('#topicGrid');grid.innerHTML='';
+        let filtered=[...S.topics];
+        if(search){const s=search.toLowerCase();filtered=filtered.filter(t=>(t.name||'').toLowerCase().includes(s))}
+        const cf=$('#topicCourseFilter')?.value;if(cf)filtered=filtered.filter(t=>t.courseId===cf);
+        const courseMap={};S.courses.forEach(c=>{courseMap[c.id]=c.code});
+        if(!filtered.length){grid.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon"><i data-lucide="list"></i></div><h4>No Topics Found</h4><p>Add topics to organize course questions</p></div>`;lucide.createIcons({nodes:[grid]});return}
+        filtered.forEach((t,i)=>{
+            const card=document.createElement('div');card.className='data-card';card.style.animationDelay=`${.05+i*.04}s`;
+            card.innerHTML=`<div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--success)"></div><div class="dc-top"><div class="dc-icon" style="background:var(--success-light);color:var(--success)"><i data-lucide="list"></i></div><div class="dc-actions"><button class="action-btn" data-edit="${t.id}"><i data-lucide="pencil"></i></button><button class="action-btn danger" data-del="${t.id}" data-name="${t.name}"><i data-lucide="trash-2"></i></button></div></div><div class="dc-title">${t.name}</div><div class="dc-sub">${courseMap[t.courseId]||'—'} · Order: ${t.order||0}</div>${t.description?`<div style="font-size:13px;color:var(--text-tertiary);margin-top:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${t.description}</div>`:''}`;
+            card.querySelector('[data-edit]').onclick=()=>openTopicModal(t.id);
+            card.querySelector('[data-del]').onclick=()=>confirm('Delete Topic?',`Remove "${t.name}"?`,async()=>{try{await db.collection('topics').doc(t.id).delete();Toast.show('info','Deleted','Topic removed');loadAll()}catch(e){Toast.show('error','Error',e.message)}});
+            grid.appendChild(card);
+        });lucide.createIcons({nodes:[grid]});
+    }
+    function openTopicModal(tId){
+        const isEdit=!!tId;const t=isEdit?S.topics.find(x=>x.id===tId):null;
+        const modal=$('#topicModal');$('#topicModalBody').innerHTML=`<div class="modal-handle"></div><button class="modal-close" onclick="closeModal('topicModal')"><i data-lucide="x"></i></button><h3>${isEdit?'Edit':'Add'} Topic</h3><p class="modal-desc">Topics organize questions within courses</p>
+        <div class="form-group" style="animation-delay:.05s"><label class="form-label">Course <span class="req">*</span></label><select class="form-select-styled" id="tmCourse"><option value="">Select course</option>${S.courses.map(c=>`<option value="${c.id}" ${t?.courseId===c.id?'selected':''}>${c.code} — ${c.name}</option>`).join('')}</select></div>
+        <div class="form-group" style="animation-delay:.1s"><label class="form-label">Topic Name <span class="req">*</span></label><input class="form-input" id="tmName" value="${t?.name||''}" placeholder="e.g. Cell Biology"></div>
+        <div class="form-group" style="animation-delay:.15s"><label class="form-label">Description</label><textarea class="form-textarea" id="tmDesc" rows="2" placeholder="Brief description...">${t?.description||''}</textarea></div>
+        <div class="form-group" style="animation-delay:.2s"><label class="form-label">Sort Order</label><input class="form-input" id="tmOrder" type="number" value="${t?.order||0}" min="0"><div class="form-hint">Lower numbers appear first</div></div>
+        <div class="modal-actions"><button class="m-btn cancel" onclick="closeModal('topicModal')">Cancel</button><button class="m-btn primary" id="saveTopicBtn"><i data-lucide="save"></i><span class="m-btn-text">${isEdit?'Update':'Create'} Topic</span><div class="m-btn-spinner"></div></button></div>`;
+        modal.classList.add('open');lucide.createIcons({nodes:[$('#topicModalBody')]});
+        $('#saveTopicBtn').onclick=async()=>{
+            const courseId=$('#tmCourse').value;const name=$('#tmName').value.trim();
+            if(!courseId||!name){Toast.show('warning','Required','Select course and enter name');return}
+            const btn=$('#saveTopicBtn');btn.classList.add('loading');
+            const data={courseId,name,description:$('#tmDesc').value.trim(),order:parseInt($('#tmOrder').value)||0,updatedAt:firebase.firestore.FieldValue.serverTimestamp()};
+            try{if(isEdit)await db.collection('topics').doc(tId).update(data);else{data.createdAt=firebase.firestore.FieldValue.serverTimestamp();data.createdBy=S.user.uid;await db.collection('topics').add(data)}btn.classList.remove('loading');closeModal('topicModal');Toast.show('success','Saved','Topic saved');loadAll()}catch(e){btn.classList.remove('loading');Toast.show('error','Error',e.message)}
+        };
+    }
+
+    // ===== INIT =====
+    function init(){
+        lucide.createIcons();Theme.init();initParticles();initNav();initTabs();
+        auth.onAuthStateChanged(async user=>{
+            if(!user){window.location.href='index.html';return}
+            S.user=user;
+            try{
+                const doc=await db.collection('users').doc(user.uid).get();
+                if(!doc.exists||!['admin','moderator','content_manager'].includes(doc.data().role)){window.location.href='home.html';return}
+                S.profile=doc.data();await loadAll();
+            }catch(e){console.error(e);Toast.show('error','Error',e.message)}
+            setTimeout(()=>{const o=$('#loadingOverlay');o.classList.add('hidden');setTimeout(()=>o.remove(),600)},500);
+        });
+    }
+    document.addEventListener('DOMContentLoaded',init);
+    </script>
+</body>
+</html>
