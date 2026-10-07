@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>FAVOJE Admin — Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        :root{--primary:#6366F1;--primary-hover:#5558E6;--primary-light:rgba(99,102,241,0.12);--primary-glow:rgba(99,102,241,0.3);--secondary:#4F46E5;--bg:#080B14;--bg-secondary:#0D1117;--surface:#111827;--surface-hover:#1a2234;--surface-border:rgba(255,255,255,0.06);--surface-border-hover:rgba(255,255,255,0.12);--accent:#F97316;--accent-light:rgba(249,115,22,0.12);--success:#10B981;--success-light:rgba(16,185,129,0.12);--danger:#EF4444;--danger-light:rgba(239,68,68,0.12);--warning:#F59E0B;--warning-light:rgba(245,158,11,0.12);--text-primary:#F8FAFC;--text-secondary:#94A3B8;--text-tertiary:#64748B;--text-muted:#475569;--card-radius:16px;--btn-radius:12px;--input-radius:12px;--transition-fast:0.15s ease;--transition-normal:0.3s ease;--transition-smooth:0.4s cubic-bezier(0.4,0,0.2,1);--shadow-sm:0 1px 3px rgba(0,0,0,0.3);--shadow-md:0 4px 12px rgba(0,0,0,0.4);--shadow-lg:0 8px 32px rgba(0,0,0,0.5);--font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;--safe-bottom:env(safe-area-inset-bottom,0px);--sidebar-width:260px}
+        [data-theme="light"]{--bg:#F1F5F9;--bg-secondary:#E2E8F0;--surface:#FFFFFF;--surface-hover:#F8FAFC;--surface-border:rgba(0,0,0,0.08);--surface-border-hover:rgba(0,0,0,0.15);--text-primary:#0F172A;--text-secondary:#475569;--text-tertiary:#64748B;--text-muted:#94A3B8;--shadow-sm:0 1px 3px rgba(0,0,0,0.08);--shadow-md:0 4px 12px rgba(0,0,0,0.1);--shadow-lg:0 8px 32px rgba(0,0,0,0.12);--primary-light:rgba(99,102,241,0.08);--accent-light:rgba(249,115,22,0.08);--success-light:rgba(16,185,129,0.08);--danger-light:rgba(239,68,68,0.08);--warning-light:rgba(245,158,11,0.08)}
+        *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+        body{font-family:var(--font);background:var(--bg);color:var(--text-primary);min-height:100vh;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+        ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--text-muted);border-radius:3px}
+
+        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+        @keyframes fadeInUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes fadeInDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes fadeInLeft{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes fadeInRight{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes scaleIn{from{opacity:0;transform:scale(0.88)}to{opacity:1;transform:scale(1)}}
+        @keyframes bounceIn{0%{opacity:0;transform:scale(0.3)}50%{opacity:1;transform:scale(1.06)}70%{transform:scale(0.94)}100%{opacity:1;transform:scale(1)}}
+        @keyframes slideUp{from{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}
+        @keyframes slideInRight{from{opacity:0;transform:translateX(100%)}to{opacity:1;transform:translateX(0)}}
+        @keyframes slideInLeft{from{opacity:0;transform:translateX(-100%)}to{opacity:1;transform:translateX(0)}}
+        @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+        @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        @keyframes popIn{0%{opacity:0;transform:scale(0) rotate(-8deg)}60%{transform:scale(1.1) rotate(2deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
+        @keyframes countUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes barGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+        @keyframes glowPulse{0%,100%{box-shadow:0 0 8px var(--primary-glow)}50%{box-shadow:0 0 24px var(--primary-glow)}}
+        @keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+        @keyframes particleFloat{0%,100%{transform:translate(0,0) rotate(0);opacity:0}10%{opacity:.4}90%{opacity:.4}100%{transform:translate(var(--tx),var(--ty)) rotate(360deg);opacity:0}}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+        @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+        @keyframes ripple{to{transform:scale(4);opacity:0}}
+
+        .bg-particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+        .particle{position:absolute;width:3px;height:3px;background:var(--primary);border-radius:50%;opacity:0}
+
+        /* LOADING */
+        .loading-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:20000;transition:opacity .6s,visibility .6s}
+        .loading-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none}
+        .lo-icon{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;animation:bounceIn .8s ease,float 2s ease-in-out infinite .8s;box-shadow:0 4px 20px rgba(99,102,241,0.4)}
+        .lo-icon i{width:30px;height:30px;color:#fff}
+        .lo-bar{width:100px;height:3px;background:var(--surface);border-radius:3px;overflow:hidden;margin-top:20px}
+        .lo-bar-inner{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent),var(--primary));width:40%;animation:shimmer 1.4s ease-in-out infinite;background-size:200% 100%;border-radius:3px}
+        .lo-text{margin-top:14px;font-size:13px;color:var(--text-secondary);animation:pulse 1.5s ease-in-out infinite}
+
+        /* TOAST */
+        .toast-container{position:fixed;top:20px;right:20px;z-index:10000;display:flex;flex-direction:column;gap:8px;width:360px;max-width:calc(100% - 40px)}
+        .toast{display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);box-shadow:var(--shadow-lg);animation:fadeInRight .4s ease;position:relative;overflow:hidden}
+        .toast::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px}
+        .toast.success::before{background:var(--success)}.toast.error::before{background:var(--danger)}.toast.info::before{background:var(--primary)}.toast.warning::before{background:var(--warning)}
+        .toast .ti{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .toast.success .ti{background:var(--success-light);color:var(--success)}.toast.error .ti{background:var(--danger-light);color:var(--danger)}.toast.info .ti{background:var(--primary-light);color:var(--primary)}.toast.warning .ti{background:var(--warning-light);color:var(--warning)}
+        .toast .ti i{width:18px;height:18px}.toast .tb{flex:1}.toast .tt{font-size:14px;font-weight:600}.toast .tm{font-size:13px;color:var(--text-secondary)}
+        .toast .tc{background:none;border:none;color:var(--text-muted);cursor:pointer;padding:4px;display:flex}.toast .tc i{width:16px;height:16px}
+        .toast.removing{animation:fadeIn .3s ease reverse forwards}
+
+        /* ADMIN SIDEBAR */
+        .admin-sidebar{position:fixed;top:0;left:0;width:var(--sidebar-width);height:100%;background:var(--surface);border-right:1px solid var(--surface-border);z-index:1001;display:flex;flex-direction:column;transition:transform .3s ease;overflow-y:auto}
+        .admin-sidebar.collapsed{transform:translateX(-100%)}
+        .sidebar-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:1000;display:none}
+        .sidebar-overlay.open{display:block}
+        .sb-header{padding:20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--surface-border)}
+        .sb-logo{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(99,102,241,.3);flex-shrink:0}
+        .sb-logo i{width:22px;height:22px;color:#fff}
+        .sb-brand{display:flex;flex-direction:column}
+        .sb-brand-name{font-size:18px;font-weight:800;letter-spacing:-1px;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .sb-brand-sub{font-size:11px;color:var(--text-muted);font-weight:600}
+        .sb-nav{flex:1;padding:16px 12px;display:flex;flex-direction:column;gap:3px}
+        .sb-nav-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-muted);padding:12px 16px 6px;margin-top:8px}
+        .sb-nav-item{display:flex;align-items:center;gap:12px;padding:11px 16px;border-radius:12px;color:var(--text-secondary);font-size:13px;font-weight:500;cursor:pointer;transition:all var(--transition-normal);text-decoration:none;position:relative}
+        .sb-nav-item:hover{background:var(--surface-hover);color:var(--text-primary)}
+        .sb-nav-item.active{background:var(--primary-light);color:var(--primary);font-weight:600}
+        .sb-nav-item i{width:20px;height:20px;flex-shrink:0}
+        .sb-nav-item .nav-badge{margin-left:auto;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700;background:var(--danger);color:#fff}
+        .sb-footer{padding:16px;border-top:1px solid var(--surface-border)}
+        .sb-user{display:flex;align-items:center;gap:10px;padding:10px;border-radius:12px;cursor:pointer;transition:background var(--transition-fast)}
+        .sb-user:hover{background:var(--surface-hover)}
+        .sb-user-avatar{width:36px;height:36px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:700;flex-shrink:0}
+        .sb-user-info{flex:1;min-width:0}
+        .sb-user-name{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .sb-user-role{font-size:11px;color:var(--text-muted)}
+
+        /* TOP BAR */
+        .admin-topbar{position:sticky;top:0;z-index:100;background:rgba(8,11,20,0.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--surface-border);padding:12px 24px;margin-left:var(--sidebar-width);transition:margin-left .3s ease}
+        [data-theme="light"] .admin-topbar{background:rgba(241,245,249,0.88)}
+        .topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:16px}
+        .tb-left{display:flex;align-items:center;gap:12px}
+        .tb-menu{width:38px;height:38px;border-radius:10px;background:var(--surface);border:1px solid var(--surface-border);display:none;align-items:center;justify-content:center;cursor:pointer;color:var(--text-secondary);transition:all var(--transition-normal)}
+        .tb-menu:hover{color:var(--primary);border-color:var(--primary)}
+        .tb-menu i{width:20px;height:20px}
+        .tb-title{font-size:20px;font-weight:700;letter-spacing:-.3px}
+        .tb-sub{font-size:12px;color:var(--text-tertiary)}
+        .tb-right{display:flex;align-items:center;gap:10px}
+        .tb-btn{width:38px;height:38px;border-radius:10px;background:var(--surface);border:1px solid var(--surface-border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-secondary);transition:all var(--transition-normal);position:relative}
+        .tb-btn:hover{background:var(--surface-hover);color:var(--primary);border-color:var(--primary);transform:translateY(-1px)}
+        .tb-btn i{width:20px;height:20px}
+        .tb-btn .badge{position:absolute;top:-3px;right:-3px;width:18px;height:18px;border-radius:50%;background:var(--danger);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid var(--bg)}
+
+        /* MAIN CONTENT */
+        .admin-main{margin-left:var(--sidebar-width);padding:24px;min-height:calc(100vh - 64px);transition:margin-left .3s ease;position:relative;z-index:1}
+        .admin-main .view{display:none;opacity:0}.admin-main .view.active{display:block;animation:fadeIn .4s ease forwards}
+
+        /* STAT CARDS */
+        .stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:24px}
+        .stat-card{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);padding:20px;animation:fadeInUp .5s ease both;transition:all var(--transition-smooth);cursor:pointer;position:relative;overflow:hidden}
+        .stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;opacity:0;transition:opacity var(--transition-normal)}
+        .stat-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--surface-border-hover)}
+        .stat-card:hover::before{opacity:1}
+        .sc-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
+        .sc-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+        .sc-icon i{width:22px;height:22px}
+        .sc-change{font-size:11px;font-weight:600;display:flex;align-items:center;gap:2px;padding:3px 8px;border-radius:6px}
+        .sc-change.up{background:var(--success-light);color:var(--success)}.sc-change.down{background:var(--danger-light);color:var(--danger)}
+        .sc-change i{width:12px;height:12px}
+        .sc-value{font-size:28px;font-weight:900;letter-spacing:-1px;margin-bottom:2px}
+        .sc-label{font-size:12px;color:var(--text-tertiary);font-weight:500}
+
+        /* CHARTS AREA */
+        .chart-card{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);padding:24px;margin-bottom:20px;animation:fadeInUp .5s ease both}
+        .chart-title{font-size:16px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+        .chart-title i{width:18px;height:18px;color:var(--primary)}
+        .chart-bars{display:flex;align-items:flex-end;gap:8px;height:160px;padding-top:10px}
+        .chart-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%}
+        .chart-bar{width:100%;border-radius:6px 6px 0 0;transform-origin:bottom;animation:barGrow .8s ease both;min-height:4px;cursor:pointer;transition:opacity var(--transition-fast)}
+        .chart-bar:hover{opacity:.8}
+        .chart-bar-label{font-size:10px;color:var(--text-muted);font-weight:600;text-align:center}
+        .chart-bar-value{font-size:11px;font-weight:700;color:var(--text-secondary)}
+
+        .chart-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+        @media(max-width:768px){.chart-row{grid-template-columns:1fr}}
+
+        /* RECENT ACTIVITY TABLE */
+        .table-card{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);overflow:hidden;margin-bottom:20px;animation:fadeInUp .5s ease both}
+        .table-header{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--surface-border)}
+        .table-header h3{font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px}
+        .table-header h3 i{width:18px;height:18px;color:var(--primary)}
+        .table-header .th-action{font-size:13px;font-weight:600;color:var(--primary);cursor:pointer;text-decoration:none;display:flex;align-items:center;gap:4px;transition:color var(--transition-fast)}
+        .table-header .th-action:hover{color:var(--accent)}
+        .table-header .th-action i{width:16px;height:16px}
+        .table-scroll{overflow-x:auto}
+        .data-table{width:100%;border-collapse:collapse;min-width:600px}
+        .data-table th{text-align:left;padding:12px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text-muted);border-bottom:1px solid var(--surface-border);background:var(--bg-secondary)}
+        .data-table td{padding:14px 16px;font-size:13px;border-bottom:1px solid var(--surface-border);vertical-align:middle}
+        .data-table tr:last-child td{border-bottom:none}
+        .data-table tr:hover td{background:var(--surface-hover)}
+        .data-table .user-cell{display:flex;align-items:center;gap:10px}
+        .data-table .user-cell img{width:32px;height:32px;border-radius:50%;object-fit:cover;border:2px solid var(--surface-border)}
+        .data-table .user-cell .uc-name{font-weight:600}
+        .data-table .user-cell .uc-email{font-size:11px;color:var(--text-tertiary)}
+        .status-badge{padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:4px}
+        .status-badge i{width:12px;height:12px}
+        .status-badge.active{background:var(--success-light);color:var(--success)}
+        .status-badge.pending{background:var(--warning-light);color:var(--warning)}
+        .status-badge.admin{background:var(--primary-light);color:var(--primary)}
+        .status-badge.student{background:var(--accent-light);color:var(--accent)}
+
+        .action-btn{width:32px;height:32px;border-radius:8px;background:var(--bg);border:1px solid var(--surface-border);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-muted);transition:all var(--transition-normal);margin-right:4px}
+        .action-btn:hover{color:var(--primary);border-color:var(--primary);background:var(--primary-light)}
+        .action-btn.danger:hover{color:var(--danger);border-color:var(--danger);background:var(--danger-light)}
+        .action-btn i{width:14px;height:14px}
+
+        /* SEARCH & FILTERS */
+        .toolbar{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;animation:fadeInUp .5s ease .1s both}
+        .search-wrap{flex:1;min-width:200px;position:relative}
+        .search-wrap .s-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted)}.search-wrap .s-icon i{width:18px;height:18px}
+        .search-input{width:100%;padding:12px 14px 12px 44px;background:var(--surface);border:1.5px solid var(--surface-border);border-radius:var(--input-radius);color:var(--text-primary);font-size:14px;font-family:var(--font);outline:none;transition:all var(--transition-normal)}
+        .search-input::placeholder{color:var(--text-muted)}
+        .search-input:focus{border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-light)}
+        .filter-select{padding:12px 36px 12px 14px;background:var(--surface);border:1.5px solid var(--surface-border);border-radius:var(--input-radius);color:var(--text-primary);font-size:13px;font-family:var(--font);outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;transition:all var(--transition-normal)}
+        .filter-select:focus{border-color:var(--primary)}
+        .toolbar-btn{padding:12px 20px;background:var(--primary);color:#fff;border:none;border-radius:var(--btn-radius);font-size:13px;font-weight:600;font-family:var(--font);cursor:pointer;transition:all var(--transition-normal);display:flex;align-items:center;gap:8px;white-space:nowrap}
+        .toolbar-btn:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(99,102,241,.3)}
+        .toolbar-btn i{width:18px;height:18px}
+        .toolbar-btn.secondary{background:var(--surface);color:var(--text-primary);border:1px solid var(--surface-border)}
+        .toolbar-btn.secondary:hover{border-color:var(--primary);color:var(--primary)}
+        .toolbar-btn.danger{background:var(--danger)}
+        .toolbar-btn.success{background:var(--success)}
+
+        /* PAGINATION */
+        .pagination{display:flex;align-items:center;justify-content:center;gap:6px;padding:16px;border-top:1px solid var(--surface-border)}
+        .page-btn{width:36px;height:36px;border-radius:8px;background:var(--bg);border:1px solid var(--surface-border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-secondary);transition:all var(--transition-normal);font-family:var(--font)}
+        .page-btn:hover{border-color:var(--primary);color:var(--primary)}
+        .page-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
+        .page-btn:disabled{opacity:.4;cursor:not-allowed}
+        .page-btn i{width:16px;height:16px}
+        .page-info{font-size:13px;color:var(--text-tertiary);padding:0 8px}
+
+        /* MODAL */
+        .modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:5000;display:none;align-items:center;justify-content:center;padding:20px;animation:fadeIn .3s ease}
+        .modal-overlay.open{display:flex}
+        .modal{background:var(--surface);border:1px solid var(--surface-border);border-radius:20px;padding:28px;max-width:520px;width:100%;animation:scaleIn .3s ease;position:relative;max-height:90vh;overflow-y:auto}
+        .modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:8px;background:var(--bg);border:none;color:var(--text-muted);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--transition-fast)}
+        .modal-close:hover{color:var(--danger);background:var(--danger-light)}
+        .modal-close i{width:18px;height:18px}
+        .modal h3{font-size:20px;font-weight:700;margin-bottom:4px}
+        .modal .modal-desc{font-size:14px;color:var(--text-secondary);margin-bottom:24px}
+
+        .form-group{margin-bottom:16px}
+        .form-label{display:block;font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:8px}
+        .form-input{width:100%;padding:12px 16px;background:var(--bg);border:1.5px solid var(--surface-border);border-radius:var(--input-radius);color:var(--text-primary);font-size:14px;font-family:var(--font);outline:none;transition:all var(--transition-normal)}
+        .form-input:focus{border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-light)}
+        .form-input::placeholder{color:var(--text-muted)}
+        .form-input:disabled{opacity:.6;cursor:not-allowed}
+        .form-error{font-size:12px;color:var(--danger);margin-top:4px;display:none}.form-error.visible{display:block;animation:shake .4s ease}
+        .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+        @media(max-width:480px){.form-row{grid-template-columns:1fr}}
+        .modal-actions{display:flex;gap:10px;margin-top:24px}
+        .modal-actions .m-btn{flex:1;padding:13px;border:none;border-radius:var(--btn-radius);font-size:14px;font-weight:600;font-family:var(--font);cursor:pointer;transition:all var(--transition-normal);display:flex;align-items:center;justify-content:center;gap:6px}
+        .m-btn i{width:18px;height:18px}
+        .m-btn.cancel{background:var(--bg);color:var(--text-secondary)}.m-btn.cancel:hover{color:var(--text-primary)}
+        .m-btn.primary{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;box-shadow:0 4px 16px rgba(99,102,241,.3)}
+        .m-btn.primary:hover{transform:translateY(-2px)}
+        .m-btn.primary:disabled{opacity:.5;cursor:not-allowed;transform:none}
+        .m-btn.danger{background:var(--danger);color:#fff}
+        .m-btn-spinner{display:none;width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite}
+        .m-btn.loading .m-btn-text{display:none}.m-btn.loading .m-btn-spinner{display:inline-block}.m-btn.loading{pointer-events:none}
+
+        /* USER DETAIL PANEL */
+        .user-detail-card{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);padding:24px;margin-bottom:16px;animation:fadeInUp .5s ease both}
+        .ud-header{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+        .ud-avatar{width:64px;height:64px;border-radius:50%;object-fit:cover;border:3px solid var(--primary);flex-shrink:0}
+        .ud-info h3{font-size:18px;font-weight:700;margin-bottom:2px}
+        .ud-info p{font-size:13px;color:var(--text-tertiary)}
+        .ud-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+        .ud-stat{text-align:center;padding:12px;background:var(--bg);border-radius:12px}
+        .ud-stat .uv{font-size:18px;font-weight:800}.ud-stat .ul{font-size:11px;color:var(--text-tertiary);font-weight:500}
+        .ud-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+        .ud-field{padding:10px 14px;background:var(--bg);border-radius:10px}
+        .ud-field .ufl{font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:2px}
+        .ud-field .ufv{font-size:13px;font-weight:600}
+
+        .empty-state{text-align:center;padding:60px 20px}
+        .empty-icon{width:72px;height:72px;border-radius:50%;background:var(--surface);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:var(--text-muted)}
+        .empty-icon i{width:32px;height:32px}
+        .empty-state h4{font-size:18px;font-weight:700;margin-bottom:6px}
+        .empty-state p{font-size:14px;color:var(--text-secondary)}
+
+        .skeleton{background:linear-gradient(90deg,var(--surface) 25%,var(--surface-hover) 50%,var(--surface) 75%);background-size:200% 100%;animation:shimmer 1.5s ease infinite;border-radius:12px}
+
+        /* RESPONSIVE */
+        @media(max-width:1024px){
+            .admin-sidebar{transform:translateX(-100%)}
+            .admin-sidebar.open{transform:translateX(0)}
+            .admin-topbar{margin-left:0}
+            .admin-main{margin-left:0}
+            .tb-menu{display:flex}
+        }
+        @media(max-width:600px){
+            .admin-main{padding:16px}
+            .stats-row{grid-template-columns:repeat(2,1fr)}
+            .ud-stats{grid-template-columns:repeat(2,1fr)}
+            .ud-fields{grid-template-columns:1fr}
+        }
+        @media(max-width:360px){
+            .stats-row{grid-template-columns:1fr}
+            .sc-value{font-size:24px}
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-overlay" id="loadingOverlay"><div class="lo-icon"><i data-lucide="shield"></i></div><div class="lo-bar"><div class="lo-bar-inner"></div></div><div class="lo-text">Loading admin panel...</div></div>
+    <div class="bg-particles" id="bgParticles"></div>
+    <div class="toast-container" id="toastContainer"></div>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <nav class="admin-sidebar" id="adminSidebar">
+        <div class="sb-header"><div class="sb-logo"><i data-lucide="graduation-cap"></i></div><div class="sb-brand"><span class="sb-brand-name">FAVOJE</span><span class="sb-brand-sub">Admin Panel</span></div></div>
+        <div class="sb-nav">
+            <div class="sb-nav-label">Main</div>
+            <a class="sb-nav-item active" data-page="dashboard"><i data-lucide="layout-dashboard"></i>Dashboard</a>
+            <a class="sb-nav-item" data-page="users"><i data-lucide="users"></i>Users</a>
+            <div class="sb-nav-label">Content</div>
+            <a class="sb-nav-item" href="admin-content.html"><i data-lucide="book-open"></i>Courses & Questions</a>
+            <a class="sb-nav-item" href="admin-content.html?tab=tests"><i data-lucide="file-text"></i>Tests</a>
+            <div class="sb-nav-label">Finance</div>
+            <a class="sb-nav-item" href="admin-finance.html"><i data-lucide="wallet"></i>Transactions</a>
+            <a class="sb-nav-item" href="admin-finance.html?tab=deposits"><i data-lucide="banknote"></i>Deposits<span class="nav-badge" id="pendingBadge" style="display:none">0</span></a>
+            <div class="sb-nav-label">System</div>
+            <a class="sb-nav-item" data-page="admins"><i data-lucide="shield"></i>Admin Accounts</a>
+            <a class="sb-nav-item" data-page="settings"><i data-lucide="settings"></i>Settings</a>
+        </div>
+        <div class="sb-footer"><div class="sb-user" id="sbUser"><div class="sb-user-avatar" id="sbUserInitial">A</div><div class="sb-user-info"><div class="sb-user-name" id="sbUserName">Admin</div><div class="sb-user-role">Administrator</div></div></div></div>
+    </nav>
+
+    <header class="admin-topbar" id="adminTopbar">
+        <div class="topbar-inner">
+            <div class="tb-left"><button class="tb-menu" id="menuToggle"><i data-lucide="menu"></i></button><div><div class="tb-title" id="topTitle">Dashboard</div><div class="tb-sub" id="topSub">Overview & analytics</div></div></div>
+            <div class="tb-right"><button class="tb-btn" id="themeToggle"><i data-lucide="moon"></i></button><button class="tb-btn" id="adminLogout"><i data-lucide="log-out"></i></button></div>
+        </div>
+    </header>
+
+    <main class="admin-main" id="adminMain">
+        <!-- DASHBOARD -->
+        <div class="view active" id="dashboardView">
+            <div class="stats-row" id="statsRow"></div>
+            <div class="chart-row"><div class="chart-card" id="activityChart"></div><div class="chart-card" id="courseChart"></div></div>
+            <div class="table-card" id="recentUsersTable"></div>
+        </div>
+
+        <!-- USERS -->
+        <div class="view" id="usersView">
+            <div class="toolbar" id="usersToolbar"></div>
+            <div class="table-card" id="usersTable"></div>
+        </div>
+
+        <!-- USER DETAIL -->
+        <div class="view" id="userDetailView">
+            <div id="userDetailContent"></div>
+        </div>
+
+        <!-- ADMIN ACCOUNTS -->
+        <div class="view" id="adminsView">
+            <div class="toolbar" id="adminsToolbar"></div>
+            <div class="table-card" id="adminsTable"></div>
+        </div>
+
+        <!-- SETTINGS -->
+        <div class="view" id="settingsView">
+            <div id="settingsContent"></div>
+        </div>
+    </main>
+
+    <!-- Create Admin Modal -->
+    <div class="modal-overlay" id="createAdminModal">
+        <div class="modal">
+            <button class="modal-close" id="caClose"><i data-lucide="x"></i></button>
+            <h3>Create Admin Account</h3>
+            <p class="modal-desc">Create a new administrator account for the platform</p>
+            <form id="createAdminForm">
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Full Name *</label><input class="form-input" id="caName" placeholder="Admin name" required></div>
+                    <div class="form-group"><label class="form-label">Username *</label><input class="form-input" id="caUsername" placeholder="admin_username" required></div>
+                </div>
+                <div class="form-group"><label class="form-label">Email Address *</label><input class="form-input" id="caEmail" type="email" placeholder="admin@favoje.com" required><div class="form-error" id="caEmailError"></div></div>
+                <div class="form-group"><label class="form-label">Phone Number</label><input class="form-input" id="caPhone" placeholder="08012345678"></div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Password *</label><input class="form-input" id="caPassword" type="password" placeholder="Min 8 characters" required><div class="form-error" id="caPasswordError"></div></div>
+                    <div class="form-group"><label class="form-label">Confirm Password *</label><input class="form-input" id="caConfirmPassword" type="password" placeholder="Confirm password" required><div class="form-error" id="caConfirmError"></div></div>
+                </div>
+                <div class="form-group"><label class="form-label">Admin Role</label>
+                    <select class="form-input" id="caRole"><option value="admin">Administrator</option><option value="moderator">Moderator</option><option value="content_manager">Content Manager</option></select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="m-btn cancel" id="caCancelBtn">Cancel</button>
+                    <button type="submit" class="m-btn primary" id="caSubmitBtn"><i data-lucide="shield-plus"></i><span class="m-btn-text">Create Admin</span><div class="m-btn-spinner"></div></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Confirm Modal -->
+    <div class="modal-overlay" id="confirmModal">
+        <div class="modal" id="confirmModalContent"></div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+    <script>
+    const firebaseConfig={apiKey: "AIzaSyC1SmazNPbak8vMvi-jD40EGqpvWmWdd0U",
+  authDomain: "favoje-fcb02.firebaseapp.com",
+  projectId: "favoje-fcb02",
+  storageBucket: "favoje-fcb02.firebasestorage.app",
+  messagingSenderId: "837946471768",
+  appId: "1:837946471768:web:6ea76eee926fe77bdc212d"};
+    firebase.initializeApp(firebaseConfig);const auth=firebase.auth(),db=firebase.firestore();
+    const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+    const fmt=n=>new Intl.NumberFormat('en-NG').format(n||0);
+    function timeAgo(d){if(!d)return'—';const dt=d.toDate?d.toDate():new Date(d);const s=Math.floor((Date.now()-dt.getTime())/1000);if(s<60)return'Just now';if(s<3600)return Math.floor(s/60)+'m ago';if(s<86400)return Math.floor(s/3600)+'h ago';return dt.toLocaleDateString('en-NG',{month:'short',day:'numeric',year:'numeric'})}
+
+    const S={user:null,profile:null,currentPage:'dashboard',allUsers:[],allAdmins:[],userSearch:'',userFilter:'all',usersPage:1,pageSize:15,theme:localStorage.getItem('favoje-theme')||'dark'};
+    const Toast={show(t,ti,m,d=4000){const ic={success:'check-circle',error:'x-circle',warning:'alert-triangle',info:'info'};const el=document.createElement('div');el.className=`toast ${t}`;el.innerHTML=`<div class="ti"><i data-lucide="${ic[t]}"></i></div><div class="tb"><div class="tt">${ti}</div><div class="tm">${m}</div></div><button class="tc"><i data-lucide="x"></i></button>`;$('#toastContainer').appendChild(el);lucide.createIcons({nodes:[el]});const cl=()=>{el.classList.add('removing');setTimeout(()=>el.remove(),300)};el.querySelector('.tc').onclick=cl;setTimeout(cl,d)}};
+    const Theme={init(){this.apply(S.theme);$('#themeToggle').onclick=()=>this.toggle()},apply(t){document.documentElement.setAttribute('data-theme',t);S.theme=t;localStorage.setItem('favoje-theme',t);this.icon()},toggle(){this.apply(S.theme==='dark'?'light':'dark')},icon(){const b=$('#themeToggle');b.innerHTML=`<i data-lucide="${S.theme==='dark'?'sun':'moon'}"></i>`;lucide.createIcons({nodes:[b]})}};
+    function initParticles(){const c=$('#bgParticles');for(let i=0;i<12;i++){const p=document.createElement('div');p.className='particle';p.style.left=Math.random()*100+'%';p.style.top=Math.random()*100+'%';p.style.setProperty('--tx',(Math.random()*200-100)+'px');p.style.setProperty('--ty',(Math.random()*200-100)+'px');p.style.animation=`particleFloat ${6+Math.random()*10}s ease-in-out infinite`;p.style.animationDelay=Math.random()*5+'s';const sz=(2+Math.random()*3)+'px';p.style.width=sz;p.style.height=sz;c.appendChild(p)}}
+
+    // NAV
+    function initNav(){
+        $$('.sb-nav-item[data-page]').forEach(item=>{item.onclick=(e)=>{e.preventDefault();showPage(item.dataset.page)}});
+        $('#menuToggle').onclick=()=>{$('#adminSidebar').classList.toggle('open');$('#sidebarOverlay').classList.toggle('open')};
+        $('#sidebarOverlay').onclick=()=>{$('#adminSidebar').classList.remove('open');$('#sidebarOverlay').classList.remove('open')};
+        $('#adminLogout').onclick=async()=>{await auth.signOut();window.location.href='index.html'};
+    }
+
+    function showPage(pageId){
+        S.currentPage=pageId;
+        $$('.view').forEach(v=>v.classList.remove('active'));
+        $(`#${pageId}View`).classList.add('active');
+        $$('.sb-nav-item[data-page]').forEach(i=>{i.classList.toggle('active',i.dataset.page===pageId)});
+        const titles={dashboard:['Dashboard','Overview & analytics'],users:['Users','Manage student accounts'],userDetail:['User Details',''],admins:['Admin Accounts','Manage administrators'],settings:['Settings','Platform configuration']};
+        const t=titles[pageId]||['Admin',''];$('#topTitle').textContent=t[0];$('#topSub').textContent=t[1];
+        $('#adminSidebar').classList.remove('open');$('#sidebarOverlay').classList.remove('open');
+        switch(pageId){case'dashboard':loadDashboard();break;case'users':loadUsers();break;case'admins':loadAdmins();break;case'settings':renderSettings();break}
+    }
+
+    // ===== DASHBOARD =====
+    async function loadDashboard(){
+        const row=$('#statsRow');row.innerHTML=Array(6).fill('<div class="skeleton" style="height:120px"></div>').join('');
+        try{
+            const usersSnap=await db.collection('users').where('role','==','student').get();
+            const totalUsers=usersSnap.size;
+            let totalQuestions=0,totalAttempted=0,totalTests=0;
+            const today=new Date();today.setHours(0,0,0,0);
+            let activeToday=0;
+            usersSnap.forEach(d=>{const u=d.data();totalAttempted+=(u.questionsAttempted||0);totalTests+=(u.testsCompleted||0);if(u.lastLogin&&u.lastLogin.toDate&&u.lastLogin.toDate()>=today)activeToday++});
+            const qSnap=await db.collection('questions').get();totalQuestions=qSnap.size;
+            // Deposits
+            const depSnap=await db.collection('payment_transactions').get();
+            let totalDeposits=0,pendingDeposits=0;
+            depSnap.forEach(d=>{const t=d.data();totalDeposits+=(t.amount||0);if(t.status==='pending')pendingDeposits++});
+            if(pendingDeposits>0){$('#pendingBadge').style.display='flex';$('#pendingBadge').textContent=pendingDeposits}
+
+            const stats=[
+                {label:'Total Users',value:totalUsers,icon:'users',color:'primary',change:'+12%',up:true},
+                {label:'Active Today',value:activeToday,icon:'activity',color:'success',change:'',up:true},
+                {label:'Questions',value:totalQuestions,icon:'help-circle',color:'accent',change:'',up:true},
+                {label:'Attempted',value:fmt(totalAttempted),icon:'target',color:'primary',change:'',up:true},
+                {label:'Tests Done',value:fmt(totalTests),icon:'file-check',color:'success',change:'',up:true},
+                {label:'Deposits',value:'₦'+fmt(totalDeposits),icon:'wallet',color:'warning',change:pendingDeposits+' pending',up:false}
+            ];
+            row.innerHTML=stats.map((s,i)=>`
+                <div class="stat-card" style="animation-delay:${0.1+i*0.06}s">
+                    <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--${s.color});opacity:0"></div>
+                    <div class="sc-top">
+                        <div class="sc-icon" style="background:var(--${s.color}-light);color:var(--${s.color})"><i data-lucide="${s.icon}"></i></div>
+                        ${s.change?`<div class="sc-change ${s.up?'up':'down'}"><i data-lucide="${s.up?'trending-up':'clock'}"></i>${s.change}</div>`:''}
+                    </div>
+                    <div class="sc-value">${s.value}</div>
+                    <div class="sc-label">${s.label}</div>
+                </div>
+            `).join('');
+            lucide.createIcons({nodes:[row]});
+
+            // Charts
+            renderActivityChart();renderCourseChart();
+            // Recent users
+            renderRecentUsers(usersSnap);
+        }catch(e){console.error(e);row.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><h4>Error</h4><p>${e.message}</p></div>`}
+    }
+
+    function renderActivityChart(){
+        const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+        const values=[45,62,38,71,55,28,15]; // Will be replaced by real data
+        const max=Math.max(...values)||1;
+        const colors=['var(--primary)','var(--primary)','var(--primary)','var(--primary)','var(--primary)','var(--accent)','var(--accent)'];
+        $('#activityChart').innerHTML=`
+            <div class="chart-title"><i data-lucide="bar-chart-3"></i>Weekly Activity</div>
+            <div class="chart-bars">${days.map((d,i)=>`
+                <div class="chart-bar-wrap">
+                    <div class="chart-bar-value">${values[i]}</div>
+                    <div style="flex:1;display:flex;align-items:flex-end;width:100%"><div class="chart-bar" style="height:${(values[i]/max)*100}%;background:${colors[i]};animation-delay:${0.1+i*0.08}s"></div></div>
+                    <div class="chart-bar-label">${d}</div>
+                </div>
+            `).join('')}</div>
+        `;
+        lucide.createIcons({nodes:[$('#activityChart')]});
+    }
+
+    function renderCourseChart(){
+        const courses=['ANA','BCH','PHY','CHM','MTH'];
+        const values=[120,95,78,62,45];
+        const max=Math.max(...values)||1;
+        const colors=['var(--primary)','var(--success)','var(--accent)','var(--warning)','var(--danger)'];
+        $('#courseChart').innerHTML=`
+            <div class="chart-title"><i data-lucide="book-open"></i>Popular Courses</div>
+            <div class="chart-bars">${courses.map((c,i)=>`
+                <div class="chart-bar-wrap">
+                    <div class="chart-bar-value">${values[i]}</div>
+                    <div style="flex:1;display:flex;align-items:flex-end;width:100%"><div class="chart-bar" style="height:${(values[i]/max)*100}%;background:${colors[i]};animation-delay:${0.15+i*0.08}s"></div></div>
+                    <div class="chart-bar-label">${c}</div>
+                </div>
+            `).join('')}</div>
+        `;
+        lucide.createIcons({nodes:[$('#courseChart')]});
+    }
+
+    function renderRecentUsers(usersSnap){
+        const users=[];usersSnap.forEach(d=>users.push({id:d.id,...d.data()}));
+        users.sort((a,b)=>{const ta=a.createdAt?.toDate?a.createdAt.toDate():new Date(0);const tb=b.createdAt?.toDate?b.createdAt.toDate():new Date(0);return tb-ta});
+        const recent=users.slice(0,8);
+        const table=$('#recentUsersTable');
+        table.innerHTML=`
+            <div class="table-header"><h3><i data-lucide="users"></i>Recent Users</h3><a class="th-action" onclick="showPage('users')">View All<i data-lucide="arrow-right"></i></a></div>
+            <div class="table-scroll"><table class="data-table"><thead><tr><th>User</th><th>Level</th><th>Questions</th><th>Joined</th></tr></thead><tbody>
+                ${recent.map(u=>{
+                    const avatar=u.avatar||`https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=${u.username||'default'}&backgroundColor=b6e3f4`;
+                    return`<tr><td><div class="user-cell"><img src="${avatar}" alt=""><div><div class="uc-name">${u.fullName||'Unknown'}</div><div class="uc-email">${u.email||''}</div></div></div></td><td>${u.level||'—'}L</td><td>${u.questionsAttempted||0}</td><td>${timeAgo(u.createdAt)}</td></tr>`;
+                }).join('')}
+            </tbody></table></div>
+        `;
+        lucide.createIcons({nodes:[table]});
+    }
+
+    // ===== USERS =====
+    async function loadUsers(){
+        const toolbar=$('#usersToolbar');
+        toolbar.innerHTML=`
+            <div class="search-wrap"><span class="s-icon"><i data-lucide="search"></i></span><input class="search-input" id="userSearchInput" placeholder="Search users..." value="${S.userSearch}"></div>
+            <select class="filter-select" id="userFilterSelect"><option value="all">All Levels</option><option value="100">100 Level</option><option value="200">200 Level</option><option value="300">300 Level</option><option value="400">400 Level</option><option value="500">500 Level</option></select>
+            <button class="toolbar-btn secondary" id="refreshUsersBtn"><i data-lucide="refresh-cw"></i>Refresh</button>
+        `;
+        lucide.createIcons({nodes:[toolbar]});
+
+        const table=$('#usersTable');
+        table.innerHTML='<div style="padding:40px;text-align:center"><div class="skeleton" style="height:300px"></div></div>';
+
+        try{
+            const snap=await db.collection('users').where('role','==','student').get();
+            S.allUsers=[];snap.forEach(d=>S.allUsers.push({id:d.id,...d.data()}));
+            S.allUsers.sort((a,b)=>{const ta=a.createdAt?.toDate?a.createdAt.toDate():new Date(0);const tb=b.createdAt?.toDate?b.createdAt.toDate():new Date(0);return tb-ta});
+            renderUsersTable();
+        }catch(e){console.error(e);table.innerHTML=`<div class="empty-state"><h4>Error</h4><p>${e.message}</p></div>`}
+
+        $('#userSearchInput').oninput=e=>{S.userSearch=e.target.value;S.usersPage=1;renderUsersTable()};
+        $('#userFilterSelect').onchange=e=>{S.userFilter=e.target.value;S.usersPage=1;renderUsersTable()};
+        $('#refreshUsersBtn').onclick=()=>loadUsers();
+    }
+
+    function renderUsersTable(){
+        let filtered=[...S.allUsers];
+        if(S.userSearch){const s=S.userSearch.toLowerCase();filtered=filtered.filter(u=>(u.fullName||'').toLowerCase().includes(s)||(u.email||'').toLowerCase().includes(s)||(u.username||'').toLowerCase().includes(s))}
+        if(S.userFilter!=='all')filtered=filtered.filter(u=>u.level===S.userFilter);
+        const total=filtered.length;const totalPages=Math.ceil(total/S.pageSize)||1;
+        if(S.usersPage>totalPages)S.usersPage=totalPages;
+        const start=(S.usersPage-1)*S.pageSize;const page=filtered.slice(start,start+S.pageSize);
+        const table=$('#usersTable');
+        table.innerHTML=`
+            <div class="table-header"><h3><i data-lucide="users"></i>All Students (${total})</h3></div>
+            <div class="table-scroll"><table class="data-table"><thead><tr><th>User</th><th>Level</th><th>Questions</th><th>Accuracy</th><th>Joined</th><th>Actions</th></tr></thead><tbody>
+                ${page.length?page.map(u=>{
+                    const avatar=u.avatar||`https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=${u.username||'default'}&backgroundColor=b6e3f4`;
+                    const qa=u.questionsAttempted||0;const qc=u.questionsCorrect||0;const acc=qa>0?Math.round((qc/qa)*100):0;
+                    return`<tr><td><div class="user-cell"><img src="${avatar}" alt=""><div><div class="uc-name">${u.fullName||'Unknown'}</div><div class="uc-email">@${u.username||''}</div></div></div></td><td>${u.level||'—'}L</td><td>${qa}</td><td>${acc}%</td><td>${timeAgo(u.createdAt)}</td><td><button class="action-btn" onclick="viewUser('${u.id}')" title="View"><i data-lucide="eye"></i></button></td></tr>`;
+                }).join(''):'<tr><td colspan="6"><div class="empty-state" style="padding:30px"><h4>No Users Found</h4></div></td></tr>'}
+            </tbody></table></div>
+            <div class="pagination">
+                <button class="page-btn" ${S.usersPage<=1?'disabled':''} onclick="S.usersPage--;renderUsersTable()"><i data-lucide="chevron-left"></i></button>
+                <span class="page-info">Page ${S.usersPage} of ${totalPages}</span>
+                <button class="page-btn" ${S.usersPage>=totalPages?'disabled':''} onclick="S.usersPage++;renderUsersTable()"><i data-lucide="chevron-right"></i></button>
+            </div>
+        `;
+        lucide.createIcons({nodes:[table]});
+    }
+
+    async function viewUser(uid){
+        showPage('userDetail');
+        const content=$('#userDetailContent');
+        content.innerHTML='<div class="skeleton" style="height:300px"></div>';
+        try{
+            const doc=await db.collection('users').doc(uid).get();
+            if(!doc.exists){content.innerHTML='<div class="empty-state"><h4>User Not Found</h4></div>';return}
+            const u=doc.data();
+            const avatar=u.avatar||`https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=${u.username||'default'}&backgroundColor=b6e3f4`;
+            const qa=u.questionsAttempted||0;const qc=u.questionsCorrect||0;const acc=qa>0?Math.round((qc/qa)*100):0;
+            // Get wallet
+            let balance=0;try{const wDoc=await db.collection('wallet_accounts').doc(uid).get();if(wDoc.exists)balance=wDoc.data().balance||0}catch(e){}
+            content.innerHTML=`
+                <div style="margin-bottom:16px"><button class="toolbar-btn secondary" onclick="showPage('users')"><i data-lucide="arrow-left"></i>Back to Users</button></div>
+                <div class="user-detail-card">
+                    <div class="ud-header"><img class="ud-avatar" src="${avatar}" alt=""><div class="ud-info"><h3>${u.fullName||'Unknown'}</h3><p>@${u.username||''} • ${u.email||''}</p></div></div>
+                    <div class="ud-stats">
+                        <div class="ud-stat"><div class="uv" style="color:var(--primary)">${qa}</div><div class="ul">Questions</div></div>
+                        <div class="ud-stat"><div class="uv" style="color:var(--success)">${acc}%</div><div class="ul">Accuracy</div></div>
+                        <div class="ud-stat"><div class="uv" style="color:var(--accent)">${u.testsCompleted||0}</div><div class="ul">Tests</div></div>
+                        <div class="ud-stat"><div class="uv" style="color:var(--warning)">₦${fmt(balance)}</div><div class="ul">Balance</div></div>
+                    </div>
+                    <div class="ud-fields">
+                        <div class="ud-field"><div class="ufl">Phone</div><div class="ufv">${u.phone||'—'}</div></div>
+                        <div class="ud-field"><div class="ufl">Level</div><div class="ufv">${u.level||'—'} Level</div></div>
+                        <div class="ud-field"><div class="ufl">Semester</div><div class="ufv">${u.semester==='first'?'1st':'2nd'} Semester</div></div>
+                        <div class="ud-field"><div class="ufl">Courses</div><div class="ufv">${u.selectedCourses?.length||0} selected</div></div>
+                        <div class="ud-field"><div class="ufl">Streak</div><div class="ufv">${u.currentStreak||0} days</div></div>
+                        <div class="ud-field"><div class="ufl">Joined</div><div class="ufv">${timeAgo(u.createdAt)}</div></div>
+                    </div>
+                </div>
+            `;
+            lucide.createIcons({nodes:[content]});
+        }catch(e){content.innerHTML=`<div class="empty-state"><h4>Error</h4><p>${e.message}</p></div>`}
+    }
+
+    // ===== ADMIN ACCOUNTS =====
+    async function loadAdmins(){
+        const toolbar=$('#adminsToolbar');
+        toolbar.innerHTML=`
+            <div class="search-wrap"><span class="s-icon"><i data-lucide="search"></i></span><input class="search-input" id="adminSearchInput" placeholder="Search admins..."></div>
+            <button class="toolbar-btn" id="createAdminBtn"><i data-lucide="shield-plus"></i>Create Admin</button>
+        `;
+        lucide.createIcons({nodes:[toolbar]});
+        $('#createAdminBtn').onclick=()=>{$('#createAdminModal').classList.add('open');resetAdminForm()};
+        $('#adminSearchInput').oninput=e=>renderAdminsTable(e.target.value);
+
+        const table=$('#adminsTable');
+        table.innerHTML='<div style="padding:40px;text-align:center"><div class="skeleton" style="height:200px"></div></div>';
+        try{
+            const snap=await db.collection('users').where('role','in',['admin','moderator','content_manager']).get();
+            S.allAdmins=[];snap.forEach(d=>S.allAdmins.push({id:d.id,...d.data()}));
+            renderAdminsTable();
+        }catch(e){console.error(e);table.innerHTML=`<div class="empty-state"><h4>Error</h4><p>${e.message}</p></div>`}
+    }
+
+    function renderAdminsTable(search=''){
+        let filtered=[...S.allAdmins];
+        if(search){const s=search.toLowerCase();filtered=filtered.filter(a=>(a.fullName||'').toLowerCase().includes(s)||(a.email||'').toLowerCase().includes(s))}
+        const table=$('#adminsTable');
+        const roleLabels={admin:'Administrator',moderator:'Moderator',content_manager:'Content Manager'};
+        table.innerHTML=`
+            <div class="table-header"><h3><i data-lucide="shield"></i>Admin Accounts (${filtered.length})</h3></div>
+            <div class="table-scroll"><table class="data-table"><thead><tr><th>Admin</th><th>Role</th><th>Created</th><th>Last Login</th><th>Actions</th></tr></thead><tbody>
+                ${filtered.length?filtered.map(a=>`<tr><td><div class="user-cell"><div class="sb-user-avatar" style="width:32px;height:32px;font-size:12px;display:inline-flex;margin-right:8px">${(a.fullName||'A').charAt(0).toUpperCase()}</div><div><div class="uc-name">${a.fullName||'Admin'}</div><div class="uc-email">${a.email||''}</div></div></div></td><td><span class="status-badge admin">${roleLabels[a.role]||a.role}</span></td><td>${timeAgo(a.createdAt)}</td><td>${timeAgo(a.lastLogin)}</td><td><button class="action-btn danger" onclick="confirmDeleteAdmin('${a.id}','${(a.fullName||'').replace(/'/g,"\\'")}')" title="Remove"><i data-lucide="trash-2"></i></button></td></tr>`).join(''):'<tr><td colspan="5"><div class="empty-state" style="padding:30px"><h4>No Admins Found</h4></div></td></tr>'}
+            </tbody></table></div>
+        `;
+        lucide.createIcons({nodes:[table]});
+    }
+
+    // ===== CREATE ADMIN =====
+    function resetAdminForm(){
+        ['caName','caUsername','caEmail','caPhone','caPassword','caConfirmPassword'].forEach(id=>{$('#'+id).value=''});
+        $$('.form-error').forEach(e=>{e.classList.remove('visible');e.textContent=''});
+    }
+
+    function initCreateAdmin(){
+        $('#caClose').onclick=$('#caCancelBtn').onclick=()=>$('#createAdminModal').classList.remove('open');
+        $('#createAdminForm').onsubmit=async(e)=>{
+            e.preventDefault();
+            $$('.form-error').forEach(e=>{e.classList.remove('visible');e.textContent=''});
+            const name=$('#caName').value.trim();const username=$('#caUsername').value.trim().toLowerCase();
+            const email=$('#caEmail').value.trim();const phone=$('#caPhone').value.trim();
+            const password=$('#caPassword').value;const confirmPw=$('#caConfirmPassword').value;
+            const role=$('#caRole').value;
+            let valid=true;
+            if(!name||!username||!email){Toast.show('warning','Required','Please fill all required fields');return}
+            if(password.length<8){$('#caPasswordError').textContent='Password must be at least 8 characters';$('#caPasswordError').classList.add('visible');valid=false}
+            if(password!==confirmPw){$('#caConfirmError').textContent='Passwords do not match';$('#caConfirmError').classList.add('visible');valid=false}
+            if(!valid)return;
+
+            const btn=$('#caSubmitBtn');btn.classList.add('loading');
+            try{
+                // Check username
+                const uCheck=await db.collection('users').where('username','==',username).limit(1).get();
+                if(!uCheck.empty){$('#caEmailError').textContent='Username already taken';$('#caEmailError').classList.add('visible');btn.classList.remove('loading');return}
+
+                // Create auth user
+                // Note: This creates a new user and signs in as them. In production, use Firebase Admin SDK on server.
+                // For MVP, we'll create the user, save profile, then sign back into admin account
+                const currentUser=auth.currentUser;
+                const currentEmail=currentUser.email;
+
+                const cred=await auth.createUserWithEmailAndPassword(email,password);
+                const newUid=cred.user.uid;
+
+                // Save admin profile
+                await db.collection('users').doc(newUid).set({
+                    uid:newUid,fullName:name,username,email,phone,
+                    role,avatar:'',onboardingCompleted:true,
+                    universityId:'',facultyId:'',departmentId:'',level:'',semester:'',
+                    selectedCourses:[],balance:0,questionsAttempted:0,questionsCorrect:0,
+                    testsCompleted:0,currentStreak:0,longestStreak:0,
+                    createdAt:firebase.firestore.FieldValue.serverTimestamp(),
+                    lastLogin:firebase.firestore.FieldValue.serverTimestamp(),
+                    updatedAt:firebase.firestore.FieldValue.serverTimestamp(),
+                    createdBy:S.user.uid
+                });
+
+                // Create audit log
+                await db.collection('audit_logs').add({
+                    action:'admin_created',adminId:S.user.uid,targetId:newUid,
+                    details:`Admin account created: ${name} (${email}) as ${role}`,
+                    createdAt:firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                // Sign out new user and sign back as admin
+                await auth.signOut();
+                // We need admin to re-authenticate - redirect to login
+                Toast.show('success','Admin Created',`${name} has been created as ${role}. Please sign in again.`);
+                btn.classList.remove('loading');
+                $('#createAdminModal').classList.remove('open');
+
+                // Redirect to login after short delay
+                setTimeout(()=>{window.location.href='index.html'},2000);
+
+            }catch(e){
+                btn.classList.remove('loading');
+                if(e.code==='auth/email-already-in-use'){$('#caEmailError').textContent='Email already in use';$('#caEmailError').classList.add('visible')}
+                else{Toast.show('error','Error',e.message)}
+            }
+        };
+    }
+
+    // ===== DELETE ADMIN =====
+    function confirmDeleteAdmin(uid,name){
+        if(uid===S.user.uid){Toast.show('warning','Cannot Delete','You cannot delete your own account');return}
+        const modal=$('#confirmModal');
+        $('#confirmModalContent').innerHTML=`
+            <button class="modal-close" onclick="$('#confirmModal').classList.remove('open')"><i data-lucide="x"></i></button>
+            <h3>Remove Admin?</h3>
+            <p class="modal-desc">Are you sure you want to remove <strong>${name}</strong> as an administrator? This will change their role to student.</p>
+            <div class="modal-actions">
+                <button class="m-btn cancel" onclick="$('#confirmModal').classList.remove('open')">Cancel</button>
+                <button class="m-btn danger" id="confirmDeleteBtn"><i data-lucide="trash-2"></i><span class="m-btn-text">Remove Admin</span><div class="m-btn-spinner"></div></button>
+            </div>
+        `;
+        modal.classList.add('open');lucide.createIcons({nodes:[$('#confirmModalContent')]});
+        $('#confirmDeleteBtn').onclick=async()=>{
+            const btn=$('#confirmDeleteBtn');btn.classList.add('loading');
+            try{
+                await db.collection('users').doc(uid).update({role:'student',updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
+                await db.collection('audit_logs').add({action:'admin_removed',adminId:S.user.uid,targetId:uid,details:`Admin removed: ${name}`,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+                Toast.show('success','Removed',`${name} is no longer an admin`);
+                btn.classList.remove('loading');modal.classList.remove('open');loadAdmins();
+            }catch(e){btn.classList.remove('loading');Toast.show('error','Error',e.message)}
+        };
+    }
+
+    // ===== SETTINGS =====
+    function renderSettings(){
+        $('#settingsContent').innerHTML=`
+            <div class="user-detail-card">
+                <h3 style="font-size:18px;font-weight:700;margin-bottom:16px">Platform Settings</h3>
+                <div class="ud-fields">
+                    <div class="ud-field"><div class="ufl">Platform Name</div><div class="ufv">FAVOJE</div></div>
+                    <div class="ud-field"><div class="ufl">Version</div><div class="ufv">1.0.0 MVP</div></div>
+                    <div class="ud-field"><div class="ufl">Firebase Project</div><div class="ufv">favoje-app</div></div>
+                    <div class="ud-field"><div class="ufl">Current Theme</div><div class="ufv">${S.theme==='dark'?'Dark':'Light'} Mode</div></div>
+                </div>
+            </div>
+            <div class="user-detail-card" style="animation-delay:.15s">
+                <h3 style="font-size:18px;font-weight:700;margin-bottom:16px">Quick Actions</h3>
+                <div style="display:flex;flex-wrap:wrap;gap:10px">
+                    <button class="toolbar-btn" onclick="window.location.href='admin-content.html'"><i data-lucide="book-open"></i>Manage Content</button>
+                    <button class="toolbar-btn secondary" onclick="window.location.href='admin-finance.html'"><i data-lucide="wallet"></i>Finance</button>
+                    <button class="toolbar-btn secondary" onclick="showPage('admins')"><i data-lucide="shield"></i>Admins</button>
+                </div>
+            </div>
+        `;
+        lucide.createIcons({nodes:[$('#settingsContent')]});
+    }
+
+    // ===== INIT =====
+    function init(){
+        lucide.createIcons();Theme.init();initParticles();initNav();initCreateAdmin();
+        auth.onAuthStateChanged(async user=>{
+            if(!user){window.location.href='index.html';return}
+            S.user=user;
+            try{
+                const doc=await db.collection('users').doc(user.uid).get();
+                if(!doc.exists||!['admin','moderator','content_manager'].includes(doc.data().role)){
+                    Toast.show('error','Access Denied','You do not have admin privileges');
+                    setTimeout(()=>window.location.href='home.html',1500);return;
+                }
+                S.profile=doc.data();
+                $('#sbUserName').textContent=S.profile.fullName||'Admin';
+                $('#sbUserInitial').textContent=(S.profile.fullName||'A').charAt(0).toUpperCase();
+                // Update last login
+                await db.collection('users').doc(user.uid).update({lastLogin:firebase.firestore.FieldValue.serverTimestamp()});
+                loadDashboard();
+            }catch(e){console.error(e);Toast.show('error','Error',e.message)}
+            setTimeout(()=>{const o=$('#loadingOverlay');o.classList.add('hidden');setTimeout(()=>o.remove(),600)},600);
+        });
+    }
+    document.addEventListener('DOMContentLoaded',init);
+    </script>
+</body>
+</html>

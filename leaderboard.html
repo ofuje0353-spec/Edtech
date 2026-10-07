@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>FAVOJE — Leaderboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        :root{--primary:#6366F1;--primary-hover:#5558E6;--primary-light:rgba(99,102,241,0.12);--primary-glow:rgba(99,102,241,0.3);--secondary:#4F46E5;--bg:#080B14;--bg-secondary:#0D1117;--surface:#111827;--surface-hover:#1a2234;--surface-border:rgba(255,255,255,0.06);--surface-border-hover:rgba(255,255,255,0.12);--accent:#F97316;--accent-light:rgba(249,115,22,0.12);--success:#10B981;--success-light:rgba(16,185,129,0.12);--danger:#EF4444;--danger-light:rgba(239,68,68,0.12);--warning:#F59E0B;--warning-light:rgba(245,158,11,0.12);--text-primary:#F8FAFC;--text-secondary:#94A3B8;--text-tertiary:#64748B;--text-muted:#475569;--card-radius:16px;--btn-radius:12px;--input-radius:12px;--transition-fast:0.15s ease;--transition-normal:0.3s ease;--transition-smooth:0.4s cubic-bezier(0.4,0,0.2,1);--shadow-sm:0 1px 3px rgba(0,0,0,0.3);--shadow-md:0 4px 12px rgba(0,0,0,0.4);--shadow-lg:0 8px 32px rgba(0,0,0,0.5);--font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;--safe-bottom:env(safe-area-inset-bottom,0px);--nav-height:72px;--gold:#FFD700;--silver:#C0C0C0;--bronze:#CD7F32}
+        [data-theme="light"]{--bg:#F1F5F9;--bg-secondary:#E2E8F0;--surface:#FFFFFF;--surface-hover:#F8FAFC;--surface-border:rgba(0,0,0,0.08);--surface-border-hover:rgba(0,0,0,0.15);--text-primary:#0F172A;--text-secondary:#475569;--text-tertiary:#64748B;--text-muted:#94A3B8;--shadow-sm:0 1px 3px rgba(0,0,0,0.08);--shadow-md:0 4px 12px rgba(0,0,0,0.1);--shadow-lg:0 8px 32px rgba(0,0,0,0.12);--primary-light:rgba(99,102,241,0.08);--accent-light:rgba(249,115,22,0.08);--success-light:rgba(16,185,129,0.08);--danger-light:rgba(239,68,68,0.08);--warning-light:rgba(245,158,11,0.08)}
+        *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+        body{font-family:var(--font);background:var(--bg);color:var(--text-primary);min-height:100vh;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased;padding-bottom:calc(var(--nav-height) + var(--safe-bottom) + 16px)}
+        ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--text-muted);border-radius:3px}
+
+        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+        @keyframes fadeInUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes fadeInDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes fadeInLeft{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes fadeInRight{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes scaleIn{from{opacity:0;transform:scale(0.88)}to{opacity:1;transform:scale(1)}}
+        @keyframes bounceIn{0%{opacity:0;transform:scale(0.3)}50%{opacity:1;transform:scale(1.06)}70%{transform:scale(0.94)}100%{opacity:1;transform:scale(1)}}
+        @keyframes slideUp{from{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}
+        @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+        @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        @keyframes glowPulse{0%,100%{box-shadow:0 0 8px var(--primary-glow)}50%{box-shadow:0 0 28px var(--primary-glow),0 0 56px rgba(99,102,241,0.12)}}
+        @keyframes popIn{0%{opacity:0;transform:scale(0) rotate(-10deg)}60%{transform:scale(1.12) rotate(3deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
+        @keyframes barGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+        @keyframes particleFloat{0%,100%{transform:translate(0,0) rotate(0deg);opacity:0}10%{opacity:.5}90%{opacity:.5}100%{transform:translate(var(--tx),var(--ty)) rotate(360deg);opacity:0}}
+        @keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+        @keyframes crownBob{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-4px) rotate(5deg)}}
+        @keyframes streakFlame{0%,100%{transform:scale(1) rotate(-2deg)}50%{transform:scale(1.2) rotate(2deg)}}
+        @keyframes medalSpin{0%{transform:rotateY(0)}100%{transform:rotateY(360deg)}}
+        @keyframes slideInRight{from{opacity:0;transform:translateX(100%)}to{opacity:1;transform:translateX(0)}}
+        @keyframes slideInLeft{from{opacity:0;transform:translateX(-100%)}to{opacity:1;transform:translateX(0)}}
+        @keyframes rankUp{0%{transform:translateY(20px) scale(0.8);opacity:0}50%{transform:translateY(-5px) scale(1.05)}100%{transform:translateY(0) scale(1);opacity:1}}
+        @keyframes shineEffect{0%{left:-100%}100%{left:200%}}
+        @keyframes borderRainbow{0%{border-color:var(--primary)}25%{border-color:var(--accent)}50%{border-color:var(--success)}75%{border-color:var(--warning)}100%{border-color:var(--primary)}}
+        @keyframes countUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes wiggle{0%,100%{transform:rotate(0deg)}25%{transform:rotate(-6deg)}75%{transform:rotate(6deg)}}
+        @keyframes unlockBurst{0%{transform:scale(1);box-shadow:0 0 0 0 rgba(99,102,241,0.4)}50%{transform:scale(1.1);box-shadow:0 0 0 20px rgba(99,102,241,0)}100%{transform:scale(1);box-shadow:0 0 0 0 rgba(99,102,241,0)}}
+
+        .bg-particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+        .particle{position:absolute;width:3px;height:3px;background:var(--primary);border-radius:50%;opacity:0}
+        .bg-gradient-orb{position:fixed;border-radius:50%;filter:blur(120px);pointer-events:none;z-index:0}
+        .orb-1{width:350px;height:350px;background:rgba(99,102,241,0.06);top:-80px;right:-80px;animation:float 9s ease-in-out infinite}
+        .orb-2{width:280px;height:280px;background:rgba(249,115,22,0.04);bottom:-60px;left:-60px;animation:float 11s ease-in-out infinite reverse}
+        [data-theme="light"] .orb-1{background:rgba(99,102,241,0.04)}[data-theme="light"] .orb-2{background:rgba(249,115,22,0.02)}
+
+        .loading-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:20000;transition:opacity .6s,visibility .6s}
+        .loading-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none}
+        .lo-icon{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;animation:bounceIn .8s ease,float 2s ease-in-out infinite .8s;box-shadow:0 4px 20px rgba(99,102,241,0.4)}
+        .lo-icon i{width:30px;height:30px;color:#fff}
+        .lo-bar{width:100px;height:3px;background:var(--surface);border-radius:3px;overflow:hidden;margin-top:20px}
+        .lo-bar-inner{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent),var(--primary));width:40%;animation:shimmer 1.4s ease-in-out infinite;background-size:200% 100%;border-radius:3px}
+
+        .toast-container{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:10000;display:flex;flex-direction:column;gap:8px;width:92%;max-width:420px}
+        .toast{display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);box-shadow:var(--shadow-lg);animation:fadeInDown .4s ease;position:relative;overflow:hidden}
+        .toast::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px}
+        .toast.success::before{background:var(--success)}.toast.error::before{background:var(--danger)}.toast.info::before{background:var(--primary)}.toast.warning::before{background:var(--warning)}
+        .toast .ti{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .toast.success .ti{background:var(--success-light);color:var(--success)}.toast.error .ti{background:var(--danger-light);color:var(--danger)}.toast.info .ti{background:var(--primary-light);color:var(--primary)}.toast.warning .ti{background:var(--warning-light);color:var(--warning)}
+        .toast .ti i{width:18px;height:18px}.toast .tb{flex:1}.toast .tt{font-size:14px;font-weight:600}.toast .tm{font-size:13px;color:var(--text-secondary)}
+        .toast .tc{background:none;border:none;color:var(--text-muted);cursor:pointer;padding:4px;display:flex}.toast .tc i{width:16px;height:16px}
+        .toast.removing{animation:fadeIn .3s ease reverse forwards}
+
+        /* HEADER */
+        .top-header{position:sticky;top:0;z-index:100;background:rgba(8,11,20,0.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--surface-border);padding:14px 20px;animation:fadeInDown .5s ease}
+        [data-theme="light"] .top-header{background:rgba(241,245,249,0.88)}
+        .top-header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+        .th-title-area{flex:1;min-width:0}
+        .th-page-title{font-size:18px;font-weight:700;letter-spacing:-0.3px}
+        .th-page-sub{font-size:12px;color:var(--text-tertiary);font-weight:500}
+        .th-actions{display:flex;gap:8px}
+        .th-btn{width:38px;height:38px;border-radius:10px;background:var(--surface);border:1px solid var(--surface-border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-secondary);transition:all var(--transition-normal)}
+        .th-btn:hover{background:var(--surface-hover);color:var(--primary);border-color:var(--primary);transform:translateY(-1px)}
+        .th-btn i{width:20px;height:20px}
+
+        .main-content{max-width:900px;margin:0 auto;padding:20px 16px;position:relative;z-index:1}
+
+        /* SECTION TABS */
+        .section-tabs{display:flex;background:var(--surface);border-radius:14px;padding:4px;margin-bottom:24px;border:1px solid var(--surface-border);animation:fadeInUp .5s ease .1s both;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+        .section-tabs::-webkit-scrollbar{display:none}
+        .sec-tab{flex:1;padding:12px 16px;text-align:center;font-size:13px;font-weight:600;color:var(--text-secondary);background:transparent;border:none;border-radius:11px;cursor:pointer;transition:all var(--transition-normal);font-family:var(--font);white-space:nowrap;min-width:0;display:flex;align-items:center;justify-content:center;gap:6px;position:relative;overflow:hidden}
+        .sec-tab::before{content:'';position:absolute;top:50%;left:50%;width:0;height:0;background:rgba(99,102,241,0.08);border-radius:50%;transform:translate(-50%,-50%);transition:width .4s ease,height .4s ease}
+        .sec-tab:hover::before{width:200%;height:200%}
+        .sec-tab.active{background:var(--primary);color:#fff;box-shadow:0 2px 10px rgba(99,102,241,0.3)}
+        .sec-tab.active::before{display:none}
+        .sec-tab i{width:16px;height:16px}
+
+        /* VIEW CONTAINER */
+        .tab-view{display:none;opacity:0}.tab-view.active{display:block;animation:fadeIn .4s ease forwards}
+
+        /* ===== LEADERBOARD TAB ===== */
+        .lb-filter-tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 0;margin-bottom:20px;animation:fadeInUp .5s ease .15s both;-webkit-overflow-scrolling:touch}
+        .lb-filter-tabs::-webkit-scrollbar{display:none}
+        .lb-ftab{padding:9px 18px;background:var(--surface);border:1.5px solid var(--surface-border);border-radius:10px;font-size:12px;font-weight:600;color:var(--text-secondary);cursor:pointer;white-space:nowrap;transition:all var(--transition-normal);font-family:var(--font);flex-shrink:0}
+        .lb-ftab:hover{border-color:var(--primary);color:var(--primary)}
+        .lb-ftab.active{background:var(--primary-light);border-color:var(--primary);color:var(--primary)}
+
+        /* PODIUM */
+        .podium-section{margin-bottom:28px;animation:fadeInUp .5s ease .2s both}
+        .podium{display:flex;align-items:flex-end;justify-content:center;gap:10px;padding:20px 0}
+        .podium-slot{display:flex;flex-direction:column;align-items:center;cursor:pointer;transition:transform var(--transition-normal)}
+        .podium-slot:hover{transform:translateY(-6px)}
+        .podium-slot.p2{order:1}.podium-slot.p1{order:2}.podium-slot.p3{order:3}
+        .podium-avatar-wrap{position:relative;margin-bottom:10px}
+        .podium-avatar{border-radius:50%;object-fit:cover;border:3px solid var(--surface-border);transition:all var(--transition-normal);background:var(--surface)}
+        .podium-slot.p1 .podium-avatar{width:80px;height:80px;border-color:var(--gold);box-shadow:0 0 20px rgba(255,215,0,0.3);animation:glowPulse 3s ease-in-out infinite}
+        .podium-slot.p2 .podium-avatar{width:64px;height:64px;border-color:var(--silver);box-shadow:0 0 12px rgba(192,192,192,0.2)}
+        .podium-slot.p3 .podium-avatar{width:64px;height:64px;border-color:var(--bronze);box-shadow:0 0 12px rgba(205,127,50,0.2)}
+        .podium-crown{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:22px;animation:crownBob 2s ease-in-out infinite;filter:drop-shadow(0 2px 6px rgba(255,215,0,0.4))}
+        .podium-rank{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;position:absolute;bottom:-6px;right:-4px;z-index:2;border:2px solid var(--bg)}
+        .podium-slot.p1 .podium-rank{background:linear-gradient(135deg,#FFD700,#FFA500)}.podium-slot.p2 .podium-rank{background:linear-gradient(135deg,#C0C0C0,#A0A0A0)}.podium-slot.p3 .podium-rank{background:linear-gradient(135deg,#CD7F32,#A0522D)}
+        .podium-name{font-size:13px;font-weight:700;margin-bottom:2px;max-width:90px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center}
+        .podium-score{font-size:12px;font-weight:600;color:var(--text-tertiary)}
+        .podium-slot.p1 .podium-score{color:var(--gold)}
+        .podium-pedestal{width:80px;border-radius:10px 10px 0 0;display:flex;align-items:center;justify-content:center;margin-top:8px}
+        .podium-slot.p1 .podium-pedestal{height:70px;background:linear-gradient(180deg,rgba(255,215,0,0.15),rgba(255,215,0,0.05))}
+        .podium-slot.p2 .podium-pedestal{height:50px;background:linear-gradient(180deg,rgba(192,192,192,0.12),rgba(192,192,192,0.04));width:72px}
+        .podium-slot.p3 .podium-pedestal{height:36px;background:linear-gradient(180deg,rgba(205,127,50,0.12),rgba(205,127,50,0.04));width:72px}
+
+        /* YOUR RANK CARD */
+        .your-rank-card{background:var(--surface);border:2px solid var(--primary);border-radius:var(--card-radius);padding:18px;margin-bottom:20px;display:flex;align-items:center;gap:14px;animation:fadeInUp .5s ease .3s both;position:relative;overflow:hidden}
+        .your-rank-card::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(99,102,241,0.06),transparent);animation:shineEffect 3s ease-in-out infinite}
+        .yr-rank{width:44px;height:44px;border-radius:12px;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;flex-shrink:0;animation:popIn .5s ease .4s both}
+        .yr-avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-light);flex-shrink:0}
+        .yr-info{flex:1;min-width:0}
+        .yr-name{font-size:15px;font-weight:700}
+        .yr-detail{font-size:12px;color:var(--text-tertiary);display:flex;gap:10px}
+        .yr-detail span{display:flex;align-items:center;gap:3px}.yr-detail i{width:12px;height:12px}
+        .yr-score{font-size:20px;font-weight:900;color:var(--primary)}
+        .yr-movement{display:flex;align-items:center;gap:3px;font-size:12px;font-weight:600;margin-top:2px}
+        .yr-movement.up{color:var(--success)}.yr-movement.down{color:var(--danger)}.yr-movement.same{color:var(--text-muted)}
+        .yr-movement i{width:14px;height:14px}
+
+        /* RANK LIST */
+        .rank-list{display:flex;flex-direction:column;gap:8px}
+        .rank-item{display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);animation:fadeInRight .4s ease both;transition:all var(--transition-smooth);cursor:pointer}
+        .rank-item:hover{transform:translateX(5px);border-color:var(--surface-border-hover);box-shadow:var(--shadow-sm)}
+        .rank-item.you{border-color:var(--primary);background:var(--primary-light)}
+        .ri-rank{width:32px;height:32px;border-radius:8px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex-shrink:0;color:var(--text-secondary)}
+        .rank-item:nth-child(1) .ri-rank,.rank-item:nth-child(2) .ri-rank,.rank-item:nth-child(3) .ri-rank{color:var(--text-primary)}
+        .ri-avatar{width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid var(--surface-border);flex-shrink:0;transition:transform var(--transition-normal)}
+        .rank-item:hover .ri-avatar{transform:scale(1.08)}
+        .ri-info{flex:1;min-width:0}
+        .ri-name{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .ri-sub{font-size:11px;color:var(--text-tertiary)}
+        .ri-score{text-align:right}
+        .ri-score-val{font-size:16px;font-weight:800}
+        .ri-score-label{font-size:10px;color:var(--text-muted);font-weight:600}
+        .ri-movement{display:flex;align-items:center;gap:2px;font-size:11px;font-weight:600;justify-content:flex-end}
+        .ri-movement.up{color:var(--success)}.ri-movement.down{color:var(--danger)}.ri-movement.same{color:var(--text-muted)}
+        .ri-movement i{width:12px;height:12px}
+
+        /* ===== STREAKS TAB ===== */
+        .streak-hero{background:var(--surface);border:1px solid var(--surface-border);border-radius:20px;padding:28px 24px;text-align:center;margin-bottom:24px;animation:fadeInUp .5s ease .15s both;position:relative;overflow:hidden}
+        .streak-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--accent),var(--danger),var(--warning),var(--accent));background-size:200% 100%;animation:gradientShift 4s ease infinite}
+        .sh-flame{font-size:56px;display:block;margin-bottom:10px;animation:streakFlame 1.5s ease-in-out infinite}
+        .sh-count{font-size:48px;font-weight:900;letter-spacing:-2px;animation:countUp .6s ease .3s both}
+        .sh-label{font-size:14px;color:var(--text-secondary);font-weight:500;margin-bottom:4px}
+        .sh-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 16px;border-radius:8px;font-size:13px;font-weight:700;margin-top:8px}
+        .sh-badge.beginner{background:var(--surface-hover);color:var(--text-secondary)}
+        .sh-badge.active{background:var(--primary-light);color:var(--primary)}
+        .sh-badge.dedicated{background:var(--accent-light);color:var(--accent)}
+        .sh-badge.master{background:var(--warning-light);color:var(--warning)}
+        .sh-badge i{width:14px;height:14px}
+
+        .streak-week{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);padding:22px;margin-bottom:24px;animation:fadeInUp .5s ease .25s both}
+        .sw-title{font-size:14px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+        .sw-title i{width:16px;height:16px;color:var(--primary)}
+        .sw-days{display:flex;justify-content:space-between;gap:4px}
+        .sw-day{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px}
+        .sw-day .swd-circle{width:42px;height:42px;border-radius:50%;border:2.5px solid var(--surface-border);display:flex;align-items:center;justify-content:center;transition:all var(--transition-smooth);position:relative;overflow:hidden}
+        .sw-day .swd-circle i{width:18px;height:18px;color:var(--text-muted);transition:all var(--transition-normal)}
+        .sw-day .swd-circle.done{background:var(--success);border-color:var(--success);animation:popIn .4s ease both}
+        .sw-day .swd-circle.done i{color:#fff}
+        .sw-day .swd-circle.today{border-color:var(--primary);animation:glowPulse 2s ease-in-out infinite}
+        .sw-day .swd-circle.done::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);animation:shineEffect 2s ease-in-out infinite 1s}
+        .sw-day .swd-label{font-size:11px;font-weight:600;color:var(--text-muted)}
+        .sw-day .swd-label.today-l{color:var(--primary);font-weight:700}
+        .sw-day:nth-child(1) .swd-circle.done{animation-delay:.05s}.sw-day:nth-child(2) .swd-circle.done{animation-delay:.1s}.sw-day:nth-child(3) .swd-circle.done{animation-delay:.15s}.sw-day:nth-child(4) .swd-circle.done{animation-delay:.2s}.sw-day:nth-child(5) .swd-circle.done{animation-delay:.25s}.sw-day:nth-child(6) .swd-circle.done{animation-delay:.3s}.sw-day:nth-child(7) .swd-circle.done{animation-delay:.35s}
+
+        .streak-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:24px;animation:fadeInUp .5s ease .35s both}
+        .ss-card{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);padding:18px;text-align:center;transition:all var(--transition-normal)}
+        .ss-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
+        .ss-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px}
+        .ss-icon i{width:20px;height:20px}
+        .ss-val{font-size:22px;font-weight:800;margin-bottom:2px}
+        .ss-lab{font-size:12px;color:var(--text-tertiary);font-weight:500}
+
+        .streak-milestones{animation:fadeInUp .5s ease .4s both}
+        .sm-title{font-size:16px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+        .sm-title i{width:18px;height:18px;color:var(--accent)}
+        .milestones-list{display:flex;flex-direction:column;gap:10px}
+        .milestone-card{display:flex;align-items:center;gap:14px;padding:16px;background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);transition:all var(--transition-smooth);animation:fadeInLeft .4s ease both}
+        .milestone-card.achieved{border-color:rgba(16,185,129,0.2)}
+        .milestone-card:hover{transform:translateX(4px);box-shadow:var(--shadow-sm)}
+        .ms-icon{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:22px}
+        .ms-icon.achieved{animation:wiggle .5s ease 1s both}
+        .ms-info{flex:1;min-width:0}
+        .ms-name{font-size:14px;font-weight:700;margin-bottom:2px}
+        .ms-desc{font-size:12px;color:var(--text-tertiary)}
+        .ms-status{display:flex;align-items:center;gap:4px;font-size:12px;font-weight:600}
+        .ms-status.achieved{color:var(--success)}.ms-status.locked{color:var(--text-muted)}
+        .ms-status i{width:14px;height:14px}
+        .ms-progress{margin-top:6px;height:4px;background:var(--bg);border-radius:4px;overflow:hidden}
+        .ms-prog-fill{height:100%;border-radius:4px;transform-origin:left;animation:barGrow .8s ease both}
+
+        /* ===== ACHIEVEMENTS TAB ===== */
+        .ach-stats{display:flex;gap:12px;margin-bottom:20px;overflow-x:auto;scrollbar-width:none;padding:2px 0;animation:fadeInUp .5s ease .1s both}
+        .ach-stats::-webkit-scrollbar{display:none}
+        .as-chip{padding:12px 20px;background:var(--surface);border:1px solid var(--surface-border);border-radius:14px;white-space:nowrap;flex-shrink:0;text-align:center;transition:all var(--transition-normal)}
+        .as-chip:hover{border-color:var(--primary-light);transform:translateY(-2px)}
+        .as-chip .asv{font-size:22px;font-weight:800}.as-chip .asl{font-size:11px;color:var(--text-tertiary);font-weight:600}
+
+        .achievements-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+        .ach-card{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);padding:20px;text-align:center;animation:popIn .4s ease both;transition:all var(--transition-smooth);cursor:pointer;position:relative;overflow:hidden}
+        .ach-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
+        .ach-card.earned{border-color:rgba(16,185,129,0.2)}
+        .ach-card.earned:hover{border-color:var(--success)}
+        .ach-card.locked{opacity:.6}.ach-card.locked:hover{opacity:.8}
+        .ach-card.earned::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.03),transparent);animation:shineEffect 4s ease-in-out infinite}
+        .ac-emoji{font-size:36px;display:block;margin-bottom:10px}
+        .ach-card.earned .ac-emoji{animation:wiggle .6s ease 0.5s both}
+        .ac-name{font-size:14px;font-weight:700;margin-bottom:4px}
+        .ac-desc{font-size:12px;color:var(--text-tertiary);line-height:1.4;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+        .ac-badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700}
+        .ac-badge.earned{background:var(--success-light);color:var(--success)}
+        .ac-badge.locked{background:var(--surface-hover);color:var(--text-muted)}
+        .ac-badge i{width:12px;height:12px}
+        .ac-date{font-size:10px;color:var(--text-muted);margin-top:6px}
+
+        .empty-state{text-align:center;padding:60px 20px;animation:fadeIn .5s ease}
+        .empty-icon{width:72px;height:72px;border-radius:50%;background:var(--surface);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:var(--text-muted)}
+        .empty-icon i{width:32px;height:32px}
+        .empty-state h4{font-size:18px;font-weight:700;margin-bottom:6px}
+        .empty-state p{font-size:14px;color:var(--text-secondary);max-width:320px;margin:0 auto}
+
+        .skeleton{background:linear-gradient(90deg,var(--surface) 25%,var(--surface-hover) 50%,var(--surface) 75%);background-size:200% 100%;animation:shimmer 1.5s ease infinite;border-radius:12px}
+
+        /* NAV */
+        .bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:1000;background:rgba(8,11,20,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--surface-border);padding:8px 0 calc(8px + var(--safe-bottom));animation:slideUp .5s ease .3s both}
+        [data-theme="light"] .bottom-nav{background:rgba(241,245,249,0.92)}
+        .nav-inner{display:flex;max-width:600px;margin:0 auto;padding:0 8px}
+        .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;cursor:pointer;color:var(--text-muted);transition:all var(--transition-normal);text-decoration:none;position:relative;border-radius:12px}
+        .nav-item.active{color:var(--primary)}
+        .nav-item.active::before{content:'';position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:24px;height:3px;background:var(--primary);border-radius:0 0 3px 3px}
+        .nav-item i{width:22px;height:22px}.nav-item span{font-size:11px;font-weight:600}
+
+        @media(min-width:1024px){.bottom-nav{display:none}body{padding-bottom:0;padding-left:240px}.desktop-sidebar{display:flex!important}}
+        .desktop-sidebar{display:none;position:fixed;top:0;left:0;width:240px;height:100%;background:var(--surface);border-right:1px solid var(--surface-border);z-index:1001;flex-direction:column;padding:20px 0;animation:fadeInLeft .5s ease}
+        .ds-brand{display:flex;align-items:center;gap:10px;padding:0 20px;margin-bottom:32px}
+        .ds-brand .brand-icon{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center}.ds-brand .brand-icon i{width:20px;height:20px;color:#fff}
+        .ds-brand .brand-name{font-size:20px;font-weight:800;letter-spacing:-1px;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .ds-nav{flex:1;display:flex;flex-direction:column;gap:4px;padding:0 12px}
+        .ds-nav-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:12px;color:var(--text-secondary);font-size:14px;font-weight:500;cursor:pointer;transition:all var(--transition-normal);text-decoration:none}
+        .ds-nav-item:hover{background:var(--surface-hover);color:var(--text-primary)}
+        .ds-nav-item.active{background:var(--primary-light);color:var(--primary);font-weight:600}
+        .ds-nav-item i{width:20px;height:20px}
+
+        @media(max-width:360px){.podium-slot.p1 .podium-avatar{width:64px;height:64px}.podium-slot.p2 .podium-avatar,.podium-slot.p3 .podium-avatar{width:52px;height:52px}.podium-pedestal{width:60px!important}.podium-slot.p1 .podium-pedestal{height:56px}.achievements-grid{grid-template-columns:1fr}.streak-stats{grid-template-columns:1fr}.sh-count{font-size:40px}}
+        @media(min-width:768px){.main-content{padding:24px 32px}.achievements-grid{grid-template-columns:repeat(3,1fr)}.streak-stats{grid-template-columns:repeat(4,1fr)}}
+    </style>
+</head>
+<body>
+    <div class="loading-overlay" id="loadingOverlay"><div class="lo-icon"><i data-lucide="graduation-cap"></i></div><div class="lo-bar"><div class="lo-bar-inner"></div></div></div>
+    <div class="bg-particles" id="bgParticles"></div>
+    <div class="bg-gradient-orb orb-1"></div><div class="bg-gradient-orb orb-2"></div>
+    <div class="toast-container" id="toastContainer"></div>
+
+    <nav class="desktop-sidebar">
+        <div class="ds-brand"><div class="brand-icon"><i data-lucide="graduation-cap"></i></div><span class="brand-name">FAVOJE</span></div>
+        <div class="ds-nav">
+            <a class="ds-nav-item" href="home.html"><i data-lucide="home"></i>Home</a>
+            <a class="ds-nav-item" href="courses.html"><i data-lucide="book-open"></i>Courses</a>
+            <a class="ds-nav-item" href="cbt.html"><i data-lucide="file-text"></i>Practice</a>
+            <a class="ds-nav-item active" href="leaderboard.html"><i data-lucide="trophy"></i>Leaderboard</a>
+            <a class="ds-nav-item" href="profile.html"><i data-lucide="user"></i>Profile</a>
+        </div>
+    </nav>
+
+    <header class="top-header">
+        <div class="top-header-inner">
+            <div class="th-title-area"><div class="th-page-title">Leaderboard</div><div class="th-page-sub">Compete and track progress</div></div>
+            <div class="th-actions"><button class="th-btn" id="themeToggle"><i data-lucide="moon"></i></button></div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="section-tabs" id="sectionTabs">
+            <button class="sec-tab active" data-tab="leaderboard"><i data-lucide="trophy"></i>Leaderboard</button>
+            <button class="sec-tab" data-tab="streaks"><i data-lucide="flame"></i>Streaks</button>
+            <button class="sec-tab" data-tab="achievements"><i data-lucide="award"></i>Achievements</button>
+        </div>
+
+        <!-- LEADERBOARD TAB -->
+        <div class="tab-view active" id="leaderboardTab">
+            <div class="lb-filter-tabs" id="lbFilterTabs">
+                <button class="lb-ftab active" data-scope="university">University</button>
+                <button class="lb-ftab" data-scope="department">Department</button>
+                <button class="lb-ftab" data-scope="level">Level</button>
+            </div>
+            <div class="podium-section" id="podiumSection"></div>
+            <div class="your-rank-card" id="yourRankCard" style="display:none"></div>
+            <div class="rank-list" id="rankList"></div>
+        </div>
+
+        <!-- STREAKS TAB -->
+        <div class="tab-view" id="streaksTab">
+            <div class="streak-hero" id="streakHero"></div>
+            <div class="streak-week" id="streakWeek"></div>
+            <div class="streak-stats" id="streakStats"></div>
+            <div class="streak-milestones" id="streakMilestones"></div>
+        </div>
+
+        <!-- ACHIEVEMENTS TAB -->
+        <div class="tab-view" id="achievementsTab">
+            <div class="ach-stats" id="achStats"></div>
+            <div class="achievements-grid" id="achievementsGrid"></div>
+        </div>
+    </main>
+
+    <nav class="bottom-nav">
+        <div class="nav-inner">
+            <a class="nav-item" href="home.html"><i data-lucide="home"></i><span>Home</span></a>
+            <a class="nav-item" href="courses.html"><i data-lucide="book-open"></i><span>Courses</span></a>
+            <a class="nav-item" href="cbt.html"><i data-lucide="file-text"></i><span>Practice</span></a>
+            <a class="nav-item active" href="leaderboard.html"><i data-lucide="trophy"></i><span>Board</span></a>
+            <a class="nav-item" href="profile.html"><i data-lucide="user"></i><span>Profile</span></a>
+        </div>
+    </nav>
+
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+
+    <script>
+    const firebaseConfig={apiKey: "AIzaSyC1SmazNPbak8vMvi-jD40EGqpvWmWdd0U",
+  authDomain: "favoje-fcb02.firebaseapp.com",
+  projectId: "favoje-fcb02",
+  storageBucket: "favoje-fcb02.firebasestorage.app",
+  messagingSenderId: "837946471768",
+  appId: "1:837946471768:web:6ea76eee926fe77bdc212d"};
+    firebase.initializeApp(firebaseConfig);const auth=firebase.auth(),db=firebase.firestore();
+    const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+
+    const S={user:null,profile:null,streak:null,achievements:[],leaderboardData:[],currentScope:'university',theme:localStorage.getItem('favoje-theme')||'dark'};
+    const Toast={show(t,ti,m,d=3500){const ic={success:'check-circle',error:'x-circle',warning:'alert-triangle',info:'info'};const el=document.createElement('div');el.className=`toast ${t}`;el.innerHTML=`<div class="ti"><i data-lucide="${ic[t]}"></i></div><div class="tb"><div class="tt">${ti}</div><div class="tm">${m}</div></div><button class="tc"><i data-lucide="x"></i></button>`;$('#toastContainer').appendChild(el);lucide.createIcons({nodes:[el]});const cl=()=>{el.classList.add('removing');setTimeout(()=>el.remove(),300)};el.querySelector('.tc').onclick=cl;setTimeout(cl,d)}};
+    const Theme={init(){this.apply(S.theme);$('#themeToggle').onclick=()=>this.toggle()},apply(t){document.documentElement.setAttribute('data-theme',t);S.theme=t;localStorage.setItem('favoje-theme',t);this.icon()},toggle(){this.apply(S.theme==='dark'?'light':'dark')},icon(){const b=$('#themeToggle');b.innerHTML=`<i data-lucide="${S.theme==='dark'?'sun':'moon'}"></i>`;lucide.createIcons({nodes:[b]})}};
+    function initParticles(){const c=$('#bgParticles');for(let i=0;i<18;i++){const p=document.createElement('div');p.className='particle';p.style.left=Math.random()*100+'%';p.style.top=Math.random()*100+'%';p.style.setProperty('--tx',(Math.random()*200-100)+'px');p.style.setProperty('--ty',(Math.random()*200-100)+'px');p.style.animation=`particleFloat ${5+Math.random()*10}s ease-in-out infinite`;p.style.animationDelay=Math.random()*5+'s';const s=(2+Math.random()*3)+'px';p.style.width=s;p.style.height=s;c.appendChild(p)}}
+    function timeAgo(d){if(!d)return'';const dt=d.toDate?d.toDate():new Date(d);const s=Math.floor((Date.now()-dt.getTime())/1000);if(s<60)return'Just now';if(s<3600)return Math.floor(s/60)+'m ago';if(s<86400)return Math.floor(s/3600)+'h ago';return dt.toLocaleDateString('en-NG',{month:'short',day:'numeric'})}
+
+    // ACHIEVEMENTS DEFINITION
+    const ACH_DEFS=[
+        {id:'first_practice',emoji:'🎯',name:'First Practice',desc:'Complete your first practice session',check:p=>(p.questionsAttempted||0)>=1},
+        {id:'ten_questions',emoji:'📝',name:'10 Questions',desc:'Answer 10 practice questions',check:p=>(p.questionsAttempted||0)>=10,progress:p=>Math.min(100,((p.questionsAttempted||0)/10)*100)},
+        {id:'hundred_questions',emoji:'💯',name:'Century Club',desc:'Answer 100 practice questions',check:p=>(p.questionsAttempted||0)>=100,progress:p=>Math.min(100,((p.questionsAttempted||0)/100)*100)},
+        {id:'five_hundred',emoji:'🔥',name:'500 Strong',desc:'Answer 500 practice questions',check:p=>(p.questionsAttempted||0)>=500,progress:p=>Math.min(100,((p.questionsAttempted||0)/500)*100)},
+        {id:'thousand',emoji:'🏆',name:'Question Master',desc:'Answer 1,000 practice questions',check:p=>(p.questionsAttempted||0)>=1000,progress:p=>Math.min(100,((p.questionsAttempted||0)/1000)*100)},
+        {id:'perfect_score',emoji:'⭐',name:'Perfect Score',desc:'Score 100% on any test',check:p=>(p.bestScore||0)>=100},
+        {id:'streak_7',emoji:'🔥',name:'7 Day Streak',desc:'Practice for 7 consecutive days',check:(p,s)=>(s?.currentStreak||0)>=7,progress:(p,s)=>Math.min(100,((s?.currentStreak||0)/7)*100)},
+        {id:'streak_14',emoji:'💪',name:'14 Day Streak',desc:'Practice for 14 consecutive days',check:(p,s)=>(s?.currentStreak||0)>=14,progress:(p,s)=>Math.min(100,((s?.currentStreak||0)/14)*100)},
+        {id:'streak_30',emoji:'👑',name:'30 Day Streak',desc:'Practice for 30 consecutive days',check:(p,s)=>(s?.currentStreak||0)>=30,progress:(p,s)=>Math.min(100,((s?.currentStreak||0)/30)*100)},
+        {id:'first_test',emoji:'📋',name:'Test Taker',desc:'Complete your first CBT test',check:p=>(p.testsCompleted||0)>=1},
+        {id:'five_tests',emoji:'🎓',name:'Test Veteran',desc:'Complete 5 CBT tests',check:p=>(p.testsCompleted||0)>=5,progress:p=>Math.min(100,((p.testsCompleted||0)/5)*100)},
+        {id:'accuracy_80',emoji:'🎯',name:'Sharpshooter',desc:'Achieve 80% overall accuracy',check:p=>{const a=p.questionsAttempted||0;const c=p.questionsCorrect||0;return a>=20&&(c/a)*100>=80}},
+        {id:'course_master',emoji:'📚',name:'Course Master',desc:'Achieve 90% accuracy in any course',check:p=>(p.bestScore||0)>=90},
+        {id:'profile_complete',emoji:'✅',name:'Profile Complete',desc:'Complete your student profile setup',check:p=>p.onboardingCompleted===true},
+        {id:'night_owl',emoji:'🦉',name:'Night Owl',desc:'Practice after midnight',check:()=>false},
+        {id:'early_bird',emoji:'🐦',name:'Early Bird',desc:'Practice before 6 AM',check:()=>false}
+    ];
+
+    // ===== TABS =====
+    function initTabs(){
+        $$('.sec-tab').forEach(tab=>{tab.onclick=()=>{$$('.sec-tab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');$$('.tab-view').forEach(v=>v.classList.remove('active'));$(`#${tab.dataset.tab}Tab`).classList.add('active')}});
+        $$('.lb-ftab').forEach(tab=>{tab.onclick=()=>{$$('.lb-ftab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');S.currentScope=tab.dataset.scope;loadLeaderboard()}});
+    }
+
+    // ===== LEADERBOARD =====
+    async function loadLeaderboard(){
+        const podium=$('#podiumSection');const list=$('#rankList');const yourCard=$('#yourRankCard');
+        podium.innerHTML='<div class="skeleton" style="height:200px"></div>';list.innerHTML=Array(5).fill('<div class="skeleton" style="height:60px;margin-bottom:8px"></div>').join('');yourCard.style.display='none';
+        try{
+            let query=db.collection('users').where('role','==','student');
+            // Scope filtering
+            if(S.currentScope==='university'&&S.profile.universityId)query=query.where('universityId','==',S.profile.universityId);
+            else if(S.currentScope==='department'&&S.profile.departmentId)query=query.where('departmentId','==',S.profile.departmentId);
+            else if(S.currentScope==='level'&&S.profile.level){query=query.where('universityId','==',S.profile.universityId);/* level filter done client side */}
+            const snap=await query.limit(100).get();
+            let users=[];snap.forEach(d=>{const u=d.data();u.uid=d.id;users.push(u)});
+            // Level filter client side
+            if(S.currentScope==='level'&&S.profile.level)users=users.filter(u=>u.level===S.profile.level);
+            // Calculate score: weighted accuracy * sqrt(questions)
+            users.forEach(u=>{
+                const qa=u.questionsAttempted||0;const qc=u.questionsCorrect||0;
+                const accuracy=qa>0?(qc/qa)*100:0;
+                u._score=Math.round(accuracy*Math.sqrt(Math.max(1,qa))/10);
+                u._accuracy=Math.round(accuracy);
+            });
+            users.sort((a,b)=>b._score-a._score);
+            S.leaderboardData=users;
+            renderPodium(users.slice(0,3));
+            renderYourRank(users);
+            renderRankList(users.slice(3,50));
+        }catch(e){console.error(e);podium.innerHTML='';list.innerHTML=`<div class="empty-state"><div class="empty-icon"><i data-lucide="users"></i></div><h4>Could not load leaderboard</h4><p>${e.message}</p></div>`;lucide.createIcons({nodes:[list]})}
+    }
+
+    function renderPodium(top3){
+        const section=$('#podiumSection');
+        if(top3.length<1){section.innerHTML='<div class="empty-state"><div class="empty-icon"><i data-lucide="trophy"></i></div><h4>No Rankings Yet</h4><p>Start practicing to appear on the leaderboard</p></div>';lucide.createIcons({nodes:[section]});return}
+        const slots=['p2','p1','p3'];const crowns=['','👑',''];
+        let html='<div class="podium">';
+        for(let i=0;i<3;i++){
+            const idx=i===0?1:i===1?0:2;
+            const u=top3[idx];
+            if(!u){html+=`<div class="podium-slot ${slots[i]}"></div>`;continue}
+            const avatar=u.avatar||`https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=${u.username||'default'}&backgroundColor=b6e3f4`;
+            html+=`<div class="podium-slot ${slots[i]}">
+                <div class="podium-avatar-wrap">
+                    ${idx===0?'<div class="podium-crown">👑</div>':''}
+                    <img class="podium-avatar" src="${avatar}" alt="${u.username||'User'}" loading="lazy">
+                    <div class="podium-rank">${idx+1}</div>
+                </div>
+                <div class="podium-name">${u.username||u.fullName?.split(' ')[0]||'User'}</div>
+                <div class="podium-score">${u._score} pts</div>
+                <div class="podium-pedestal"></div>
+            </div>`;
+        }
+        html+='</div>';section.innerHTML=html;
+    }
+
+    function renderYourRank(users){
+        const card=$('#yourRankCard');
+        const myIdx=users.findIndex(u=>u.uid===S.user.uid);
+        if(myIdx===-1){card.style.display='none';return}
+        const me=users[myIdx];const rank=myIdx+1;
+        const avatar=me.avatar||`https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=${me.username||'default'}&backgroundColor=b6e3f4`;
+        card.style.display='flex';
+        card.innerHTML=`
+            <div class="yr-rank">#${rank}</div>
+            <img class="yr-avatar" src="${avatar}" alt="You">
+            <div class="yr-info">
+                <div class="yr-name">You</div>
+                <div class="yr-detail"><span><i data-lucide="target"></i>${me._accuracy}%</span><span><i data-lucide="help-circle"></i>${me.questionsAttempted||0}Q</span></div>
+            </div>
+            <div style="text-align:right">
+                <div class="yr-score">${me._score}</div>
+                <div class="yr-movement same"><i data-lucide="minus"></i>—</div>
+            </div>
+        `;
+        lucide.createIcons({nodes:[card]});
+    }
+
+    function renderRankList(users){
+        const list=$('#rankList');list.innerHTML='';
+        if(!users.length&&S.leaderboardData.length<=3){return}
+        users.forEach((u,i)=>{
+            const rank=i+4;const isYou=u.uid===S.user.uid;
+            const avatar=u.avatar||`https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=${u.username||'default'}&backgroundColor=b6e3f4`;
+            const el=document.createElement('div');
+            el.className=`rank-item${isYou?' you':''}`;
+            el.style.animationDelay=`${0.05+i*0.04}s`;
+            el.innerHTML=`
+                <div class="ri-rank">${rank}</div>
+                <img class="ri-avatar" src="${avatar}" alt="${u.username||'User'}" loading="lazy">
+                <div class="ri-info"><div class="ri-name">${isYou?'You':u.username||u.fullName?.split(' ')[0]||'User'}</div><div class="ri-sub">${u._accuracy}% accuracy</div></div>
+                <div class="ri-score"><div class="ri-score-val">${u._score}</div><div class="ri-score-label">pts</div></div>
+            `;
+            list.appendChild(el);
+        });
+        lucide.createIcons({nodes:[list]});
+    }
+
+    // ===== STREAKS =====
+    async function loadStreaks(){
+        try{
+            const doc=await db.collection('streaks').doc(S.user.uid).get();
+            S.streak=doc.exists?doc.data():{currentStreak:0,longestStreak:0,weekData:{},lastPracticeDate:null};
+            renderStreakHero();renderStreakWeek();renderStreakStats();renderMilestones();
+        }catch(e){console.error(e);Toast.show('error','Error','Could not load streak data')}
+    }
+
+    function renderStreakHero(){
+        const s=S.streak;const count=s.currentStreak||0;
+        let badge='beginner',badgeText='Beginner',badgeIcon='circle';
+        if(count>=30){badge='master';badgeText='Master';badgeIcon='crown'}
+        else if(count>=14){badge='dedicated';badgeText='Dedicated';badgeIcon='zap'}
+        else if(count>=7){badge='active';badgeText='Active';badgeIcon='flame'}
+        $('#streakHero').innerHTML=`
+            <span class="sh-flame">🔥</span>
+            <div class="sh-count">${count}</div>
+            <div class="sh-label">Day Streak</div>
+            <div class="sh-badge ${badge}"><i data-lucide="${badgeIcon}"></i>${badgeText}</div>
+        `;
+        lucide.createIcons({nodes:[$('#streakHero')]});
+    }
+
+    function renderStreakWeek(){
+        const container=$('#streakWeek');
+        const dayNames=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+        const today=new Date();const dow=today.getDay();const mondayOff=dow===0?-6:1-dow;
+        let daysHtml='';
+        for(let i=0;i<7;i++){
+            const d=new Date(today);d.setDate(today.getDate()+mondayOff+i);
+            const ds=d.toISOString().split('T')[0];
+            const isDone=S.streak.weekData&&S.streak.weekData[ds];
+            const isToday=d.toDateString()===today.toDateString();
+            daysHtml+=`<div class="sw-day">
+                <div class="swd-circle ${isDone?'done':''} ${isToday&&!isDone?'today':''}"><i data-lucide="${isDone?'check':'minus'}"></i></div>
+                <span class="swd-label ${isToday?'today-l':''}">${dayNames[i]}</span>
+            </div>`;
+        }
+        container.innerHTML=`<div class="sw-title"><i data-lucide="calendar"></i>This Week</div><div class="sw-days">${daysHtml}</div>`;
+        lucide.createIcons({nodes:[container]});
+    }
+
+    function renderStreakStats(){
+        const s=S.streak;const p=S.profile;
+        const totalDays=s.weekData?Object.keys(s.weekData).length:0;
+        $('#streakStats').innerHTML=`
+            <div class="ss-card"><div class="ss-icon" style="background:var(--accent-light);color:var(--accent)"><i data-lucide="flame"></i></div><div class="ss-val" style="color:var(--accent)">${s.currentStreak||0}</div><div class="ss-lab">Current</div></div>
+            <div class="ss-card"><div class="ss-icon" style="background:var(--warning-light);color:var(--warning)"><i data-lucide="trophy"></i></div><div class="ss-val" style="color:var(--warning)">${s.longestStreak||0}</div><div class="ss-lab">Longest</div></div>
+            <div class="ss-card"><div class="ss-icon" style="background:var(--primary-light);color:var(--primary)"><i data-lucide="calendar-check"></i></div><div class="ss-val" style="color:var(--primary)">${totalDays}</div><div class="ss-lab">Total Days</div></div>
+            <div class="ss-card"><div class="ss-icon" style="background:var(--success-light);color:var(--success)"><i data-lucide="target"></i></div><div class="ss-val" style="color:var(--success)">${p.questionsAttempted||0}</div><div class="ss-lab">Questions</div></div>
+        `;
+        lucide.createIcons({nodes:[$('#streakStats')]});
+    }
+
+    function renderMilestones(){
+        const container=$('#streakMilestones');
+        const milestones=[
+            {target:3,label:'3 Day Streak',emoji:'🌱',current:S.streak.currentStreak||0},
+            {target:7,label:'7 Day Streak',emoji:'🔥',current:S.streak.currentStreak||0},
+            {target:14,label:'14 Day Streak',emoji:'💪',current:S.streak.currentStreak||0},
+            {target:30,label:'30 Day Streak',emoji:'👑',current:S.streak.currentStreak||0},
+            {target:60,label:'60 Day Streak',emoji:'🏆',current:S.streak.currentStreak||0},
+            {target:100,label:'100 Day Streak',emoji:'💎',current:S.streak.currentStreak||0}
+        ];
+        container.innerHTML=`<div class="sm-title"><i data-lucide="target"></i>Streak Milestones</div><div class="milestones-list">${milestones.map((m,i)=>{
+            const achieved=m.current>=m.target;const pct=Math.min(100,Math.round((m.current/m.target)*100));
+            return`<div class="milestone-card ${achieved?'achieved':''}" style="animation-delay:${0.1+i*0.06}s">
+                <div class="ms-icon ${achieved?'achieved':''}">${m.emoji}</div>
+                <div class="ms-info">
+                    <div class="ms-name">${m.label}</div>
+                    <div class="ms-desc">${achieved?'Achieved!':m.current+'/'+m.target+' days'}</div>
+                    ${!achieved?`<div class="ms-progress"><div class="ms-prog-fill" style="width:${pct}%;background:var(--primary);animation-delay:${0.2+i*0.1}s"></div></div>`:''}
+                </div>
+                <div class="ms-status ${achieved?'achieved':'locked'}"><i data-lucide="${achieved?'check-circle':'lock'}"></i>${achieved?'Done':'${pct}%'}</div>
+            </div>`;
+        }).join('')}</div>`;
+        lucide.createIcons({nodes:[container]});
+    }
+
+    // ===== ACHIEVEMENTS =====
+    async function loadAchievements(){
+        try{
+            const snap=await db.collection('user_achievements').where('userId','==',S.user.uid).get();
+            const earned={};snap.forEach(d=>{const a=d.data();earned[a.achievementId]={...a,docId:d.id}});
+            // Check for new achievements
+            for(const def of ACH_DEFS){
+                if(!earned[def.id]&&def.check(S.profile,S.streak)){
+                    // Award achievement
+                    try{
+                        await db.collection('user_achievements').add({userId:S.user.uid,achievementId:def.id,title:def.name,description:def.desc,icon:def.emoji,earnedAt:firebase.firestore.FieldValue.serverTimestamp()});
+                        earned[def.id]={achievementId:def.id,title:def.name,earnedAt:new Date()};
+                        Toast.show('success','Achievement Unlocked! 🎉',def.name);
+                        await db.collection('notifications').add({userId:S.user.uid,type:'achievement',title:'Achievement Unlocked!',message:`${def.emoji} ${def.name} — ${def.desc}`,read:false,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+                    }catch(e){console.error(e)}
+                }
+            }
+            S.achievements=earned;
+            renderAchievements(earned);
+        }catch(e){console.error(e)}
+    }
+
+    function renderAchievements(earned){
+        const earnedCount=Object.keys(earned).length;
+        const totalCount=ACH_DEFS.length;
+        const pct=totalCount>0?Math.round((earnedCount/totalCount)*100):0;
+        $('#achStats').innerHTML=`
+            <div class="as-chip"><div class="asv" style="color:var(--success)">${earnedCount}</div><div class="asl">EARNED</div></div>
+            <div class="as-chip"><div class="asv" style="color:var(--text-muted)">${totalCount-earnedCount}</div><div class="asl">LOCKED</div></div>
+            <div class="as-chip"><div class="asv" style="color:var(--primary)">${pct}%</div><div class="asl">COMPLETE</div></div>
+        `;
+        const grid=$('#achievementsGrid');grid.innerHTML='';
+        // Earned first, then locked
+        const sorted=[...ACH_DEFS].sort((a,b)=>{const ae=!!earned[a.id];const be=!!earned[b.id];if(ae&&!be)return-1;if(!ae&&be)return 1;return 0});
+        sorted.forEach((def,i)=>{
+            const isEarned=!!earned[def.id];
+            const prog=(!isEarned&&def.progress)?def.progress(S.profile,S.streak):null;
+            const card=document.createElement('div');
+            card.className=`ach-card ${isEarned?'earned':'locked'}`;
+            card.style.animationDelay=`${0.05+i*0.04}s`;
+            card.innerHTML=`
+                <span class="ac-emoji">${def.emoji}</span>
+                <div class="ac-name">${def.name}</div>
+                <div class="ac-desc">${def.desc}</div>
+                <div class="ac-badge ${isEarned?'earned':'locked'}"><i data-lucide="${isEarned?'check':'lock'}"></i>${isEarned?'Earned':'Locked'}</div>
+                ${isEarned&&earned[def.id].earnedAt?`<div class="ac-date">${timeAgo(earned[def.id].earnedAt)}</div>`:''}
+                ${prog!==null&&!isEarned?`<div class="ms-progress" style="margin-top:8px"><div class="ms-prog-fill" style="width:${prog}%;background:var(--primary)"></div></div>`:''}
+            `;
+            grid.appendChild(card);
+        });
+        lucide.createIcons({nodes:[grid]});
+    }
+
+    // ===== INIT =====
+    function init(){
+        lucide.createIcons();Theme.init();initParticles();initTabs();
+        auth.onAuthStateChanged(async user=>{
+            if(!user){window.location.href='index.html';return}
+            S.user=user;
+            try{
+                const doc=await db.collection('users').doc(user.uid).get();
+                if(!doc.exists){window.location.href='index.html';return}
+                S.profile=doc.data();
+                if(!S.profile.onboardingCompleted){window.location.href='onboarding.html';return}
+                await Promise.all([loadLeaderboard(),loadStreaks()]);
+                await loadAchievements();
+            }catch(e){console.error(e);Toast.show('error','Error','Could not load data')}
+            setTimeout(()=>{const o=$('#loadingOverlay');o.classList.add('hidden');setTimeout(()=>o.remove(),600)},500);
+        });
+    }
+    document.addEventListener('DOMContentLoaded',init);
+    </script>
+</body>
+</html>

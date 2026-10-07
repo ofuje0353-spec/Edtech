@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>FAVOJE — Profile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        :root{--primary:#6366F1;--primary-hover:#5558E6;--primary-light:rgba(99,102,241,0.12);--primary-glow:rgba(99,102,241,0.3);--secondary:#4F46E5;--bg:#080B14;--bg-secondary:#0D1117;--surface:#111827;--surface-hover:#1a2234;--surface-border:rgba(255,255,255,0.06);--surface-border-hover:rgba(255,255,255,0.12);--accent:#F97316;--accent-light:rgba(249,115,22,0.12);--success:#10B981;--success-light:rgba(16,185,129,0.12);--danger:#EF4444;--danger-light:rgba(239,68,68,0.12);--warning:#F59E0B;--warning-light:rgba(245,158,11,0.12);--text-primary:#F8FAFC;--text-secondary:#94A3B8;--text-tertiary:#64748B;--text-muted:#475569;--card-radius:16px;--btn-radius:12px;--input-radius:12px;--transition-fast:0.15s ease;--transition-normal:0.3s ease;--transition-smooth:0.4s cubic-bezier(0.4,0,0.2,1);--shadow-sm:0 1px 3px rgba(0,0,0,0.3);--shadow-md:0 4px 12px rgba(0,0,0,0.4);--shadow-lg:0 8px 32px rgba(0,0,0,0.5);--font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;--safe-bottom:env(safe-area-inset-bottom,0px);--nav-height:72px}
+        [data-theme="light"]{--bg:#F1F5F9;--bg-secondary:#E2E8F0;--surface:#FFFFFF;--surface-hover:#F8FAFC;--surface-border:rgba(0,0,0,0.08);--surface-border-hover:rgba(0,0,0,0.15);--text-primary:#0F172A;--text-secondary:#475569;--text-tertiary:#64748B;--text-muted:#94A3B8;--shadow-sm:0 1px 3px rgba(0,0,0,0.08);--shadow-md:0 4px 12px rgba(0,0,0,0.1);--shadow-lg:0 8px 32px rgba(0,0,0,0.12);--primary-light:rgba(99,102,241,0.08);--accent-light:rgba(249,115,22,0.08);--success-light:rgba(16,185,129,0.08);--danger-light:rgba(239,68,68,0.08);--warning-light:rgba(245,158,11,0.08)}
+        *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+        body{font-family:var(--font);background:var(--bg);color:var(--text-primary);min-height:100vh;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased;padding-bottom:calc(var(--nav-height) + var(--safe-bottom) + 16px)}
+        ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--text-muted);border-radius:3px}
+        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+        @keyframes fadeInUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes fadeInDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes fadeInLeft{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes fadeInRight{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes scaleIn{from{opacity:0;transform:scale(0.88)}to{opacity:1;transform:scale(1)}}
+        @keyframes bounceIn{0%{opacity:0;transform:scale(0.3)}50%{opacity:1;transform:scale(1.06)}70%{transform:scale(0.94)}100%{opacity:1;transform:scale(1)}}
+        @keyframes slideUp{from{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}
+        @keyframes slideInRight{from{opacity:0;transform:translateX(100%)}to{opacity:1;transform:translateX(0)}}
+        @keyframes slideInLeft{from{opacity:0;transform:translateX(-100%)}to{opacity:1;transform:translateX(0)}}
+        @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+        @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        @keyframes glowPulse{0%,100%{box-shadow:0 0 8px var(--primary-glow)}50%{box-shadow:0 0 24px var(--primary-glow)}}
+        @keyframes popIn{0%{opacity:0;transform:scale(0) rotate(-8deg)}60%{transform:scale(1.1) rotate(2deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
+        @keyframes barGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+        @keyframes particleFloat{0%,100%{transform:translate(0,0) rotate(0);opacity:0}10%{opacity:.5}90%{opacity:.5}100%{transform:translate(var(--tx),var(--ty)) rotate(360deg);opacity:0}}
+        @keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+        @keyframes shineEffect{0%{left:-100%}100%{left:200%}}
+        @keyframes countUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes ripple{to{transform:scale(4);opacity:0}}
+
+        .bg-particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+        .particle{position:absolute;width:3px;height:3px;background:var(--primary);border-radius:50%;opacity:0}
+        .bg-gradient-orb{position:fixed;border-radius:50%;filter:blur(120px);pointer-events:none;z-index:0}
+        .orb-1{width:350px;height:350px;background:rgba(99,102,241,0.06);top:-80px;right:-80px;animation:float 9s ease-in-out infinite}
+        .orb-2{width:280px;height:280px;background:rgba(249,115,22,0.04);bottom:-60px;left:-60px;animation:float 11s ease-in-out infinite reverse}
+        [data-theme="light"] .orb-1{background:rgba(99,102,241,0.04)}[data-theme="light"] .orb-2{background:rgba(249,115,22,0.02)}
+
+        .loading-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:20000;transition:opacity .6s,visibility .6s}
+        .loading-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none}
+        .lo-icon{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;animation:bounceIn .8s ease,float 2s ease-in-out infinite .8s;box-shadow:0 4px 20px rgba(99,102,241,0.4)}
+        .lo-icon i{width:30px;height:30px;color:#fff}
+        .lo-bar{width:100px;height:3px;background:var(--surface);border-radius:3px;overflow:hidden;margin-top:20px}
+        .lo-bar-inner{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent),var(--primary));width:40%;animation:shimmer 1.4s ease-in-out infinite;background-size:200% 100%;border-radius:3px}
+
+        .toast-container{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:10000;display:flex;flex-direction:column;gap:8px;width:92%;max-width:420px}
+        .toast{display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);box-shadow:var(--shadow-lg);animation:fadeInDown .4s ease;position:relative;overflow:hidden}
+        .toast::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px}
+        .toast.success::before{background:var(--success)}.toast.error::before{background:var(--danger)}.toast.info::before{background:var(--primary)}.toast.warning::before{background:var(--warning)}
+        .toast .ti{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .toast.success .ti{background:var(--success-light);color:var(--success)}.toast.error .ti{background:var(--danger-light);color:var(--danger)}.toast.info .ti{background:var(--primary-light);color:var(--primary)}.toast.warning .ti{background:var(--warning-light);color:var(--warning)}
+        .toast .ti i{width:18px;height:18px}.toast .tb{flex:1}.toast .tt{font-size:14px;font-weight:600}.toast .tm{font-size:13px;color:var(--text-secondary)}
+        .toast .tc{background:none;border:none;color:var(--text-muted);cursor:pointer;padding:4px;display:flex}.toast .tc i{width:16px;height:16px}
+        .toast.removing{animation:fadeIn .3s ease reverse forwards}
+
+        .top-header{position:sticky;top:0;z-index:100;background:rgba(8,11,20,0.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--surface-border);padding:14px 20px;animation:fadeInDown .5s ease}
+        [data-theme="light"] .top-header{background:rgba(241,245,249,0.88)}
+        .top-header-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+        .th-back{width:38px;height:38px;border-radius:10px;background:var(--surface);border:1px solid var(--surface-border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-secondary);transition:all var(--transition-normal);flex-shrink:0}
+        .th-back:hover{background:var(--primary-light);color:var(--primary);border-color:var(--primary)}
+        .th-back i{width:20px;height:20px}
+        .th-title-area{flex:1;min-width:0}
+        .th-page-title{font-size:18px;font-weight:700;letter-spacing:-0.3px}
+        .th-page-sub{font-size:12px;color:var(--text-tertiary);font-weight:500}
+        .th-actions{display:flex;gap:8px}
+        .th-btn{width:38px;height:38px;border-radius:10px;background:var(--surface);border:1px solid var(--surface-border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-secondary);transition:all var(--transition-normal)}
+        .th-btn:hover{background:var(--surface-hover);color:var(--primary);border-color:var(--primary);transform:translateY(-1px)}
+        .th-btn i{width:20px;height:20px}
+
+        .main-content{max-width:900px;margin:0 auto;padding:20px 16px;position:relative;z-index:1}
+        .view{display:none;opacity:0}.view.active{display:block;animation:fadeIn .4s ease forwards}
+        .view.slide-r{animation:slideInRight .4s ease forwards}.view.slide-l{animation:slideInLeft .4s ease forwards}
+
+        /* PROFILE HERO */
+        .profile-hero{text-align:center;padding:28px 20px;background:var(--surface);border:1px solid var(--surface-border);border-radius:20px;margin-bottom:20px;animation:fadeInUp .5s ease .1s both;position:relative;overflow:hidden}
+        .profile-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:80px;background:linear-gradient(135deg,var(--primary),var(--secondary),#3730A3);background-size:200% 200%;animation:gradientShift 6s ease infinite;opacity:.8}
+        .ph-avatar-wrap{position:relative;display:inline-block;margin-bottom:14px;z-index:1;margin-top:24px}
+        .ph-avatar{width:88px;height:88px;border-radius:50%;object-fit:cover;border:4px solid var(--bg);box-shadow:0 4px 20px rgba(0,0,0,.4);animation:bounceIn .6s ease .2s both}
+        .ph-edit-avatar{position:absolute;bottom:0;right:0;width:30px;height:30px;border-radius:50%;background:var(--primary);color:#fff;border:3px solid var(--bg);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all var(--transition-normal)}
+        .ph-edit-avatar:hover{transform:scale(1.1)}
+        .ph-edit-avatar i{width:14px;height:14px}
+        .ph-name{font-size:22px;font-weight:800;margin-bottom:2px;letter-spacing:-.5px;position:relative;z-index:1;animation:fadeInUp .4s ease .3s both}
+        .ph-username{font-size:14px;color:var(--primary);font-weight:600;margin-bottom:4px;position:relative;z-index:1}
+        .ph-detail{font-size:13px;color:var(--text-tertiary);margin-bottom:16px;position:relative;z-index:1}
+        .ph-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;position:relative;z-index:1}
+        .ph-stat{padding:12px 8px;background:var(--bg);border-radius:12px;text-align:center}
+        .ph-stat .psv{font-size:20px;font-weight:800;margin-bottom:2px}
+        .ph-stat .psl{font-size:11px;color:var(--text-tertiary);font-weight:600}
+        .ph-stat:nth-child(1) .psv{color:var(--primary)}.ph-stat:nth-child(2) .psv{color:var(--success)}.ph-stat:nth-child(3) .psv{color:var(--accent)}
+
+        /* MENU ITEMS */
+        .menu-section{margin-bottom:24px}
+        .menu-label{font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;padding:0 4px;margin-bottom:10px}
+        .menu-group{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);overflow:hidden}
+        .menu-item{display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;transition:all var(--transition-normal);border-bottom:1px solid var(--surface-border);position:relative;overflow:hidden}
+        .menu-item:last-child{border-bottom:none}
+        .menu-item::before{content:'';position:absolute;top:50%;left:50%;width:0;height:0;background:rgba(99,102,241,.04);border-radius:50%;transform:translate(-50%,-50%);transition:width .4s,height .4s}
+        .menu-item:hover::before{width:300%;height:300%}
+        .menu-item:hover{background:var(--surface-hover)}
+        .menu-item:active{transform:scale(.99)}
+        .mi-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .mi-icon i{width:20px;height:20px}
+        .mi-info{flex:1;min-width:0}
+        .mi-title{font-size:14px;font-weight:600}
+        .mi-desc{font-size:12px;color:var(--text-tertiary)}
+        .mi-arrow{color:var(--text-muted);transition:transform var(--transition-normal)}.mi-arrow i{width:18px;height:18px}
+        .menu-item:hover .mi-arrow{transform:translateX(4px);color:var(--primary)}
+        .mi-badge{padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700}
+        .mi-toggle{position:relative;width:48px;height:26px;background:var(--text-muted);border-radius:13px;cursor:pointer;transition:background var(--transition-normal);flex-shrink:0}
+        .mi-toggle.on{background:var(--primary)}
+        .mi-toggle::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;background:#fff;border-radius:50%;transition:transform var(--transition-normal);box-shadow:0 1px 3px rgba(0,0,0,.2)}
+        .mi-toggle.on::after{transform:translateX(22px)}
+        .menu-item.danger .mi-title{color:var(--danger)}
+        .menu-item.danger .mi-icon{background:var(--danger-light);color:var(--danger)}
+
+        /* WALLET VIEW */
+        .wallet-hero{background:linear-gradient(135deg,var(--primary),var(--secondary),#3730A3);border-radius:20px;padding:28px 24px;color:#fff;margin-bottom:20px;position:relative;overflow:hidden;animation:fadeInUp .5s ease .1s both}
+        .wallet-hero::before{content:'';position:absolute;top:0;right:0;width:200px;height:200px;background:radial-gradient(circle,rgba(255,255,255,.08),transparent 70%)}
+        .wh-label{font-size:13px;opacity:.85;margin-bottom:8px;display:flex;align-items:center;gap:6px}.wh-label i{width:16px;height:16px}
+        .wh-amount{font-size:40px;font-weight:900;letter-spacing:-1.5px;position:relative;z-index:1;animation:countUp .6s ease .3s both}
+        .wh-amount .cur{font-size:24px;opacity:.8;margin-right:2px}
+        .wh-actions{display:flex;gap:10px;margin-top:16px;position:relative;z-index:1}
+        .wh-btn{flex:1;padding:12px;border:none;border-radius:var(--btn-radius);font-size:14px;font-weight:600;font-family:var(--font);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all var(--transition-normal)}
+        .wh-btn i{width:18px;height:18px}
+        .wh-btn.add{background:rgba(255,255,255,.18);color:#fff;backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.2)}
+        .wh-btn.add:hover{background:rgba(255,255,255,.28);transform:translateY(-2px)}
+        .wh-btn.history{background:rgba(255,255,255,.1);color:rgba(255,255,255,.8);border:1px solid rgba(255,255,255,.1)}
+        .wh-btn.history:hover{background:rgba(255,255,255,.18)}
+
+        /* DEPOSIT VIEW */
+        .amount-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+        .amount-chip{padding:16px;background:var(--surface);border:2px solid var(--surface-border);border-radius:var(--card-radius);text-align:center;cursor:pointer;transition:all var(--transition-smooth);font-family:var(--font);font-size:16px;font-weight:700}
+        .amount-chip:hover{border-color:var(--primary);transform:translateY(-3px);box-shadow:var(--shadow-md)}
+        .amount-chip.selected{border-color:var(--primary);background:var(--primary-light);color:var(--primary)}
+        .custom-amount{margin-bottom:20px}
+        .custom-amount label{font-size:13px;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:8px}
+        .ca-wrap{position:relative}
+        .ca-wrap .ca-prefix{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:16px;font-weight:700;color:var(--text-muted)}
+        .ca-input{width:100%;padding:16px 16px 16px 36px;background:var(--surface);border:1.5px solid var(--surface-border);border-radius:var(--input-radius);color:var(--text-primary);font-size:18px;font-weight:700;font-family:var(--font);outline:none;transition:all var(--transition-normal)}
+        .ca-input:focus{border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-light)}
+        .deposit-info{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);padding:20px;margin-bottom:20px}
+        .di-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--surface-border)}
+        .di-row:last-child{border-bottom:none}
+        .di-row .dl{font-size:13px;color:var(--text-tertiary)}.di-row .dv{font-size:14px;font-weight:700}
+        .di-row .dv.ref{color:var(--primary);font-family:monospace}
+        .di-row .dv.status{display:flex;align-items:center;gap:4px}
+        .status-dot{width:8px;height:8px;border-radius:50%}
+        .status-dot.pending{background:var(--warning)}.status-dot.success{background:var(--success)}.status-dot.rejected{background:var(--danger)}
+
+        .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 24px;border:none;border-radius:var(--btn-radius);font-size:15px;font-weight:600;font-family:var(--font);cursor:pointer;transition:all var(--transition-normal);width:100%;position:relative;overflow:hidden}
+        .btn::after{content:'';position:absolute;top:50%;left:50%;width:0;height:0;background:rgba(255,255,255,.15);border-radius:50%;transform:translate(-50%,-50%);transition:width .5s,height .5s}
+        .btn:active::after{width:300%;height:300%}
+        .btn i{width:18px;height:18px}
+        .btn-primary{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;box-shadow:0 4px 16px rgba(99,102,241,.3)}
+        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(99,102,241,.4)}
+        .btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none}
+        .btn-secondary{background:var(--surface);color:var(--text-primary);border:1px solid var(--surface-border)}
+        .btn-secondary:hover{border-color:var(--primary);color:var(--primary)}
+        .btn-success{background:linear-gradient(135deg,var(--success),#059669);color:#fff}
+        .btn-danger{background:var(--danger);color:#fff}
+        .btn-spinner{display:none;width:20px;height:20px;border:2.5px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite}
+        .btn.loading .btn-text{display:none}.btn.loading .btn-spinner{display:inline-block}.btn.loading{pointer-events:none}
+
+        /* TRANSACTIONS */
+        .tx-list{display:flex;flex-direction:column;gap:8px}
+        .tx-item{display:flex;align-items:center;gap:14px;padding:16px;background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);animation:fadeInRight .4s ease both;transition:all var(--transition-normal);cursor:pointer}
+        .tx-item:hover{transform:translateX(4px);border-color:var(--surface-border-hover)}
+        .tx-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .tx-icon i{width:20px;height:20px}
+        .tx-icon.credit{background:var(--success-light);color:var(--success)}
+        .tx-icon.debit{background:var(--danger-light);color:var(--danger)}
+        .tx-icon.pending{background:var(--warning-light);color:var(--warning)}
+        .tx-info{flex:1;min-width:0}
+        .tx-title{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .tx-desc{font-size:12px;color:var(--text-tertiary)}
+        .tx-right{text-align:right;flex-shrink:0}
+        .tx-amount{font-size:15px;font-weight:700}.tx-amount.credit{color:var(--success)}.tx-amount.debit{color:var(--danger)}
+        .tx-status{font-size:11px;font-weight:600;display:flex;align-items:center;gap:3px;justify-content:flex-end}
+        .tx-status.pending{color:var(--warning)}.tx-status.completed{color:var(--success)}.tx-status.rejected{color:var(--danger)}
+
+        /* BOOKMARKS */
+        .bookmark-card{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);padding:18px;margin-bottom:10px;animation:fadeInUp .4s ease both;transition:all var(--transition-normal)}
+        .bookmark-card:hover{border-color:var(--surface-border-hover);box-shadow:var(--shadow-sm)}
+        .bk-course{font-size:12px;font-weight:700;color:var(--primary);margin-bottom:6px}
+        .bk-question{font-size:14px;font-weight:500;line-height:1.6;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+        .bk-actions{display:flex;gap:8px}
+        .bk-btn{padding:8px 14px;border:1px solid var(--surface-border);border-radius:8px;font-size:12px;font-weight:600;background:var(--bg);color:var(--text-secondary);cursor:pointer;font-family:var(--font);transition:all var(--transition-normal);display:flex;align-items:center;gap:4px}
+        .bk-btn:hover{border-color:var(--primary);color:var(--primary)}
+        .bk-btn.remove{color:var(--danger)}.bk-btn.remove:hover{border-color:var(--danger);background:var(--danger-light)}
+        .bk-btn i{width:14px;height:14px}
+
+        /* EDIT PROFILE */
+        .form-group{margin-bottom:18px}
+        .form-label{display:block;font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:8px}
+        .form-input{width:100%;padding:14px 16px;background:var(--surface);border:1.5px solid var(--surface-border);border-radius:var(--input-radius);color:var(--text-primary);font-size:15px;font-family:var(--font);outline:none;transition:all var(--transition-normal)}
+        .form-input:focus{border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-light)}
+        .form-input:disabled{opacity:.6;cursor:not-allowed}
+        .form-input::placeholder{color:var(--text-muted)}
+
+        .section-title{font-size:16px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+        .section-title i{width:18px;height:18px;color:var(--primary)}
+
+        .empty-state{text-align:center;padding:50px 20px;animation:fadeIn .5s ease}
+        .empty-icon{width:64px;height:64px;border-radius:50%;background:var(--surface);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;color:var(--text-muted)}
+        .empty-icon i{width:28px;height:28px}
+        .empty-state h4{font-size:16px;font-weight:700;margin-bottom:4px}
+        .empty-state p{font-size:13px;color:var(--text-secondary)}
+
+        .skeleton{background:linear-gradient(90deg,var(--surface) 25%,var(--surface-hover) 50%,var(--surface) 75%);background-size:200% 100%;animation:shimmer 1.5s ease infinite;border-radius:12px}
+
+        /* MODAL */
+        .modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:5000;display:none;align-items:flex-end;justify-content:center;animation:fadeIn .3s ease}
+        .modal-overlay.open{display:flex}
+        @media(min-width:768px){.modal-overlay{align-items:center;padding:20px}}
+        .modal{background:var(--surface);border:1px solid var(--surface-border);border-radius:20px 20px 0 0;padding:28px 24px calc(28px + var(--safe-bottom));max-width:480px;width:100%;animation:slideUp .4s cubic-bezier(0.4,0,0.2,1);max-height:90vh;overflow-y:auto}
+        @media(min-width:768px){.modal{border-radius:20px;padding-bottom:28px}}
+        .modal-handle{width:40px;height:4px;background:var(--text-muted);border-radius:4px;margin:0 auto 20px;opacity:.4}
+        .modal h3{font-size:18px;font-weight:700;margin-bottom:8px}
+        .modal p{font-size:14px;color:var(--text-secondary);margin-bottom:20px}
+        .modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:8px;background:var(--bg);border:none;color:var(--text-muted);cursor:pointer;display:flex;align-items:center;justify-content:center}
+        .modal-close:hover{color:var(--danger);background:var(--danger-light)}
+        .modal-close i{width:18px;height:18px}
+
+        /* NAV */
+        .bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:1000;background:rgba(8,11,20,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--surface-border);padding:8px 0 calc(8px + var(--safe-bottom));animation:slideUp .5s ease .3s both}
+        [data-theme="light"] .bottom-nav{background:rgba(241,245,249,0.92)}
+        .nav-inner{display:flex;max-width:600px;margin:0 auto;padding:0 8px}
+        .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;cursor:pointer;color:var(--text-muted);transition:all var(--transition-normal);text-decoration:none;position:relative;border-radius:12px}
+        .nav-item.active{color:var(--primary)}
+        .nav-item.active::before{content:'';position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:24px;height:3px;background:var(--primary);border-radius:0 0 3px 3px}
+        .nav-item i{width:22px;height:22px}.nav-item span{font-size:11px;font-weight:600}
+
+        @media(min-width:1024px){.bottom-nav{display:none}body{padding-bottom:0;padding-left:240px}.desktop-sidebar{display:flex!important}}
+        .desktop-sidebar{display:none;position:fixed;top:0;left:0;width:240px;height:100%;background:var(--surface);border-right:1px solid var(--surface-border);z-index:1001;flex-direction:column;padding:20px 0;animation:fadeInLeft .5s ease}
+        .ds-brand{display:flex;align-items:center;gap:10px;padding:0 20px;margin-bottom:32px}
+        .ds-brand .brand-icon{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center}.ds-brand .brand-icon i{width:20px;height:20px;color:#fff}
+        .ds-brand .brand-name{font-size:20px;font-weight:800;letter-spacing:-1px;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .ds-nav{flex:1;display:flex;flex-direction:column;gap:4px;padding:0 12px}
+        .ds-nav-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:12px;color:var(--text-secondary);font-size:14px;font-weight:500;cursor:pointer;transition:all var(--transition-normal);text-decoration:none}
+        .ds-nav-item:hover{background:var(--surface-hover);color:var(--text-primary)}
+        .ds-nav-item.active{background:var(--primary-light);color:var(--primary);font-weight:600}
+        .ds-nav-item i{width:20px;height:20px}
+
+        @media(max-width:360px){.ph-stats{grid-template-columns:1fr}.amount-grid{grid-template-columns:repeat(2,1fr)}.wh-amount{font-size:34px}}
+        @media(min-width:768px){.main-content{padding:24px 32px}}
+    </style>
+</head>
+<body>
+    <div class="loading-overlay" id="loadingOverlay"><div class="lo-icon"><i data-lucide="graduation-cap"></i></div><div class="lo-bar"><div class="lo-bar-inner"></div></div></div>
+    <div class="bg-particles" id="bgParticles"></div>
+    <div class="bg-gradient-orb orb-1"></div><div class="bg-gradient-orb orb-2"></div>
+    <div class="toast-container" id="toastContainer"></div>
+
+    <nav class="desktop-sidebar"><div class="ds-brand"><div class="brand-icon"><i data-lucide="graduation-cap"></i></div><span class="brand-name">FAVOJE</span></div>
+        <div class="ds-nav"><a class="ds-nav-item" href="home.html"><i data-lucide="home"></i>Home</a><a class="ds-nav-item" href="courses.html"><i data-lucide="book-open"></i>Courses</a><a class="ds-nav-item" href="cbt.html"><i data-lucide="file-text"></i>Practice</a><a class="ds-nav-item" href="leaderboard.html"><i data-lucide="trophy"></i>Leaderboard</a><a class="ds-nav-item active" href="profile.html"><i data-lucide="user"></i>Profile</a></div>
+    </nav>
+
+    <header class="top-header"><div class="top-header-inner">
+        <button class="th-back" id="headerBack" style="display:none"><i data-lucide="arrow-left"></i></button>
+        <div class="th-title-area"><div class="th-page-title" id="pageTitle">Profile</div><div class="th-page-sub" id="pageSub"></div></div>
+        <div class="th-actions"><button class="th-btn" id="themeToggle"><i data-lucide="moon"></i></button></div>
+    </div></header>
+
+    <main class="main-content" id="mainContent">
+        <!-- PROFILE MAIN -->
+        <div class="view active" id="profileView">
+            <div class="profile-hero" id="profileHero"></div>
+            <div class="menu-section" id="menuAccount"><div class="menu-label">Account</div><div class="menu-group" id="accountMenu"></div></div>
+            <div class="menu-section" id="menuApp"><div class="menu-label">App</div><div class="menu-group" id="appMenu"></div></div>
+            <div class="menu-section" id="menuSupport"><div class="menu-label">Support</div><div class="menu-group" id="supportMenu"></div></div>
+            <div class="menu-section"><div class="menu-group"><div class="menu-item danger" id="logoutBtn"><div class="mi-icon"><i data-lucide="log-out"></i></div><div class="mi-info"><div class="mi-title">Sign Out</div></div></div></div></div>
+            <div style="text-align:center;padding:20px 0;font-size:12px;color:var(--text-muted)">FAVOJE v1.0 • Practice Smarter. Perform Better.</div>
+        </div>
+        <!-- WALLET -->
+        <div class="view" id="walletView">
+            <div class="wallet-hero" id="walletHero"></div>
+            <div class="section-title"><i data-lucide="clock"></i>Recent Transactions</div>
+            <div class="tx-list" id="txList"></div>
+        </div>
+        <!-- DEPOSIT -->
+        <div class="view" id="depositView">
+            <div class="section-title"><i data-lucide="plus-circle"></i>Add Balance</div>
+            <div class="amount-grid" id="amountGrid"></div>
+            <div class="custom-amount"><label>Or enter custom amount</label><div class="ca-wrap"><span class="ca-prefix">₦</span><input class="ca-input" id="customAmount" type="number" placeholder="0" min="100"></div></div>
+            <button class="btn btn-primary" id="continueDepositBtn"><span class="btn-text">Continue</span><div class="btn-spinner"></div></button>
+        </div>
+        <!-- DEPOSIT CONFIRM -->
+        <div class="view" id="depositConfirmView">
+            <div class="deposit-info" id="depositInfo"></div>
+            <button class="btn btn-success" id="completeDepositBtn"><i data-lucide="check-circle"></i><span class="btn-text">I've Completed Payment</span><div class="btn-spinner"></div></button>
+            <div style="margin-top:12px"><button class="btn btn-secondary" id="cancelDepositBtn"><span class="btn-text">Cancel</span></button></div>
+        </div>
+        <!-- EDIT PROFILE -->
+        <div class="view" id="editProfileView">
+            <form id="editForm">
+                <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" id="editName" placeholder="Full name"></div>
+                <div class="form-group"><label class="form-label">Username</label><input class="form-input" id="editUsername" placeholder="username" disabled></div>
+                <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="editEmail" type="email" disabled></div>
+                <div class="form-group"><label class="form-label">Phone</label><input class="form-input" id="editPhone" placeholder="08012345678"></div>
+                <div class="form-group"><label class="form-label">Level</label><select class="form-input" id="editLevel"><option value="100">100 Level</option><option value="200">200 Level</option><option value="300">300 Level</option><option value="400">400 Level</option><option value="500">500 Level</option><option value="600">600 Level</option></select></div>
+                <button type="submit" class="btn btn-primary" id="saveProfileBtn"><span class="btn-text">Save Changes</span><div class="btn-spinner"></div></button>
+            </form>
+        </div>
+        <!-- BOOKMARKS -->
+        <div class="view" id="bookmarksView">
+            <div id="bookmarksList"></div>
+        </div>
+        <!-- CHANGE PASSWORD -->
+        <div class="view" id="changePasswordView">
+            <div class="form-group"><label class="form-label">New Password</label><input class="form-input" id="newPassword" type="password" placeholder="Enter new password"></div>
+            <div class="form-group"><label class="form-label">Confirm New Password</label><input class="form-input" id="confirmNewPassword" type="password" placeholder="Confirm new password"></div>
+            <button class="btn btn-primary" id="changePasswordBtn"><span class="btn-text">Update Password</span><div class="btn-spinner"></div></button>
+        </div>
+    </main>
+
+    <!-- Logout Modal -->
+    <div class="modal-overlay" id="logoutModal"><div class="modal"><div class="modal-handle"></div><h3>Sign Out?</h3><p>Are you sure you want to sign out of your account?</p><div style="display:flex;gap:10px"><button class="btn btn-secondary" id="logoutCancel" style="flex:1"><span class="btn-text">Cancel</span></button><button class="btn btn-danger" id="logoutConfirm" style="flex:1"><span class="btn-text">Sign Out</span></button></div></div></div>
+
+    <nav class="bottom-nav"><div class="nav-inner"><a class="nav-item" href="home.html"><i data-lucide="home"></i><span>Home</span></a><a class="nav-item" href="courses.html"><i data-lucide="book-open"></i><span>Courses</span></a><a class="nav-item" href="cbt.html"><i data-lucide="file-text"></i><span>Practice</span></a><a class="nav-item" href="leaderboard.html"><i data-lucide="trophy"></i><span>Board</span></a><a class="nav-item active" href="profile.html"><i data-lucide="user"></i><span>Profile</span></a></div></nav>
+
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+    <script>
+    const firebaseConfig={apiKey: "AIzaSyC1SmazNPbak8vMvi-jD40EGqpvWmWdd0U",
+  authDomain: "favoje-fcb02.firebaseapp.com",
+  projectId: "favoje-fcb02",
+  storageBucket: "favoje-fcb02.firebasestorage.app",
+  messagingSenderId: "837946471768",
+  appId: "1:837946471768:web:6ea76eee926fe77bdc212d"};
+    firebase.initializeApp(firebaseConfig);const auth=firebase.auth(),db=firebase.firestore();
+    const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+    const S={user:null,profile:null,wallet:null,viewStack:['profile'],selectedAmount:0,depositRef:'',theme:localStorage.getItem('favoje-theme')||'dark'};
+    const fmt=n=>new Intl.NumberFormat('en-NG').format(n||0);
+    function timeAgo(d){if(!d)return'';const dt=d.toDate?d.toDate():new Date(d);const s=Math.floor((Date.now()-dt.getTime())/1000);if(s<60)return'Just now';if(s<3600)return Math.floor(s/60)+'m ago';if(s<86400)return Math.floor(s/3600)+'h ago';return dt.toLocaleDateString('en-NG',{month:'short',day:'numeric',year:'numeric'})}
+
+    const Toast={show(t,ti,m,d=3500){const ic={success:'check-circle',error:'x-circle',warning:'alert-triangle',info:'info'};const el=document.createElement('div');el.className=`toast ${t}`;el.innerHTML=`<div class="ti"><i data-lucide="${ic[t]}"></i></div><div class="tb"><div class="tt">${ti}</div><div class="tm">${m}</div></div><button class="tc"><i data-lucide="x"></i></button>`;$('#toastContainer').appendChild(el);lucide.createIcons({nodes:[el]});const cl=()=>{el.classList.add('removing');setTimeout(()=>el.remove(),300)};el.querySelector('.tc').onclick=cl;setTimeout(cl,d)}};
+    const Theme={init(){this.apply(S.theme);$('#themeToggle').onclick=()=>this.toggle()},apply(t){document.documentElement.setAttribute('data-theme',t);S.theme=t;localStorage.setItem('favoje-theme',t);this.icon()},toggle(){this.apply(S.theme==='dark'?'light':'dark')},icon(){const b=$('#themeToggle');b.innerHTML=`<i data-lucide="${S.theme==='dark'?'sun':'moon'}"></i>`;lucide.createIcons({nodes:[b]})}};
+    function initParticles(){const c=$('#bgParticles');for(let i=0;i<15;i++){const p=document.createElement('div');p.className='particle';p.style.left=Math.random()*100+'%';p.style.top=Math.random()*100+'%';p.style.setProperty('--tx',(Math.random()*200-100)+'px');p.style.setProperty('--ty',(Math.random()*200-100)+'px');p.style.animation=`particleFloat ${5+Math.random()*10}s ease-in-out infinite`;p.style.animationDelay=Math.random()*5+'s';const sz=(2+Math.random()*3)+'px';p.style.width=sz;p.style.height=sz;c.appendChild(p)}}
+
+    function showView(id,dir='right'){$$('.view').forEach(v=>v.classList.remove('active','slide-r','slide-l'));const v=$(`#${id}`);v.classList.add('active',dir==='right'?'slide-r':'slide-l');window.scrollTo({top:0,behavior:'smooth'})}
+    function navTo(id){S.viewStack.push(id);showView(id+'View','right');updateHeader()}
+    function goBack(){if(S.viewStack.length<=1)return;S.viewStack.pop();showView(S.viewStack[S.viewStack.length-1]+'View','left');updateHeader()}
+    function updateHeader(){const cur=S.viewStack[S.viewStack.length-1];$('#headerBack').style.display=S.viewStack.length>1?'flex':'none';
+        const titles={profile:['Profile',''],wallet:['Wallet','Favoje Balance'],deposit:['Add Balance',''],depositConfirm:['Deposit','Confirm payment'],editProfile:['Edit Profile',''],bookmarks:['Bookmarks','Saved questions'],changePassword:['Change Password','']};
+        const t=titles[cur]||['Profile',''];$('#pageTitle').textContent=t[0];$('#pageSub').textContent=t[1]}
+
+    // ===== RENDER PROFILE =====
+    function renderProfile(){
+        const p=S.profile;const w=S.wallet;
+        const avatar=p.avatar||`https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=${p.username||'default'}&backgroundColor=b6e3f4`;
+        const qa=p.questionsAttempted||0;const qc=p.questionsCorrect||0;const acc=qa>0?Math.round((qc/qa)*100):0;
+        $('#profileHero').innerHTML=`
+            <div class="ph-avatar-wrap"><img class="ph-avatar" src="${avatar}" alt="Avatar"><div class="ph-edit-avatar" id="editAvatarBtn"><i data-lucide="camera"></i></div></div>
+            <div class="ph-name">${p.fullName||'Student'}</div>
+            <div class="ph-username">@${p.username||'user'}</div>
+            <div class="ph-detail">${p.level||'?'} Level • ${p.semester==='first'?'1st':'2nd'} Semester</div>
+            <div class="ph-stats">
+                <div class="ph-stat"><div class="psv">${fmt(qa)}</div><div class="psl">QUESTIONS</div></div>
+                <div class="ph-stat"><div class="psv">${acc}%</div><div class="psl">ACCURACY</div></div>
+                <div class="ph-stat"><div class="psv">${p.currentStreak||0}🔥</div><div class="psl">STREAK</div></div>
+            </div>
+        `;
+        lucide.createIcons({nodes:[$('#profileHero')]});
+
+        // Account menu
+        $('#accountMenu').innerHTML=`
+            ${menuItem('wallet','Favoje Balance','₦'+fmt(w?.balance||0),'wallet','primary',{badge:'₦'+fmt(w?.balance||0),badgeBg:'var(--primary-light)',badgeColor:'var(--primary)'})}
+            ${menuItem('editProfile','Edit Profile','Update your information','user-pen','primary')}
+            ${menuItem('bookmarks','Bookmarks','Saved questions','bookmark','warning')}
+            ${menuItem('changePassword','Change Password','Update your password','lock','accent')}
+        `;
+        // App menu
+        $('#appMenu').innerHTML=`
+            <div class="menu-item" id="darkModeToggle"><div class="mi-icon" style="background:var(--primary-light);color:var(--primary)"><i data-lucide="moon"></i></div><div class="mi-info"><div class="mi-title">Dark Mode</div><div class="mi-desc">Toggle dark/light theme</div></div><div class="mi-toggle ${S.theme==='dark'?'on':''}" id="dmToggle"></div></div>
+            <div class="menu-item" id="notifToggle"><div class="mi-icon" style="background:var(--success-light);color:var(--success)"><i data-lucide="bell"></i></div><div class="mi-info"><div class="mi-title">Notifications</div><div class="mi-desc">Push notifications</div></div><div class="mi-toggle on"></div></div>
+        `;
+        // Support menu
+        $('#supportMenu').innerHTML=`
+            ${menuItem(null,'Help Center','Get help','help-circle','primary',{link:true})}
+            ${menuItem(null,'Terms of Service','Read our terms','file-text','text-tertiary',{link:true})}
+            ${menuItem(null,'Privacy Policy','Your data privacy','shield','text-tertiary',{link:true})}
+        `;
+        lucide.createIcons({nodes:[$('#accountMenu'),$('#appMenu'),$('#supportMenu')]});
+        bindMenuEvents();
+    }
+
+    function menuItem(viewId,title,desc,icon,colorName,opts={}){
+        const bg=`var(--${colorName==='primary'?'primary':colorName==='warning'?'warning':colorName==='accent'?'accent':'surface'}-light)`;
+        const color=`var(--${colorName==='primary'?'primary':colorName==='warning'?'warning':colorName==='accent'?'accent':'text-tertiary'})`;
+        const badge=opts.badge?`<span class="mi-badge" style="background:${opts.badgeBg||'var(--primary-light)'};color:${opts.badgeColor||'var(--primary)'}">${opts.badge}</span>`:'';
+        return`<div class="menu-item" ${viewId?`data-view="${viewId}"`:''}><div class="mi-icon" style="background:${bg};color:${color}"><i data-lucide="${icon}"></i></div><div class="mi-info"><div class="mi-title">${title}</div><div class="mi-desc">${desc}</div></div>${badge}<span class="mi-arrow"><i data-lucide="chevron-right"></i></span></div>`;
+    }
+
+    function bindMenuEvents(){
+        $$('.menu-item[data-view]').forEach(item=>{item.onclick=()=>navTo(item.dataset.view)});
+        $('#darkModeToggle').onclick=()=>{Theme.toggle();$('#dmToggle').classList.toggle('on',S.theme==='dark');renderProfile()};
+        $('#logoutBtn').onclick=()=>$('#logoutModal').classList.add('open');
+        $('#logoutCancel').onclick=()=>$('#logoutModal').classList.remove('open');
+        $('#logoutConfirm').onclick=async()=>{await auth.signOut();window.location.href='index.html'};
+    }
+
+    // ===== WALLET =====
+    async function renderWallet(){
+        const w=S.wallet;
+        $('#walletHero').innerHTML=`
+            <div class="wh-label"><i data-lucide="wallet"></i>Favoje Balance</div>
+            <div class="wh-amount"><span class="cur">₦</span>${fmt(w?.balance||0)}</div>
+            <div class="wh-actions">
+                <button class="wh-btn add" id="addBalBtn"><i data-lucide="plus"></i>Add Balance</button>
+                <button class="wh-btn history" id="historyBtn"><i data-lucide="clock"></i>History</button>
+            </div>
+        `;
+        lucide.createIcons({nodes:[$('#walletHero')]});
+        $('#addBalBtn').onclick=()=>navTo('deposit');
+        $('#historyBtn').onclick=()=>{}; // Already showing below
+        await loadTransactions();
+    }
+
+    async function loadTransactions(){
+        const list=$('#txList');list.innerHTML=Array(3).fill('<div class="skeleton" style="height:70px;margin-bottom:8px"></div>').join('');
+        try{
+            const snap=await db.collection('wallet_transactions').where('userId','==',S.user.uid).orderBy('createdAt','desc').limit(30).get();
+            list.innerHTML='';
+            if(snap.empty){list.innerHTML='<div class="empty-state"><div class="empty-icon"><i data-lucide="receipt"></i></div><h4>No Transactions</h4><p>Your transaction history will appear here</p></div>';lucide.createIcons({nodes:[list]});return}
+            snap.forEach((doc,i)=>{
+                const d=doc.data();const isCredit=d.type==='credit';
+                const el=document.createElement('div');el.className='tx-item';el.style.animationDelay=`${0.05+i*0.04}s`;
+                el.innerHTML=`
+                    <div class="tx-icon ${isCredit?'credit':'debit'}"><i data-lucide="${isCredit?'arrow-down-left':'arrow-up-right'}"></i></div>
+                    <div class="tx-info"><div class="tx-title">${d.description||'Transaction'}</div><div class="tx-desc">${d.reference||''} • ${timeAgo(d.createdAt)}</div></div>
+                    <div class="tx-right"><div class="tx-amount ${isCredit?'credit':'debit'}">${isCredit?'+':'-'}₦${fmt(d.amount)}</div><div class="tx-status ${d.status||'completed'}"><span class="status-dot ${d.status||'completed'}"></span>${(d.status||'completed').charAt(0).toUpperCase()+(d.status||'completed').slice(1)}</div></div>
+                `;
+                list.appendChild(el);
+            });
+            lucide.createIcons({nodes:[list]});
+        }catch(e){console.error(e);list.innerHTML='<div class="empty-state"><div class="empty-icon"><i data-lucide="alert-circle"></i></div><h4>Error</h4><p>'+e.message+'</p></div>';lucide.createIcons({nodes:[list]})}
+    }
+
+    // ===== DEPOSIT =====
+    function renderDeposit(){
+        const amounts=[100,200,500,1000,2000,5000];
+        $('#amountGrid').innerHTML=amounts.map(a=>`<div class="amount-chip" data-amount="${a}">₦${fmt(a)}</div>`).join('');
+        S.selectedAmount=0;$('#customAmount').value='';
+        $$('.amount-chip').forEach(chip=>{chip.onclick=()=>{$$('.amount-chip').forEach(c=>c.classList.remove('selected'));chip.classList.add('selected');S.selectedAmount=parseInt(chip.dataset.amount);$('#customAmount').value=''}});
+        $('#customAmount').oninput=e=>{S.selectedAmount=parseInt(e.target.value)||0;$$('.amount-chip').forEach(c=>c.classList.remove('selected'))};
+        $('#continueDepositBtn').onclick=()=>{
+            if(S.selectedAmount<100){Toast.show('warning','Invalid Amount','Minimum deposit is ₦100');return}
+            S.depositRef='FAV-DEP-'+Date.now().toString(36).toUpperCase()+Math.random().toString(36).substr(2,4).toUpperCase();
+            navTo('depositConfirm');renderDepositConfirm()};
+    }
+
+    function renderDepositConfirm(){
+        $('#depositInfo').innerHTML=`
+            <div class="di-row"><span class="dl">Amount</span><span class="dv" style="color:var(--primary);font-size:18px">₦${fmt(S.selectedAmount)}</span></div>
+            <div class="di-row"><span class="dl">Reference</span><span class="dv ref">${S.depositRef}</span></div>
+            <div class="di-row"><span class="dl">Status</span><span class="dv status"><span class="status-dot pending"></span>Pending</span></div>
+        `;
+        $('#completeDepositBtn').onclick=async()=>{
+            const btn=$('#completeDepositBtn');btn.classList.add('loading');
+            try{
+                await db.collection('payment_transactions').add({
+                    userId:S.user.uid,amount:S.selectedAmount,reference:S.depositRef,
+                    status:'pending',method:'bank_transfer',
+                    studentName:S.profile.fullName||'',studentEmail:S.profile.email||'',
+                    createdAt:firebase.firestore.FieldValue.serverTimestamp()
+                });
+                await db.collection('notifications').add({userId:S.user.uid,type:'deposit',title:'Deposit Submitted',message:`Your ₦${fmt(S.selectedAmount)} deposit (${S.depositRef}) is pending verification.`,read:false,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+                Toast.show('success','Deposit Submitted','Your deposit is being reviewed');
+                btn.classList.remove('loading');goBack();goBack();renderWallet();
+            }catch(e){btn.classList.remove('loading');Toast.show('error','Error',e.message)}
+        };
+        $('#cancelDepositBtn').onclick=()=>goBack();
+    }
+
+    // ===== EDIT PROFILE =====
+    function renderEditProfile(){
+        const p=S.profile;
+        $('#editName').value=p.fullName||'';$('#editUsername').value=p.username||'';
+        $('#editEmail').value=p.email||S.user.email||'';$('#editPhone').value=p.phone||'';
+        $('#editLevel').value=p.level||'200';
+        $('#editForm').onsubmit=async(e)=>{
+            e.preventDefault();const btn=$('#saveProfileBtn');btn.classList.add('loading');
+            try{
+                const updates={fullName:$('#editName').value.trim(),phone:$('#editPhone').value.trim(),level:$('#editLevel').value,updatedAt:firebase.firestore.FieldValue.serverTimestamp()};
+                if(!updates.fullName){btn.classList.remove('loading');Toast.show('warning','Required','Full name is required');return}
+                await db.collection('users').doc(S.user.uid).update(updates);
+                S.profile={...S.profile,...updates};btn.classList.remove('loading');
+                Toast.show('success','Saved','Profile updated successfully');goBack();renderProfile();
+            }catch(e){btn.classList.remove('loading');Toast.show('error','Error',e.message)}
+        };
+    }
+
+    // ===== BOOKMARKS =====
+    async function loadBookmarks(){
+        const list=$('#bookmarksList');list.innerHTML=Array(3).fill('<div class="skeleton" style="height:100px;margin-bottom:10px"></div>').join('');
+        try{
+            const snap=await db.collection('bookmarks').where('userId','==',S.user.uid).orderBy('createdAt','desc').limit(50).get();
+            list.innerHTML='';
+            if(snap.empty){list.innerHTML='<div class="empty-state"><div class="empty-icon"><i data-lucide="bookmark"></i></div><h4>No Bookmarks</h4><p>Questions you bookmark during practice will appear here</p></div>';lucide.createIcons({nodes:[list]});return}
+            for(const doc of snap.docs){
+                const bk=doc.data();
+                let qData={question:'Loading...',courseCode:''};
+                try{const qDoc=await db.collection('questions').doc(bk.questionId).get();if(qDoc.exists)qData=qDoc.data()}catch(e){}
+                const card=document.createElement('div');card.className='bookmark-card';card.style.animationDelay=`${snap.docs.indexOf(doc)*0.05}s`;
+                card.innerHTML=`
+                    <div class="bk-course">${qData.courseCode||qData.course||'Question'}</div>
+                    <div class="bk-question">${qData.question||'Question not available'}</div>
+                    <div class="bk-actions">
+                        <button class="bk-btn" data-qid="${bk.questionId}"><i data-lucide="eye"></i>View</button>
+                        <button class="bk-btn remove" data-docid="${doc.id}"><i data-lucide="trash-2"></i>Remove</button>
+                    </div>
+                `;
+                card.querySelector('.remove').onclick=async(e)=>{
+                    e.stopPropagation();
+                    try{await db.collection('bookmarks').doc(doc.id).delete();card.remove();Toast.show('info','Removed','Bookmark removed')}catch(err){Toast.show('error','Error',err.message)}
+                };
+                list.appendChild(card);
+            }
+            lucide.createIcons({nodes:[list]});
+        }catch(e){console.error(e);list.innerHTML='<div class="empty-state"><div class="empty-icon"><i data-lucide="alert-circle"></i></div><h4>Error</h4><p>'+e.message+'</p></div>';lucide.createIcons({nodes:[list]})}
+    }
+
+    // ===== CHANGE PASSWORD =====
+    function initChangePassword(){
+        $('#changePasswordBtn').onclick=async()=>{
+            const pw=$('#newPassword').value;const cpw=$('#confirmNewPassword').value;
+            if(pw.length<6){Toast.show('warning','Too Short','Password must be at least 6 characters');return}
+            if(pw!==cpw){Toast.show('warning','Mismatch','Passwords do not match');return}
+            const btn=$('#changePasswordBtn');btn.classList.add('loading');
+            try{
+                await S.user.updatePassword(pw);btn.classList.remove('loading');
+                Toast.show('success','Updated','Password changed successfully');$('#newPassword').value='';$('#confirmNewPassword').value='';goBack();
+            }catch(e){
+                btn.classList.remove('loading');
+                if(e.code==='auth/requires-recent-login'){Toast.show('warning','Re-login Required','Please sign out and sign back in, then try again')}
+                else{Toast.show('error','Error',e.message)}
+            }
+        };
+    }
+
+    // ===== VIEW CHANGE HOOKS =====
+    function onViewChange(viewId){
+        switch(viewId){
+            case'wallet':renderWallet();break;
+            case'deposit':renderDeposit();break;
+            case'editProfile':renderEditProfile();break;
+            case'bookmarks':loadBookmarks();break;
+        }
+    }
+    const origNavTo=navTo;
+    navTo=function(id){origNavTo(id);onViewChange(id)};
+
+    // ===== URL PARAMS =====
+    function handleURLParams(){
+        const p=new URLSearchParams(window.location.search);
+        if(p.get('tab')==='wallet')navTo('wallet');
+    }
+
+    // ===== INIT =====
+    function init(){
+        lucide.createIcons();Theme.init();initParticles();initChangePassword();
+        $('#headerBack').onclick=goBack;
+        auth.onAuthStateChanged(async user=>{
+            if(!user){window.location.href='index.html';return}
+            S.user=user;
+            try{
+                const uDoc=await db.collection('users').doc(user.uid).get();
+                if(!uDoc.exists){window.location.href='index.html';return}
+                S.profile=uDoc.data();
+                if(!S.profile.onboardingCompleted){window.location.href='onboarding.html';return}
+                const wDoc=await db.collection('wallet_accounts').doc(user.uid).get();
+                S.wallet=wDoc.exists?wDoc.data():{balance:0,totalDeposited:0,totalSpent:0};
+                // Get streak for profile display
+                const sDoc=await db.collection('streaks').doc(user.uid).get();
+                if(sDoc.exists)S.profile.currentStreak=sDoc.data().currentStreak||0;
+                renderProfile();handleURLParams();
+            }catch(e){console.error(e);Toast.show('error','Error','Could not load profile')}
+            setTimeout(()=>{const o=$('#loadingOverlay');o.classList.add('hidden');setTimeout(()=>o.remove(),600)},500);
+        });
+    }
+    document.addEventListener('DOMContentLoaded',init);
+    </script>
+</body>
+</html>

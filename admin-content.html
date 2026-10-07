@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>FAVOJE Admin — Content Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        :root{--primary:#6366F1;--primary-hover:#5558E6;--primary-light:rgba(99,102,241,0.12);--primary-glow:rgba(99,102,241,0.3);--secondary:#4F46E5;--bg:#080B14;--bg-secondary:#0D1117;--surface:#111827;--surface-hover:#1a2234;--surface-border:rgba(255,255,255,0.06);--surface-border-hover:rgba(255,255,255,0.12);--accent:#F97316;--accent-light:rgba(249,115,22,0.12);--success:#10B981;--success-light:rgba(16,185,129,0.12);--danger:#EF4444;--danger-light:rgba(239,68,68,0.12);--warning:#F59E0B;--warning-light:rgba(245,158,11,0.12);--text-primary:#F8FAFC;--text-secondary:#94A3B8;--text-tertiary:#64748B;--text-muted:#475569;--card-radius:16px;--btn-radius:12px;--input-radius:12px;--transition-fast:0.15s ease;--transition-normal:0.3s ease;--transition-smooth:0.4s cubic-bezier(0.4,0,0.2,1);--shadow-sm:0 1px 3px rgba(0,0,0,0.3);--shadow-md:0 4px 12px rgba(0,0,0,0.4);--shadow-lg:0 8px 32px rgba(0,0,0,0.5);--font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;--sidebar-width:260px}
+        [data-theme="light"]{--bg:#F1F5F9;--bg-secondary:#E2E8F0;--surface:#FFFFFF;--surface-hover:#F8FAFC;--surface-border:rgba(0,0,0,0.08);--surface-border-hover:rgba(0,0,0,0.15);--text-primary:#0F172A;--text-secondary:#475569;--text-tertiary:#64748B;--text-muted:#94A3B8;--shadow-sm:0 1px 3px rgba(0,0,0,0.08);--shadow-md:0 4px 12px rgba(0,0,0,0.1);--shadow-lg:0 8px 32px rgba(0,0,0,0.12);--primary-light:rgba(99,102,241,0.08);--accent-light:rgba(249,115,22,0.08);--success-light:rgba(16,185,129,0.08);--danger-light:rgba(239,68,68,0.08);--warning-light:rgba(245,158,11,0.08)}
+        *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+        body{font-family:var(--font);background:var(--bg);color:var(--text-primary);min-height:100vh;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+        ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--text-muted);border-radius:3px}
+
+        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+        @keyframes fadeInUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes fadeInDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes fadeInLeft{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes fadeInRight{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes scaleIn{from{opacity:0;transform:scale(0.88)}to{opacity:1;transform:scale(1)}}
+        @keyframes bounceIn{0%{opacity:0;transform:scale(0.3)}50%{opacity:1;transform:scale(1.06)}70%{transform:scale(0.94)}100%{opacity:1;transform:scale(1)}}
+        @keyframes slideUp{from{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}
+        @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        @keyframes popIn{0%{opacity:0;transform:scale(0) rotate(-8deg)}60%{transform:scale(1.1) rotate(2deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
+        @keyframes barGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+        @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+        @keyframes glowPulse{0%,100%{box-shadow:0 0 8px var(--primary-glow)}50%{box-shadow:0 0 24px var(--primary-glow)}}
+        @keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+        @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+        @keyframes particleFloat{0%,100%{transform:translate(0,0) rotate(0);opacity:0}10%{opacity:.4}90%{opacity:.4}100%{transform:translate(var(--tx),var(--ty)) rotate(360deg);opacity:0}}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+        .bg-particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+        .particle{position:absolute;width:3px;height:3px;background:var(--primary);border-radius:50%;opacity:0}
+
+        .loading-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:20000;transition:opacity .6s,visibility .6s}
+        .loading-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none}
+        .lo-icon{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;animation:bounceIn .8s ease,float 2s ease-in-out infinite .8s;box-shadow:0 4px 20px rgba(99,102,241,0.4)}
+        .lo-icon i{width:30px;height:30px;color:#fff}
+        .lo-bar{width:100px;height:3px;background:var(--surface);border-radius:3px;overflow:hidden;margin-top:20px}
+        .lo-bar-inner{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent),var(--primary));width:40%;animation:shimmer 1.4s ease-in-out infinite;background-size:200% 100%;border-radius:3px}
+
+        .toast-container{position:fixed;top:20px;right:20px;z-index:10000;display:flex;flex-direction:column;gap:8px;width:360px;max-width:calc(100% - 40px)}
+        .toast{display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);box-shadow:var(--shadow-lg);animation:fadeInRight .4s ease;position:relative;overflow:hidden}
+        .toast::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px}
+        .toast.success::before{background:var(--success)}.toast.error::before{background:var(--danger)}.toast.info::before{background:var(--primary)}.toast.warning::before{background:var(--warning)}
+        .toast .ti{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .toast.success .ti{background:var(--success-light);color:var(--success)}.toast.error .ti{background:var(--danger-light);color:var(--danger)}.toast.info .ti{background:var(--primary-light);color:var(--primary)}.toast.warning .ti{background:var(--warning-light);color:var(--warning)}
+        .toast .ti i{width:18px;height:18px}.toast .tb{flex:1}.toast .tt{font-size:14px;font-weight:600}.toast .tm{font-size:13px;color:var(--text-secondary)}
+        .toast .tc{background:none;border:none;color:var(--text-muted);cursor:pointer;padding:4px;display:flex}.toast .tc i{width:16px;height:16px}
+        .toast.removing{animation:fadeIn .3s ease reverse forwards}
+
+        /* SIDEBAR */
+        .admin-sidebar{position:fixed;top:0;left:0;width:var(--sidebar-width);height:100%;background:var(--surface);border-right:1px solid var(--surface-border);z-index:1001;display:flex;flex-direction:column;transition:transform .3s ease;overflow-y:auto}
+        .admin-sidebar.collapsed{transform:translateX(-100%)}
+        .sidebar-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:1000;display:none}.sidebar-overlay.open{display:block}
+        .sb-header{padding:20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--surface-border)}
+        .sb-logo{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(99,102,241,.3);flex-shrink:0}
+        .sb-logo i{width:22px;height:22px;color:#fff}
+        .sb-brand-name{font-size:18px;font-weight:800;letter-spacing:-1px;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .sb-brand-sub{font-size:11px;color:var(--text-muted);font-weight:600}
+        .sb-nav{flex:1;padding:16px 12px;display:flex;flex-direction:column;gap:3px}
+        .sb-nav-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-muted);padding:12px 16px 6px;margin-top:8px}
+        .sb-nav-item{display:flex;align-items:center;gap:12px;padding:11px 16px;border-radius:12px;color:var(--text-secondary);font-size:13px;font-weight:500;cursor:pointer;transition:all var(--transition-normal);text-decoration:none}
+        .sb-nav-item:hover{background:var(--surface-hover);color:var(--text-primary)}
+        .sb-nav-item.active{background:var(--primary-light);color:var(--primary);font-weight:600}
+        .sb-nav-item i{width:20px;height:20px;flex-shrink:0}
+
+        /* TOPBAR */
+        .admin-topbar{position:sticky;top:0;z-index:100;background:rgba(8,11,20,0.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--surface-border);padding:12px 24px;margin-left:var(--sidebar-width);transition:margin-left .3s ease}
+        [data-theme="light"] .admin-topbar{background:rgba(241,245,249,0.88)}
+        .topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:16px}
+        .tb-left{display:flex;align-items:center;gap:12px}
+        .tb-menu{width:38px;height:38px;border-radius:10px;background:var(--surface);border:1px solid var(--surface-border);display:none;align-items:center;justify-content:center;cursor:pointer;color:var(--text-secondary);transition:all var(--transition-normal)}
+        .tb-menu:hover{color:var(--primary);border-color:var(--primary)}.tb-menu i{width:20px;height:20px}
+        .tb-title{font-size:20px;font-weight:700;letter-spacing:-.3px}
+        .tb-sub{font-size:12px;color:var(--text-tertiary)}
+        .tb-right{display:flex;align-items:center;gap:10px}
+        .tb-btn{width:38px;height:38px;border-radius:10px;background:var(--surface);border:1px solid var(--surface-border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-secondary);transition:all var(--transition-normal)}
+        .tb-btn:hover{background:var(--surface-hover);color:var(--primary);border-color:var(--primary);transform:translateY(-1px)}.tb-btn i{width:20px;height:20px}
+
+        /* MAIN */
+        .admin-main{margin-left:var(--sidebar-width);padding:24px;min-height:calc(100vh - 64px);transition:margin-left .3s ease;position:relative;z-index:1}
+        .view{display:none;opacity:0}.view.active{display:block;animation:fadeIn .4s ease forwards}
+
+        /* TABS */
+        .content-tabs{display:flex;background:var(--surface);border-radius:14px;padding:4px;margin-bottom:24px;border:1px solid var(--surface-border);animation:fadeInUp .5s ease .1s both;overflow-x:auto;scrollbar-width:none}
+        .content-tabs::-webkit-scrollbar{display:none}
+        .ct-tab{flex:1;padding:12px 16px;text-align:center;font-size:13px;font-weight:600;color:var(--text-secondary);background:transparent;border:none;border-radius:11px;cursor:pointer;transition:all var(--transition-normal);font-family:var(--font);white-space:nowrap;display:flex;align-items:center;justify-content:center;gap:6px;min-width:0}
+        .ct-tab:hover{color:var(--text-primary);background:var(--surface-hover)}
+        .ct-tab.active{background:var(--primary);color:#fff;box-shadow:0 2px 10px rgba(99,102,241,0.3)}
+        .ct-tab i{width:16px;height:16px}
+        .ct-tab .ct-count{padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700;background:rgba(255,255,255,.15)}
+        .ct-tab:not(.active) .ct-count{background:var(--surface-hover);color:var(--text-muted)}
+
+        /* TOOLBAR */
+        .toolbar{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;animation:fadeInUp .5s ease .15s both}
+        .search-wrap{flex:1;min-width:200px;position:relative}
+        .search-wrap .s-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted)}.search-wrap .s-icon i{width:18px;height:18px}
+        .search-input{width:100%;padding:12px 14px 12px 44px;background:var(--surface);border:1.5px solid var(--surface-border);border-radius:var(--input-radius);color:var(--text-primary);font-size:14px;font-family:var(--font);outline:none;transition:all var(--transition-normal)}
+        .search-input::placeholder{color:var(--text-muted)}
+        .search-input:focus{border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-light)}
+        .filter-select{padding:12px 36px 12px 14px;background:var(--surface);border:1.5px solid var(--surface-border);border-radius:var(--input-radius);color:var(--text-primary);font-size:13px;font-family:var(--font);outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;transition:all var(--transition-normal)}
+        .filter-select:focus{border-color:var(--primary)}
+        .toolbar-btn{padding:12px 20px;border:none;border-radius:var(--btn-radius);font-size:13px;font-weight:600;font-family:var(--font);cursor:pointer;transition:all var(--transition-normal);display:flex;align-items:center;gap:8px;white-space:nowrap}
+        .toolbar-btn:hover{transform:translateY(-2px)}
+        .toolbar-btn i{width:18px;height:18px}
+        .toolbar-btn.primary{background:var(--primary);color:#fff;box-shadow:0 2px 10px rgba(99,102,241,.2)}
+        .toolbar-btn.secondary{background:var(--surface);color:var(--text-primary);border:1px solid var(--surface-border)}
+        .toolbar-btn.secondary:hover{border-color:var(--primary);color:var(--primary)}
+        .toolbar-btn.success{background:var(--success);color:#fff}
+        .toolbar-btn.warning{background:var(--warning);color:#fff}
+        .toolbar-btn.danger{background:var(--danger);color:#fff}
+
+        /* TABLE CARD */
+        .table-card{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);overflow:hidden;margin-bottom:20px;animation:fadeInUp .5s ease .2s both}
+        .table-header{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--surface-border)}
+        .table-header h3{font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px}
+        .table-header h3 i{width:18px;height:18px;color:var(--primary)}
+        .table-scroll{overflow-x:auto}
+        table{width:100%;border-collapse:collapse;min-width:700px}
+        th{text-align:left;padding:12px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text-muted);border-bottom:1px solid var(--surface-border);background:var(--bg-secondary)}
+        td{padding:14px 16px;font-size:13px;border-bottom:1px solid var(--surface-border);vertical-align:middle}
+        tr:last-child td{border-bottom:none}
+        tr:hover td{background:var(--surface-hover)}
+        .status-badge{padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:4px}
+        .status-badge i{width:12px;height:12px}
+        .status-badge.published{background:var(--success-light);color:var(--success)}
+        .status-badge.draft{background:var(--warning-light);color:var(--warning)}
+        .status-badge.archived{background:var(--surface-hover);color:var(--text-muted)}
+        .diff-badge{padding:3px 8px;border-radius:5px;font-size:11px;font-weight:700}
+        .diff-badge.easy{background:var(--success-light);color:var(--success)}.diff-badge.medium{background:var(--warning-light);color:var(--warning)}.diff-badge.hard{background:var(--danger-light);color:var(--danger)}
+        .action-btn{width:30px;height:30px;border-radius:8px;background:var(--bg);border:1px solid var(--surface-border);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-muted);transition:all var(--transition-normal);margin-right:4px}
+        .action-btn:hover{color:var(--primary);border-color:var(--primary);background:var(--primary-light)}
+        .action-btn.danger:hover{color:var(--danger);border-color:var(--danger);background:var(--danger-light)}
+        .action-btn i{width:14px;height:14px}
+
+        .pagination{display:flex;align-items:center;justify-content:center;gap:6px;padding:16px;border-top:1px solid var(--surface-border)}
+        .page-btn{width:36px;height:36px;border-radius:8px;background:var(--bg);border:1px solid var(--surface-border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-secondary);transition:all var(--transition-normal);font-family:var(--font)}
+        .page-btn:hover{border-color:var(--primary);color:var(--primary)}.page-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
+        .page-btn:disabled{opacity:.4;cursor:not-allowed}.page-btn i{width:16px;height:16px}
+        .page-info{font-size:13px;color:var(--text-tertiary);padding:0 8px}
+
+        /* MODAL */
+        .modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:5000;display:none;align-items:center;justify-content:center;padding:20px;animation:fadeIn .3s ease}
+        .modal-overlay.open{display:flex}
+        .modal{background:var(--surface);border:1px solid var(--surface-border);border-radius:20px;padding:28px;max-width:640px;width:100%;animation:scaleIn .3s ease;position:relative;max-height:90vh;overflow-y:auto}
+        .modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:8px;background:var(--bg);border:none;color:var(--text-muted);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--transition-fast)}
+        .modal-close:hover{color:var(--danger);background:var(--danger-light)}.modal-close i{width:18px;height:18px}
+        .modal h3{font-size:20px;font-weight:700;margin-bottom:4px}
+        .modal .modal-desc{font-size:14px;color:var(--text-secondary);margin-bottom:24px}
+        .form-group{margin-bottom:16px}
+        .form-label{display:block;font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:8px}
+        .form-input,.form-textarea{width:100%;padding:12px 16px;background:var(--bg);border:1.5px solid var(--surface-border);border-radius:var(--input-radius);color:var(--text-primary);font-size:14px;font-family:var(--font);outline:none;transition:all var(--transition-normal)}
+        .form-input:focus,.form-textarea:focus{border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-light)}
+        .form-input::placeholder,.form-textarea::placeholder{color:var(--text-muted)}
+        .form-textarea{resize:vertical;min-height:80px;line-height:1.6}
+        .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+        @media(max-width:480px){.form-row{grid-template-columns:1fr}}
+        .modal-actions{display:flex;gap:10px;margin-top:24px}
+        .m-btn{flex:1;padding:13px;border:none;border-radius:var(--btn-radius);font-size:14px;font-weight:600;font-family:var(--font);cursor:pointer;transition:all var(--transition-normal);display:flex;align-items:center;justify-content:center;gap:6px}
+        .m-btn i{width:18px;height:18px}
+        .m-btn.cancel{background:var(--bg);color:var(--text-secondary)}.m-btn.cancel:hover{color:var(--text-primary)}
+        .m-btn.primary{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;box-shadow:0 4px 16px rgba(99,102,241,.3)}
+        .m-btn.primary:hover{transform:translateY(-2px)}.m-btn.primary:disabled{opacity:.5;cursor:not-allowed;transform:none}
+        .m-btn.danger{background:var(--danger);color:#fff}
+        .m-btn-spinner{display:none;width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite}
+        .m-btn.loading .m-btn-text{display:none}.m-btn.loading .m-btn-spinner{display:inline-block}.m-btn.loading{pointer-events:none}
+
+        /* OPTION ROW */
+        .option-row{display:flex;gap:8px;align-items:center;margin-bottom:8px;animation:fadeInLeft .3s ease both}
+        .option-row .opt-input{flex:1}
+        .option-row .opt-correct{width:36px;height:36px;border-radius:8px;border:2px solid var(--surface-border);background:var(--bg);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all var(--transition-normal);flex-shrink:0;color:var(--text-muted)}
+        .option-row .opt-correct:hover{border-color:var(--success)}
+        .option-row .opt-correct.selected{background:var(--success);border-color:var(--success);color:#fff}
+        .option-row .opt-correct i{width:16px;height:16px}
+        .option-row .opt-remove{width:36px;height:36px;border-radius:8px;border:1px solid var(--surface-border);background:var(--bg);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all var(--transition-normal);flex-shrink:0;color:var(--text-muted)}
+        .option-row .opt-remove:hover{color:var(--danger);border-color:var(--danger);background:var(--danger-light)}
+        .option-row .opt-remove i{width:14px;height:14px}
+        .add-option-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;background:var(--bg);border:1px dashed var(--surface-border);border-radius:8px;color:var(--text-muted);font-size:13px;font-weight:500;cursor:pointer;font-family:var(--font);transition:all var(--transition-normal);margin-top:4px}
+        .add-option-btn:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-light)}
+        .add-option-btn i{width:14px;height:14px}
+
+        /* JSON IMPORT */
+        .json-drop-zone{border:2px dashed var(--surface-border);border-radius:var(--card-radius);padding:40px 24px;text-align:center;cursor:pointer;transition:all var(--transition-normal);background:var(--bg);margin-bottom:20px}
+        .json-drop-zone:hover,.json-drop-zone.dragover{border-color:var(--primary);background:var(--primary-light)}
+        .json-drop-zone .dz-icon{width:56px;height:56px;border-radius:16px;background:var(--primary-light);color:var(--primary);display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+        .json-drop-zone .dz-icon i{width:28px;height:28px}
+        .json-drop-zone h4{font-size:16px;font-weight:700;margin-bottom:4px}
+        .json-drop-zone p{font-size:13px;color:var(--text-tertiary)}
+        .json-textarea{width:100%;min-height:200px;padding:16px;background:var(--bg);border:1.5px solid var(--surface-border);border-radius:var(--input-radius);color:var(--text-primary);font-size:13px;font-family:'Courier New',monospace;outline:none;resize:vertical;line-height:1.5;transition:border-color var(--transition-normal)}
+        .json-textarea:focus{border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-light)}
+        .json-textarea::placeholder{color:var(--text-muted)}
+
+        /* VALIDATION RESULTS */
+        .validation-card{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);padding:20px;margin-bottom:16px;animation:fadeInUp .4s ease}
+        .vc-header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+        .vc-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .vc-icon i{width:22px;height:22px}
+        .vc-info h4{font-size:16px;font-weight:700}
+        .vc-info p{font-size:13px;color:var(--text-tertiary)}
+        .vc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+        .vc-stat{padding:12px;background:var(--bg);border-radius:10px;text-align:center}
+        .vc-stat .vv{font-size:22px;font-weight:800}.vc-stat .vl{font-size:11px;color:var(--text-tertiary);font-weight:600}
+        .error-list{max-height:200px;overflow-y:auto;display:flex;flex-direction:column;gap:6px}
+        .error-item{display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--danger-light);border-radius:8px;font-size:13px;color:var(--danger)}
+        .error-item i{width:14px;height:14px;flex-shrink:0}
+
+        /* STATS */
+        .stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:20px}
+        .stat-chip{background:var(--surface);border:1px solid var(--surface-border);border-radius:14px;padding:16px;text-align:center;animation:fadeInUp .4s ease both;transition:all var(--transition-normal)}
+        .stat-chip:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
+        .stat-chip .scv{font-size:24px;font-weight:800;margin-bottom:2px}
+        .stat-chip .scl{font-size:11px;color:var(--text-tertiary);font-weight:600}
+
+        .empty-state{text-align:center;padding:60px 20px}
+        .empty-icon{width:72px;height:72px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:var(--text-muted)}
+        .empty-icon i{width:32px;height:32px}
+        .empty-state h4{font-size:18px;font-weight:700;margin-bottom:6px}
+        .empty-state p{font-size:14px;color:var(--text-secondary)}
+
+        .skeleton{background:linear-gradient(90deg,var(--surface) 25%,var(--surface-hover) 50%,var(--surface) 75%);background-size:200% 100%;animation:shimmer 1.5s ease infinite;border-radius:12px}
+
+        @media(max-width:1024px){.admin-sidebar{transform:translateX(-100%)}.admin-sidebar.open{transform:translateX(0)}.admin-topbar{margin-left:0}.admin-main{margin-left:0}.tb-menu{display:flex}}
+        @media(max-width:600px){.admin-main{padding:16px}.stats-row{grid-template-columns:repeat(2,1fr)}.vc-stats{grid-template-columns:1fr}}
+        @media(max-width:360px){.stats-row{grid-template-columns:1fr}}
+    </style>
+</head>
+<body>
+    <div class="loading-overlay" id="loadingOverlay"><div class="lo-icon"><i data-lucide="book-open"></i></div><div class="lo-bar"><div class="lo-bar-inner"></div></div></div>
+    <div class="bg-particles" id="bgParticles"></div>
+    <div class="toast-container" id="toastContainer"></div>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <nav class="admin-sidebar" id="adminSidebar">
+        <div class="sb-header"><div class="sb-logo"><i data-lucide="graduation-cap"></i></div><div><span class="sb-brand-name">FAVOJE</span><div class="sb-brand-sub">Admin Panel</div></div></div>
+        <div class="sb-nav">
+            <div class="sb-nav-label">Main</div>
+            <a class="sb-nav-item" href="admin.html"><i data-lucide="layout-dashboard"></i>Dashboard</a>
+            <a class="sb-nav-item" href="admin.html?page=users"><i data-lucide="users"></i>Users</a>
+            <div class="sb-nav-label">Content</div>
+            <a class="sb-nav-item active" href="admin-content.html"><i data-lucide="book-open"></i>Content</a>
+            <div class="sb-nav-label">Finance</div>
+            <a class="sb-nav-item" href="admin-finance.html"><i data-lucide="wallet"></i>Transactions</a>
+        </div>
+    </nav>
+
+    <header class="admin-topbar"><div class="topbar-inner">
+        <div class="tb-left"><button class="tb-menu" id="menuToggle"><i data-lucide="menu"></i></button><div><div class="tb-title">Content Management</div><div class="tb-sub">Questions, Topics & Tests</div></div></div>
+        <div class="tb-right"><button class="tb-btn" id="themeToggle"><i data-lucide="moon"></i></button><button class="tb-btn" onclick="location.href='admin.html'"><i data-lucide="layout-dashboard"></i></button></div>
+    </div></header>
+
+    <main class="admin-main">
+        <div class="content-tabs" id="contentTabs">
+            <button class="ct-tab active" data-tab="questions"><i data-lucide="help-circle"></i>Questions<span class="ct-count" id="qCount">0</span></button>
+            <button class="ct-tab" data-tab="topics"><i data-lucide="list"></i>Topics<span class="ct-count" id="tCount">0</span></button>
+            <button class="ct-tab" data-tab="import"><i data-lucide="upload"></i>JSON Import</button>
+            <button class="ct-tab" data-tab="tests"><i data-lucide="file-text"></i>Tests<span class="ct-count" id="tsCount">0</span></button>
+        </div>
+
+        <!-- QUESTIONS TAB -->
+        <div class="view active" id="questionsView">
+            <div class="stats-row" id="qStatsRow"></div>
+            <div class="toolbar" id="qToolbar"></div>
+            <div class="table-card" id="qTable"></div>
+        </div>
+        <!-- TOPICS TAB -->
+        <div class="view" id="topicsView">
+            <div class="toolbar" id="tToolbar"></div>
+            <div class="table-card" id="tTable"></div>
+        </div>
+        <!-- IMPORT TAB -->
+        <div class="view" id="importView">
+            <div id="importContent"></div>
+        </div>
+        <!-- TESTS TAB -->
+        <div class="view" id="testsView">
+            <div class="toolbar" id="tsToolbar"></div>
+            <div class="table-card" id="tsTable"></div>
+        </div>
+    </main>
+
+    <!-- Question Modal -->
+    <div class="modal-overlay" id="questionModal"><div class="modal" id="questionModalContent"></div></div>
+    <!-- Topic Modal -->
+    <div class="modal-overlay" id="topicModal"><div class="modal" id="topicModalContent"></div></div>
+    <!-- Test Modal -->
+    <div class="modal-overlay" id="testModal"><div class="modal" id="testModalContent"></div></div>
+    <!-- Confirm Modal -->
+    <div class="modal-overlay" id="confirmModal"><div class="modal" id="confirmModalContent"></div></div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+    <script>
+    const firebaseConfig={apiKey: "AIzaSyC1SmazNPbak8vMvi-jD40EGqpvWmWdd0U",
+  authDomain: "favoje-fcb02.firebaseapp.com",
+  projectId: "favoje-fcb02",
+  storageBucket: "favoje-fcb02.firebasestorage.app",
+  messagingSenderId: "837946471768",
+  appId: "1:837946471768:web:6ea76eee926fe77bdc212d"};
+    firebase.initializeApp(firebaseConfig);const auth=firebase.auth(),db=firebase.firestore();
+    const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s),fmt=n=>new Intl.NumberFormat('en-NG').format(n||0);
+    function timeAgo(d){if(!d)return'—';const dt=d.toDate?d.toDate():new Date(d);const s=Math.floor((Date.now()-dt.getTime())/1000);if(s<60)return'Now';if(s<3600)return Math.floor(s/60)+'m';if(s<86400)return Math.floor(s/3600)+'h';return dt.toLocaleDateString('en-NG',{month:'short',day:'numeric'})}
+    const S={user:null,profile:null,questions:[],topics:[],tests:[],courses:[],qPage:1,tPage:1,tsPage:1,pageSize:12,qSearch:'',tSearch:'',tsSearch:'',theme:localStorage.getItem('favoje-theme')||'dark'};
+    const Toast={show(t,ti,m,d=4e3){const ic={success:'check-circle',error:'x-circle',warning:'alert-triangle',info:'info'};const el=document.createElement('div');el.className=`toast ${t}`;el.innerHTML=`<div class="ti"><i data-lucide="${ic[t]}"></i></div><div class="tb"><div class="tt">${ti}</div><div class="tm">${m}</div></div><button class="tc"><i data-lucide="x"></i></button>`;$('#toastContainer').appendChild(el);lucide.createIcons({nodes:[el]});const cl=()=>{el.classList.add('removing');setTimeout(()=>el.remove(),300)};el.querySelector('.tc').onclick=cl;setTimeout(cl,d)}};
+    const Theme={init(){this.apply(S.theme);$('#themeToggle').onclick=()=>this.toggle()},apply(t){document.documentElement.setAttribute('data-theme',t);S.theme=t;localStorage.setItem('favoje-theme',t);this.icon()},toggle(){this.apply(S.theme==='dark'?'light':'dark')},icon(){const b=$('#themeToggle');b.innerHTML=`<i data-lucide="${S.theme==='dark'?'sun':'moon'}"></i>`;lucide.createIcons({nodes:[b]})}};
+    function initParticles(){const c=$('#bgParticles');for(let i=0;i<12;i++){const p=document.createElement('div');p.className='particle';p.style.left=Math.random()*100+'%';p.style.top=Math.random()*100+'%';p.style.setProperty('--tx',(Math.random()*200-100)+'px');p.style.setProperty('--ty',(Math.random()*200-100)+'px');p.style.animation=`particleFloat ${6+Math.random()*10}s ease-in-out infinite`;p.style.animationDelay=Math.random()*5+'s';const sz=(2+Math.random()*3)+'px';p.style.width=sz;p.style.height=sz;c.appendChild(p)}}
+    function initNav(){$('#menuToggle').onclick=()=>{$('#adminSidebar').classList.toggle('open');$('#sidebarOverlay').classList.toggle('open')};$('#sidebarOverlay').onclick=()=>{$('#adminSidebar').classList.remove('open');$('#sidebarOverlay').classList.remove('open')}}
+
+    // TABS
+    function initTabs(){$$('.ct-tab').forEach(tab=>{tab.onclick=()=>{$$('.ct-tab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');$$('.view').forEach(v=>v.classList.remove('active'));$(`#${tab.dataset.tab}View`).classList.add('active');$('#adminSidebar').classList.remove('open');$('#sidebarOverlay').classList.remove('open')}})}
+
+    // ===== LOAD COURSES =====
+    async function loadCourses(){try{const s=await db.collection('courses').get();S.courses=[];s.forEach(d=>S.courses.push({id:d.id,...d.data()}))}catch(e){console.error(e)}}
+
+    // ===== QUESTIONS =====
+    async function loadQuestions(){
+        const table=$('#qTable');table.innerHTML='<div style="padding:40px;text-align:center"><div class="skeleton" style="height:300px"></div></div>';
+        try{const s=await db.collection('questions').orderBy('createdAt','desc').get();S.questions=[];s.forEach(d=>S.questions.push({id:d.id,...d.data()}));$('#qCount').textContent=S.questions.length;renderQStats();renderQToolbar();renderQTable()}catch(e){console.error(e);table.innerHTML=`<div class="empty-state"><h4>Error</h4><p>${e.message}</p></div>`}
+    }
+    function renderQStats(){
+        const published=S.questions.filter(q=>q.status==='published').length;const draft=S.questions.filter(q=>q.status==='draft').length;
+        $('#qStatsRow').innerHTML=`
+            <div class="stat-chip" style="animation-delay:.1s"><div class="scv" style="color:var(--primary)">${S.questions.length}</div><div class="scl">TOTAL</div></div>
+            <div class="stat-chip" style="animation-delay:.15s"><div class="scv" style="color:var(--success)">${published}</div><div class="scl">PUBLISHED</div></div>
+            <div class="stat-chip" style="animation-delay:.2s"><div class="scv" style="color:var(--warning)">${draft}</div><div class="scl">DRAFTS</div></div>
+            <div class="stat-chip" style="animation-delay:.25s"><div class="scv" style="color:var(--accent)">${S.courses.length}</div><div class="scl">COURSES</div></div>
+        `;
+    }
+    function renderQToolbar(){
+        $('#qToolbar').innerHTML=`
+            <div class="search-wrap"><span class="s-icon"><i data-lucide="search"></i></span><input class="search-input" id="qSearchInput" placeholder="Search questions..." value="${S.qSearch}"></div>
+            <select class="filter-select" id="qCourseFilter"><option value="">All Courses</option>${S.courses.map(c=>`<option value="${c.id}">${c.code}</option>`).join('')}</select>
+            <select class="filter-select" id="qStatusFilter"><option value="">All Status</option><option value="published">Published</option><option value="draft">Draft</option></select>
+            <button class="toolbar-btn primary" id="addQBtn"><i data-lucide="plus"></i>Add Question</button>
+        `;
+        lucide.createIcons({nodes:[$('#qToolbar')]});
+        let timer;$('#qSearchInput').oninput=e=>{clearTimeout(timer);timer=setTimeout(()=>{S.qSearch=e.target.value;S.qPage=1;renderQTable()},300)};
+        $('#qCourseFilter').onchange=$('#qStatusFilter').onchange=()=>{S.qPage=1;renderQTable()};
+        $('#addQBtn').onclick=()=>openQuestionModal();
+    }
+    function renderQTable(){
+        let filtered=[...S.questions];
+        if(S.qSearch){const s=S.qSearch.toLowerCase();filtered=filtered.filter(q=>(q.question||'').toLowerCase().includes(s)||(q.courseCode||'').toLowerCase().includes(s))}
+        const cf=$('#qCourseFilter')?.value;if(cf)filtered=filtered.filter(q=>q.courseId===cf);
+        const sf=$('#qStatusFilter')?.value;if(sf)filtered=filtered.filter(q=>q.status===sf);
+        const total=filtered.length;const pages=Math.ceil(total/S.pageSize)||1;if(S.qPage>pages)S.qPage=pages;
+        const start=(S.qPage-1)*S.pageSize;const page=filtered.slice(start,start+S.pageSize);
+        $('#qTable').innerHTML=`
+            <div class="table-header"><h3><i data-lucide="help-circle"></i>Questions (${total})</h3></div>
+            <div class="table-scroll"><table><thead><tr><th>Question</th><th>Course</th><th>Difficulty</th><th>Status</th><th>Created</th><th>Actions</th></tr></thead><tbody>
+            ${page.length?page.map(q=>`<tr><td style="max-width:300px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${(q.question||'').substring(0,80)}...</td><td>${q.courseCode||q.course||'—'}</td><td><span class="diff-badge ${q.difficulty||'medium'}">${(q.difficulty||'medium').charAt(0).toUpperCase()+(q.difficulty||'medium').slice(1)}</span></td><td><span class="status-badge ${q.status||'draft'}">${(q.status||'draft').charAt(0).toUpperCase()+(q.status||'draft').slice(1)}</span></td><td>${timeAgo(q.createdAt)}</td><td><button class="action-btn" onclick="openQuestionModal('${q.id}')" title="Edit"><i data-lucide="pencil"></i></button><button class="action-btn danger" onclick="deleteQuestion('${q.id}')" title="Delete"><i data-lucide="trash-2"></i></button></td></tr>`).join(''):`<tr><td colspan="6"><div class="empty-state" style="padding:30px"><h4>No Questions</h4><p>Add questions manually or use JSON import</p></div></td></tr>`}
+            </tbody></table></div>
+            <div class="pagination"><button class="page-btn" ${S.qPage<=1?'disabled':''} onclick="S.qPage--;renderQTable()"><i data-lucide="chevron-left"></i></button><span class="page-info">${S.qPage}/${pages}</span><button class="page-btn" ${S.qPage>=pages?'disabled':''} onclick="S.qPage++;renderQTable()"><i data-lucide="chevron-right"></i></button></div>
+        `;lucide.createIcons({nodes:[$('#qTable')]});
+    }
+
+    // QUESTION MODAL
+    function openQuestionModal(qId){
+        const isEdit=!!qId;const q=isEdit?S.questions.find(x=>x.id===qId):null;
+        const modal=$('#questionModal');const content=$('#questionModalContent');
+        const opts=q?.options||[{text:'',isCorrect:false},{text:'',isCorrect:false},{text:'',isCorrect:false},{text:'',isCorrect:false}];
+        content.innerHTML=`
+            <button class="modal-close" id="qmClose"><i data-lucide="x"></i></button>
+            <h3>${isEdit?'Edit':'Add'} Question</h3><p class="modal-desc">${isEdit?'Update question details':'Create a new practice question'}</p>
+            <div class="form-row"><div class="form-group"><label class="form-label">Course</label><select class="form-input" id="qmCourse"><option value="">Select course</option>${S.courses.map(c=>`<option value="${c.id}" ${q?.courseId===c.id?'selected':''}>${c.code} — ${c.name}</option>`).join('')}</select></div>
+            <div class="form-group"><label class="form-label">Topic</label><input class="form-input" id="qmTopic" placeholder="Topic name" value="${q?.topicName||q?.topic||''}"></div></div>
+            <div class="form-group"><label class="form-label">Question Text *</label><textarea class="form-textarea" id="qmText" placeholder="Enter the question..." rows="3">${q?.question||''}</textarea></div>
+            <div class="form-group"><label class="form-label">Options (click ✓ to mark correct)</label><div id="qmOptions">${opts.map((o,i)=>`<div class="option-row" style="animation-delay:${i*0.05}s"><input class="form-input opt-input" placeholder="Option ${String.fromCharCode(65+i)}" value="${o.text||''}"><button type="button" class="opt-correct ${o.isCorrect?'selected':''}" data-idx="${i}" title="Mark correct"><i data-lucide="check"></i></button><button type="button" class="opt-remove" data-idx="${i}" title="Remove"><i data-lucide="x"></i></button></div>`).join('')}</div><button type="button" class="add-option-btn" id="addOptBtn"><i data-lucide="plus"></i>Add Option</button></div>
+            <div class="form-row"><div class="form-group"><label class="form-label">Difficulty</label><select class="form-input" id="qmDiff"><option value="easy" ${q?.difficulty==='easy'?'selected':''}>Easy</option><option value="medium" ${!q?.difficulty||q?.difficulty==='medium'?'selected':''}>Medium</option><option value="hard" ${q?.difficulty==='hard'?'selected':''}>Hard</option></select></div>
+            <div class="form-group"><label class="form-label">Status</label><select class="form-input" id="qmStatus"><option value="draft" ${q?.status==='draft'?'selected':''}>Draft</option><option value="published" ${q?.status==='published'?'selected':''}>Published</option></select></div></div>
+            <div class="form-group"><label class="form-label">Explanation</label><textarea class="form-textarea" id="qmExplain" placeholder="Why is this the correct answer?" rows="2">${q?.explanation||''}</textarea></div>
+            <div class="modal-actions"><button class="m-btn cancel" id="qmCancel">Cancel</button><button class="m-btn primary" id="qmSave"><i data-lucide="save"></i><span class="m-btn-text">${isEdit?'Update':'Create'}</span><div class="m-btn-spinner"></div></button></div>
+        `;
+        modal.classList.add('open');lucide.createIcons({nodes:[content]});
+        // Events
+        $('#qmClose').onclick=$('#qmCancel').onclick=()=>modal.classList.remove('open');
+        content.querySelectorAll('.opt-correct').forEach(btn=>{btn.onclick=()=>{content.querySelectorAll('.opt-correct').forEach(b=>b.classList.remove('selected'));btn.classList.add('selected')}});
+        content.querySelectorAll('.opt-remove').forEach(btn=>{btn.onclick=()=>btn.parentElement.remove()});
+        $('#addOptBtn').onclick=()=>{const rows=$('#qmOptions');const idx=rows.children.length;const row=document.createElement('div');row.className='option-row';row.innerHTML=`<input class="form-input opt-input" placeholder="Option ${String.fromCharCode(65+idx)}"><button type="button" class="opt-correct" title="Mark correct"><i data-lucide="check"></i></button><button type="button" class="opt-remove" title="Remove"><i data-lucide="x"></i></button>`;rows.appendChild(row);lucide.createIcons({nodes:[row]});row.querySelector('.opt-correct').onclick=()=>{content.querySelectorAll('.opt-correct').forEach(b=>b.classList.remove('selected'));row.querySelector('.opt-correct').classList.add('selected')};row.querySelector('.opt-remove').onclick=()=>row.remove()};
+        // Save
+        $('#qmSave').onclick=async()=>{
+            const course=S.courses.find(c=>c.id===$('#qmCourse').value);
+            const text=$('#qmText').value.trim();if(!text){Toast.show('warning','Required','Question text is required');return}
+            const optionEls=content.querySelectorAll('.option-row');const options=[];let hasCorrect=false;
+            optionEls.forEach(row=>{const txt=row.querySelector('.opt-input').value.trim();const isC=row.querySelector('.opt-correct').classList.contains('selected');if(txt){options.push({text:txt,isCorrect:isC});if(isC)hasCorrect=true}});
+            if(options.length<2){Toast.show('warning','Options','Add at least 2 options');return}
+            if(!hasCorrect){Toast.show('warning','Correct Answer','Mark one option as correct');return}
+            const btn=$('#qmSave');btn.classList.add('loading');
+            const data={question:text,options,courseId:course?.id||'',courseCode:course?.code||'',topicName:$('#qmTopic').value.trim(),difficulty:$('#qmDiff').value,status:$('#qmStatus').value,explanation:$('#qmExplain').value.trim(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()};
+            try{
+                if(isEdit){await db.collection('questions').doc(qId).update(data)}
+                else{data.createdAt=firebase.firestore.FieldValue.serverTimestamp();data.createdBy=S.user.uid;await db.collection('questions').add(data)}
+                btn.classList.remove('loading');modal.classList.remove('open');Toast.show('success',isEdit?'Updated':'Created','Question saved successfully');loadQuestions();
+            }catch(e){btn.classList.remove('loading');Toast.show('error','Error',e.message)}
+        };
+    }
+    async function deleteQuestion(qId){
+        if(!confirm('Delete this question?'))return;
+        try{await db.collection('questions').doc(qId).delete();Toast.show('info','Deleted','Question removed');loadQuestions()}catch(e){Toast.show('error','Error',e.message)}
+    }
+
+    // ===== TOPICS =====
+    async function loadTopics(){
+        const table=$('#tTable');table.innerHTML='<div style="padding:40px;text-align:center"><div class="skeleton" style="height:200px"></div></div>';
+        try{const s=await db.collection('topics').get();S.topics=[];s.forEach(d=>S.topics.push({id:d.id,...d.data()}));$('#tCount').textContent=S.topics.length;renderTToolbar();renderTTable()}catch(e){console.error(e);table.innerHTML=`<div class="empty-state"><h4>Error</h4><p>${e.message}</p></div>`}
+    }
+    function renderTToolbar(){
+        $('#tToolbar').innerHTML=`<div class="search-wrap"><span class="s-icon"><i data-lucide="search"></i></span><input class="search-input" id="tSearchInput" placeholder="Search topics..."></div><button class="toolbar-btn primary" id="addTBtn"><i data-lucide="plus"></i>Add Topic</button>`;
+        lucide.createIcons({nodes:[$('#tToolbar')]});
+        let timer;$('#tSearchInput').oninput=e=>{clearTimeout(timer);timer=setTimeout(()=>{S.tSearch=e.target.value;S.tPage=1;renderTTable()},300)};
+        $('#addTBtn').onclick=()=>openTopicModal();
+    }
+    function renderTTable(){
+        let filtered=[...S.topics];
+        if(S.tSearch){const s=S.tSearch.toLowerCase();filtered=filtered.filter(t=>(t.name||'').toLowerCase().includes(s))}
+        const total=filtered.length;const pages=Math.ceil(total/S.pageSize)||1;if(S.tPage>pages)S.tPage=pages;
+        const start=(S.tPage-1)*S.pageSize;const page=filtered.slice(start,start+S.pageSize);
+        const courseMap={};S.courses.forEach(c=>{courseMap[c.id]=c.code});
+        $('#tTable').innerHTML=`
+            <div class="table-header"><h3><i data-lucide="list"></i>Topics (${total})</h3></div>
+            <div class="table-scroll"><table><thead><tr><th>Topic</th><th>Course</th><th>Order</th><th>Created</th><th>Actions</th></tr></thead><tbody>
+            ${page.length?page.map(t=>`<tr><td>${t.name||'—'}</td><td>${courseMap[t.courseId]||'—'}</td><td>${t.order||0}</td><td>${timeAgo(t.createdAt)}</td><td><button class="action-btn" onclick="openTopicModal('${t.id}')" title="Edit"><i data-lucide="pencil"></i></button><button class="action-btn danger" onclick="deleteTopic('${t.id}')" title="Delete"><i data-lucide="trash-2"></i></button></td></tr>`).join(''):`<tr><td colspan="5"><div class="empty-state" style="padding:30px"><h4>No Topics</h4></div></td></tr>`}
+            </tbody></table></div>
+            <div class="pagination"><button class="page-btn" ${S.tPage<=1?'disabled':''} onclick="S.tPage--;renderTTable()"><i data-lucide="chevron-left"></i></button><span class="page-info">${S.tPage}/${pages}</span><button class="page-btn" ${S.tPage>=pages?'disabled':''} onclick="S.tPage++;renderTTable()"><i data-lucide="chevron-right"></i></button></div>
+        `;lucide.createIcons({nodes:[$('#tTable')]});
+    }
+    function openTopicModal(tId){
+        const isEdit=!!tId;const t=isEdit?S.topics.find(x=>x.id===tId):null;
+        const modal=$('#topicModal');const content=$('#topicModalContent');
+        content.innerHTML=`
+            <button class="modal-close" onclick="$('#topicModal').classList.remove('open')"><i data-lucide="x"></i></button>
+            <h3>${isEdit?'Edit':'Add'} Topic</h3><p class="modal-desc">Topics organize questions within courses</p>
+            <div class="form-group"><label class="form-label">Course *</label><select class="form-input" id="tmCourse"><option value="">Select course</option>${S.courses.map(c=>`<option value="${c.id}" ${t?.courseId===c.id?'selected':''}>${c.code} — ${c.name}</option>`).join('')}</select></div>
+            <div class="form-group"><label class="form-label">Topic Name *</label><input class="form-input" id="tmName" value="${t?.name||''}" placeholder="e.g. Cell Biology"></div>
+            <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="tmDesc" rows="2" placeholder="Brief description...">${t?.description||''}</textarea></div>
+            <div class="form-group"><label class="form-label">Order</label><input class="form-input" id="tmOrder" type="number" value="${t?.order||0}" min="0"></div>
+            <div class="modal-actions"><button class="m-btn cancel" onclick="$('#topicModal').classList.remove('open')">Cancel</button><button class="m-btn primary" id="tmSave"><i data-lucide="save"></i><span class="m-btn-text">${isEdit?'Update':'Create'}</span><div class="m-btn-spinner"></div></button></div>
+        `;modal.classList.add('open');lucide.createIcons({nodes:[content]});
+        $('#tmSave').onclick=async()=>{
+            const courseId=$('#tmCourse').value;const name=$('#tmName').value.trim();
+            if(!courseId||!name){Toast.show('warning','Required','Select course and enter name');return}
+            const btn=$('#tmSave');btn.classList.add('loading');
+            const data={courseId,name,description:$('#tmDesc').value.trim(),order:parseInt($('#tmOrder').value)||0,updatedAt:firebase.firestore.FieldValue.serverTimestamp()};
+            try{if(isEdit)await db.collection('topics').doc(tId).update(data);else{data.createdAt=firebase.firestore.FieldValue.serverTimestamp();data.createdBy=S.user.uid;await db.collection('topics').add(data)}btn.classList.remove('loading');modal.classList.remove('open');Toast.show('success','Saved','Topic saved');loadTopics()}catch(e){btn.classList.remove('loading');Toast.show('error','Error',e.message)}
+        };
+    }
+    async function deleteTopic(tId){if(!confirm('Delete this topic?'))return;try{await db.collection('topics').doc(tId).delete();Toast.show('info','Deleted','Topic removed');loadTopics()}catch(e){Toast.show('error','Error',e.message)}}
+
+    // ===== JSON IMPORT =====
+    function renderImport(){
+        $('#importContent').innerHTML=`
+            <div class="stats-row"><div class="stat-chip" style="animation-delay:.1s"><div class="scv" style="color:var(--primary)">${S.questions.length}</div><div class="scl">EXISTING Q's</div></div><div class="stat-chip" style="animation-delay:.15s"><div class="scv" style="color:var(--success)">${S.courses.length}</div><div class="scl">COURSES</div></div></div>
+            <div class="json-drop-zone" id="dropZone"><div class="dz-icon"><i data-lucide="upload-cloud"></i></div><h4>Drop JSON file here or click to browse</h4><p>Supports .json files with question arrays</p><input type="file" id="jsonFileInput" accept=".json" style="display:none"></div>
+            <div class="form-group"><label class="form-label">Or paste JSON directly</label><textarea class="json-textarea" id="jsonInput" placeholder='[&#10;  {&#10;    "question": "What is...?",&#10;    "options": [&#10;      {"text": "Option A", "isCorrect": false},&#10;      {"text": "Option B", "isCorrect": true}&#10;    ],&#10;    "difficulty": "medium",&#10;    "explanation": "Because...",&#10;    "course": "BCH 201",&#10;    "topic": "Cell Biology"&#10;  }&#10;]'></textarea></div>
+            <div style="display:flex;gap:10px;margin-bottom:20px"><button class="toolbar-btn primary" id="validateJsonBtn"><i data-lucide="check-circle"></i>Validate</button><button class="toolbar-btn success" id="importJsonBtn" style="display:none"><i data-lucide="upload"></i>Import Valid Questions</button></div>
+            <div id="validationResults"></div>
+        `;
+        lucide.createIcons({nodes:[$('#importContent')]});
+        const dropZone=$('#dropZone');const fileInput=$('#jsonFileInput');
+        dropZone.onclick=()=>fileInput.click();
+        dropZone.ondragover=e=>{e.preventDefault();dropZone.classList.add('dragover')};
+        dropZone.ondragleave=()=>dropZone.classList.remove('dragover');
+        dropZone.ondrop=e=>{e.preventDefault();dropZone.classList.remove('dragover');const file=e.dataTransfer.files[0];if(file)readJsonFile(file)};
+        fileInput.onchange=e=>{if(e.target.files[0])readJsonFile(e.target.files[0])};
+        $('#validateJsonBtn').onclick=()=>validateJson();
+    }
+
+    function readJsonFile(file){
+        const reader=new FileReader();
+        reader.onload=e=>{$('#jsonInput').value=e.target.result;Toast.show('info','File Loaded',file.name)};
+        reader.readAsText(file);
+    }
+
+    let validQuestions=[];
+    function validateJson(){
+        const raw=$('#jsonInput').value.trim();
+        if(!raw){Toast.show('warning','Empty','Paste or upload JSON data');return}
+        let data;try{data=JSON.parse(raw)}catch(e){Toast.show('error','Invalid JSON',e.message);return}
+        if(!Array.isArray(data)){Toast.show('error','Invalid Format','JSON must be an array of questions');return}
+        const errors=[];validQuestions=[];
+        data.forEach((q,i)=>{
+            const errs=[];
+            if(!q.question)errs.push('Missing question text');
+            if(!q.options||!Array.isArray(q.options)||q.options.length<2)errs.push('Need at least 2 options');
+            else{const correctCount=q.options.filter(o=>o.isCorrect).length;if(correctCount===0)errs.push('No correct answer');if(correctCount>1)errs.push('Multiple correct answers')}
+            if(errs.length)errors.push({index:i+1,errors:errs});
+            else{
+                const course=S.courses.find(c=>c.code===q.course);
+                validQuestions.push({question:q.question,options:q.options,difficulty:q.difficulty||'medium',explanation:q.explanation||'',courseId:course?.id||'',courseCode:q.course||'',topicName:q.topic||'',status:'published',createdBy:S.user.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+            }
+        });
+        const results=$('#validationResults');
+        results.innerHTML=`
+            <div class="validation-card">
+                <div class="vc-header"><div class="vc-icon" style="background:${errors.length?'var(--warning-light)':'var(--success-light)'};color:${errors.length?'var(--warning)':'var(--success)'}"><i data-lucide="${errors.length?'alert-triangle':'check-circle'}"></i></div><div class="vc-info"><h4>Validation ${errors.length?'Complete':'Passed'}</h4><p>${data.length} questions analyzed</p></div></div>
+                <div class="vc-stats">
+                    <div class="vc-stat"><div class="vv" style="color:var(--primary)">${data.length}</div><div class="vl">TOTAL</div></div>
+                    <div class="vc-stat"><div class="vv" style="color:var(--success)">${validQuestions.length}</div><div class="vl">VALID</div></div>
+                    <div class="vc-stat"><div class="vv" style="color:var(--danger)">${errors.length}</div><div class="vl">ERRORS</div></div>
+                </div>
+                ${errors.length?`<div class="error-list">${errors.slice(0,20).map(e=>`<div class="error-item"><i data-lucide="alert-circle"></i>Q${e.index}: ${e.errors.join(', ')}</div>`).join('')}</div>`:''}
+            </div>
+        `;
+        lucide.createIcons({nodes:[results]});
+        if(validQuestions.length>0){$('#importJsonBtn').style.display='flex';$('#importJsonBtn').onclick=()=>importValidQuestions()}
+        else{$('#importJsonBtn').style.display='none'}
+    }
+
+    async function importValidQuestions(){
+        const btn=$('#importJsonBtn');btn.disabled=true;btn.innerHTML='<i data-lucide="loader"></i>Importing...';lucide.createIcons({nodes:[btn]});
+        let imported=0;
+        try{
+            const batch=db.batch();
+            for(const q of validQuestions){const ref=db.collection('questions').doc();batch.set(ref,q);imported++}
+            await batch.commit();
+            Toast.show('success','Imported!',`${imported} questions imported successfully`);
+            loadQuestions();renderImport();
+        }catch(e){
+            // If batch too large, do individual writes
+            if(e.message.includes('batch')){
+                for(const q of validQuestions){try{await db.collection('questions').add(q);imported++}catch(er){console.error(er)}}
+                Toast.show('success','Imported!',`${imported} questions imported`);loadQuestions();renderImport();
+            }else{Toast.show('error','Error',e.message)}
+        }
+        btn.disabled=false;btn.innerHTML='<i data-lucide="upload"></i>Import Valid Questions';lucide.createIcons({nodes:[btn]});
+    }
+
+    // ===== TESTS =====
+    async function loadTests(){
+        const table=$('#tsTable');table.innerHTML='<div style="padding:40px;text-align:center"><div class="skeleton" style="height:200px"></div></div>';
+        try{const s=await db.collection('tests').orderBy('createdAt','desc').get();S.tests=[];s.forEach(d=>S.tests.push({id:d.id,...d.data()}));$('#tsCount').textContent=S.tests.length;renderTsToolbar();renderTsTable()}catch(e){console.error(e);table.innerHTML=`<div class="empty-state"><h4>Error</h4><p>${e.message}</p></div>`}
+    }
+    function renderTsToolbar(){
+        $('#tsToolbar').innerHTML=`<div class="search-wrap"><span class="s-icon"><i data-lucide="search"></i></span><input class="search-input" id="tsSearchInput" placeholder="Search tests..."></div><button class="toolbar-btn primary" id="addTsBtn"><i data-lucide="plus"></i>Create Test</button>`;
+        lucide.createIcons({nodes:[$('#tsToolbar')]});
+        let timer;$('#tsSearchInput').oninput=e=>{clearTimeout(timer);timer=setTimeout(()=>{S.tsSearch=e.target.value;S.tsPage=1;renderTsTable()},300)};
+        $('#addTsBtn').onclick=()=>openTestModal();
+    }
+    function renderTsTable(){
+        let filtered=[...S.tests];
+        if(S.tsSearch){const s=S.tsSearch.toLowerCase();filtered=filtered.filter(t=>(t.title||'').toLowerCase().includes(s)||(t.courseCode||'').toLowerCase().includes(s))}
+        const total=filtered.length;const pages=Math.ceil(total/S.pageSize)||1;if(S.tsPage>pages)S.tsPage=pages;
+        const start=(S.tsPage-1)*S.pageSize;const page=filtered.slice(start,start+S.pageSize);
+        $('#tsTable').innerHTML=`
+            <div class="table-header"><h3><i data-lucide="file-text"></i>Tests (${total})</h3></div>
+            <div class="table-scroll"><table><thead><tr><th>Test</th><th>Course</th><th>Questions</th><th>Duration</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead><tbody>
+            ${page.length?page.map(t=>`<tr><td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600">${t.title||'—'}</td><td>${t.courseCode||'—'}</td><td>${t.questionCount||0}</td><td>${t.duration||30}min</td><td>${t.price?'₦'+fmt(t.price):'Free'}</td><td><span class="status-badge ${t.status||'draft'}">${(t.status||'draft').charAt(0).toUpperCase()+(t.status||'draft').slice(1)}</span></td><td><button class="action-btn" onclick="openTestModal('${t.id}')" title="Edit"><i data-lucide="pencil"></i></button><button class="action-btn danger" onclick="deleteTest('${t.id}')" title="Delete"><i data-lucide="trash-2"></i></button></td></tr>`).join(''):`<tr><td colspan="7"><div class="empty-state" style="padding:30px"><h4>No Tests</h4><p>Create your first assessment</p></div></td></tr>`}
+            </tbody></table></div>
+            <div class="pagination"><button class="page-btn" ${S.tsPage<=1?'disabled':''} onclick="S.tsPage--;renderTsTable()"><i data-lucide="chevron-left"></i></button><span class="page-info">${S.tsPage}/${pages}</span><button class="page-btn" ${S.tsPage>=pages?'disabled':''} onclick="S.tsPage++;renderTsTable()"><i data-lucide="chevron-right"></i></button></div>
+        `;lucide.createIcons({nodes:[$('#tsTable')]});
+    }
+    function openTestModal(tsId){
+        const isEdit=!!tsId;const t=isEdit?S.tests.find(x=>x.id===tsId):null;
+        const modal=$('#testModal');const content=$('#testModalContent');
+        content.innerHTML=`
+            <button class="modal-close" onclick="$('#testModal').classList.remove('open')"><i data-lucide="x"></i></button>
+            <h3>${isEdit?'Edit':'Create'} Test</h3><p class="modal-desc">Configure assessment settings</p>
+            <div class="form-group"><label class="form-label">Test Title *</label><input class="form-input" id="tsmTitle" value="${t?.title||''}" placeholder="e.g. BCH 201 Mock Test"></div>
+            <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="tsmDesc" rows="2" placeholder="Brief description...">${t?.description||''}</textarea></div>
+            <div class="form-row"><div class="form-group"><label class="form-label">Course *</label><select class="form-input" id="tsmCourse"><option value="">Select</option>${S.courses.map(c=>`<option value="${c.id}" ${t?.courseId===c.id?'selected':''}>${c.code}</option>`).join('')}</select></div>
+            <div class="form-group"><label class="form-label">Question Count</label><input class="form-input" id="tsmQCount" type="number" value="${t?.questionCount||20}" min="5" max="200"></div></div>
+            <div class="form-row"><div class="form-group"><label class="form-label">Duration (min)</label><input class="form-input" id="tsmDuration" type="number" value="${t?.duration||30}" min="5"></div>
+            <div class="form-group"><label class="form-label">Difficulty</label><select class="form-input" id="tsmDiff"><option value="easy" ${t?.difficulty==='easy'?'selected':''}>Easy</option><option value="medium" ${!t?.difficulty||t?.difficulty==='medium'?'selected':''}>Medium</option><option value="hard" ${t?.difficulty==='hard'?'selected':''}>Hard</option></select></div></div>
+            <div class="form-row"><div class="form-group"><label class="form-label">Price (₦)</label><input class="form-input" id="tsmPrice" type="number" value="${t?.price||0}" min="0" step="50" placeholder="0 = Free"></div>
+            <div class="form-group"><label class="form-label">Attempt Limit</label><input class="form-input" id="tsmAttempts" type="number" value="${t?.attemptLimit||0}" min="0" placeholder="0 = Unlimited"></div></div>
+            <div class="form-group"><label class="form-label">Status</label><select class="form-input" id="tsmStatus"><option value="draft" ${t?.status==='draft'?'selected':''}>Draft</option><option value="published" ${t?.status==='published'?'selected':''}>Published</option></select></div>
+            <div class="modal-actions"><button class="m-btn cancel" onclick="$('#testModal').classList.remove('open')">Cancel</button><button class="m-btn primary" id="tsmSave"><i data-lucide="save"></i><span class="m-btn-text">${isEdit?'Update':'Create'}</span><div class="m-btn-spinner"></div></button></div>
+        `;modal.classList.add('open');lucide.createIcons({nodes:[content]});
+        $('#tsmSave').onclick=async()=>{
+            const title=$('#tsmTitle').value.trim();const courseId=$('#tsmCourse').value;
+            if(!title||!courseId){Toast.show('warning','Required','Enter title and select course');return}
+            const course=S.courses.find(c=>c.id===courseId);
+            const btn=$('#tsmSave');btn.classList.add('loading');
+            const data={title,description:$('#tsmDesc').value.trim(),courseId,courseCode:course?.code||'',questionCount:parseInt($('#tsmQCount').value)||20,duration:parseInt($('#tsmDuration').value)||30,difficulty:$('#tsmDiff').value,price:parseInt($('#tsmPrice').value)||0,attemptLimit:parseInt($('#tsmAttempts').value)||0,status:$('#tsmStatus').value,updatedAt:firebase.firestore.FieldValue.serverTimestamp()};
+            try{if(isEdit)await db.collection('tests').doc(tsId).update(data);else{data.createdAt=firebase.firestore.FieldValue.serverTimestamp();data.createdBy=S.user.uid;data.attemptCount=0;await db.collection('tests').add(data)}btn.classList.remove('loading');modal.classList.remove('open');Toast.show('success','Saved','Test saved');loadTests()}catch(e){btn.classList.remove('loading');Toast.show('error','Error',e.message)}
+        };
+    }
+    async function deleteTest(tsId){if(!confirm('Delete this test?'))return;try{await db.collection('tests').doc(tsId).delete();Toast.show('info','Deleted','Test removed');loadTests()}catch(e){Toast.show('error','Error',e.message)}}
+
+    // ===== URL PARAMS =====
+    function handleParams(){const p=new URLSearchParams(window.location.search);if(p.get('tab')==='tests'){$$('.ct-tab').forEach(t=>t.classList.remove('active'));$$('.view').forEach(v=>v.classList.remove('active'));$$('.ct-tab[data-tab="tests"]').forEach(t=>t.classList.add('active'));$('#testsView').classList.add('active')}}
+
+    // ===== INIT =====
+    function init(){
+        lucide.createIcons();Theme.init();initParticles();initNav();initTabs();
+        auth.onAuthStateChanged(async user=>{
+            if(!user){window.location.href='index.html';return}
+            S.user=user;
+            try{
+                const doc=await db.collection('users').doc(user.uid).get();
+                if(!doc.exists||!['admin','moderator','content_manager'].includes(doc.data().role)){window.location.href='home.html';return}
+                S.profile=doc.data();
+                await loadCourses();
+                await Promise.all([loadQuestions(),loadTopics(),loadTests()]);
+                renderImport();handleParams();
+            }catch(e){console.error(e);Toast.show('error','Error',e.message)}
+            setTimeout(()=>{const o=$('#loadingOverlay');o.classList.add('hidden');setTimeout(()=>o.remove(),600)},500);
+        });
+    }
+    document.addEventListener('DOMContentLoaded',init);
+    </script>
+</body>
+</html>

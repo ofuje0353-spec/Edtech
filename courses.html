@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>FAVOJE — Courses</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        :root{--primary:#6366F1;--primary-hover:#5558E6;--primary-light:rgba(99,102,241,0.12);--primary-glow:rgba(99,102,241,0.3);--secondary:#4F46E5;--bg:#080B14;--bg-secondary:#0D1117;--surface:#111827;--surface-hover:#1a2234;--surface-border:rgba(255,255,255,0.06);--surface-border-hover:rgba(255,255,255,0.12);--accent:#F97316;--accent-light:rgba(249,115,22,0.12);--success:#10B981;--success-light:rgba(16,185,129,0.12);--danger:#EF4444;--danger-light:rgba(239,68,68,0.12);--warning:#F59E0B;--warning-light:rgba(245,158,11,0.12);--text-primary:#F8FAFC;--text-secondary:#94A3B8;--text-tertiary:#64748B;--text-muted:#475569;--card-radius:16px;--btn-radius:12px;--input-radius:12px;--transition-fast:0.15s ease;--transition-normal:0.3s ease;--transition-smooth:0.4s cubic-bezier(0.4,0,0.2,1);--shadow-sm:0 1px 3px rgba(0,0,0,0.3);--shadow-md:0 4px 12px rgba(0,0,0,0.4);--shadow-lg:0 8px 32px rgba(0,0,0,0.5);--font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;--safe-bottom:env(safe-area-inset-bottom,0px);--nav-height:72px}
+        [data-theme="light"]{--bg:#F1F5F9;--bg-secondary:#E2E8F0;--surface:#FFFFFF;--surface-hover:#F8FAFC;--surface-border:rgba(0,0,0,0.08);--surface-border-hover:rgba(0,0,0,0.15);--text-primary:#0F172A;--text-secondary:#475569;--text-tertiary:#64748B;--text-muted:#94A3B8;--shadow-sm:0 1px 3px rgba(0,0,0,0.08);--shadow-md:0 4px 12px rgba(0,0,0,0.1);--shadow-lg:0 8px 32px rgba(0,0,0,0.12);--primary-light:rgba(99,102,241,0.08);--accent-light:rgba(249,115,22,0.08);--success-light:rgba(16,185,129,0.08);--danger-light:rgba(239,68,68,0.08);--warning-light:rgba(245,158,11,0.08)}
+        *{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{font-family:var(--font);background:var(--bg);color:var(--text-primary);min-height:100vh;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased;padding-bottom:calc(var(--nav-height) + var(--safe-bottom) + 16px)}
+        ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--text-muted);border-radius:3px}
+
+        /* ANIMATIONS */
+        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+        @keyframes fadeInUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes fadeInDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes fadeInLeft{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes fadeInRight{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes scaleIn{from{opacity:0;transform:scale(0.88)}to{opacity:1;transform:scale(1)}}
+        @keyframes bounceIn{0%{opacity:0;transform:scale(0.3)}50%{opacity:1;transform:scale(1.06)}70%{transform:scale(0.94)}100%{opacity:1;transform:scale(1)}}
+        @keyframes slideInRight{from{opacity:0;transform:translateX(100%)}to{opacity:1;transform:translateX(0)}}
+        @keyframes slideOutLeft{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(-100%)}}
+        @keyframes slideInLeft{from{opacity:0;transform:translateX(-100%)}to{opacity:1;transform:translateX(0)}}
+        @keyframes slideOutRight{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(100%)}}
+        @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+        @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        @keyframes glowPulse{0%,100%{box-shadow:0 0 8px var(--primary-glow)}50%{box-shadow:0 0 24px var(--primary-glow)}}
+        @keyframes popIn{0%{opacity:0;transform:scale(0) rotate(-8deg)}60%{transform:scale(1.1) rotate(2deg)}100%{opacity:1;transform:scale(1) rotate(0deg)}}
+        @keyframes barGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+        @keyframes particleFloat{0%,100%{transform:translate(0,0) rotate(0deg);opacity:0}10%{opacity:.5}90%{opacity:.5}100%{transform:translate(var(--tx),var(--ty)) rotate(360deg);opacity:0}}
+        @keyframes correctPulse{0%{box-shadow:0 0 0 0 rgba(16,185,129,0.4)}70%{box-shadow:0 0 0 15px rgba(16,185,129,0)}100%{box-shadow:0 0 0 0 rgba(16,185,129,0)}}
+        @keyframes wrongShake{0%,100%{transform:translateX(0)}10%,30%,50%,70%,90%{transform:translateX(-6px)}20%,40%,60%,80%{transform:translateX(6px)}}
+        @keyframes slideUp{from{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}
+        @keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+        @keyframes ripple{to{transform:scale(4);opacity:0}}
+        @keyframes checkDraw{from{stroke-dashoffset:50}to{stroke-dashoffset:0}}
+        @keyframes expandIn{from{opacity:0;max-height:0;padding-top:0;padding-bottom:0}to{opacity:1;max-height:500px}}
+
+        .bg-particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+        .particle{position:absolute;width:3px;height:3px;background:var(--primary);border-radius:50%;opacity:0}
+        .bg-gradient-orb{position:fixed;border-radius:50%;filter:blur(120px);pointer-events:none;z-index:0}
+        .orb-1{width:350px;height:350px;background:rgba(99,102,241,0.06);top:-80px;right:-80px;animation:float 9s ease-in-out infinite}
+        .orb-2{width:280px;height:280px;background:rgba(249,115,22,0.04);bottom:-60px;left:-60px;animation:float 11s ease-in-out infinite reverse}
+        [data-theme="light"] .orb-1{background:rgba(99,102,241,0.04)}[data-theme="light"] .orb-2{background:rgba(249,115,22,0.02)}
+
+        /* LOADING */
+        .loading-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:20000;transition:opacity .6s,visibility .6s}
+        .loading-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none}
+        .lo-icon{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;animation:bounceIn .8s ease,float 2s ease-in-out infinite .8s;box-shadow:0 4px 20px rgba(99,102,241,0.4)}
+        .lo-icon i{width:30px;height:30px;color:#fff}
+        .lo-bar{width:100px;height:3px;background:var(--surface);border-radius:3px;overflow:hidden;margin-top:20px}
+        .lo-bar-inner{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent),var(--primary));border-radius:3px;width:40%;animation:shimmer 1.4s ease-in-out infinite;background-size:200% 100%}
+
+        /* TOAST */
+        .toast-container{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:10000;display:flex;flex-direction:column;gap:8px;width:92%;max-width:420px}
+        .toast{display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);box-shadow:var(--shadow-lg);animation:fadeInDown .4s ease;position:relative;overflow:hidden}
+        .toast::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px}
+        .toast.success::before{background:var(--success)}.toast.error::before{background:var(--danger)}.toast.info::before{background:var(--primary)}.toast.warning::before{background:var(--warning)}
+        .toast .ti{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .toast.success .ti{background:var(--success-light);color:var(--success)}.toast.error .ti{background:var(--danger-light);color:var(--danger)}.toast.info .ti{background:var(--primary-light);color:var(--primary)}.toast.warning .ti{background:var(--warning-light);color:var(--warning)}
+        .toast .ti i{width:18px;height:18px}.toast .tb{flex:1}.toast .tt{font-size:14px;font-weight:600}.toast .tm{font-size:13px;color:var(--text-secondary)}
+        .toast .tc{background:none;border:none;color:var(--text-muted);cursor:pointer;padding:4px;display:flex}.toast .tc i{width:16px;height:16px}
+        .toast.removing{animation:fadeIn .3s ease reverse forwards}
+
+        /* TOP HEADER */
+        .top-header{position:sticky;top:0;z-index:100;background:rgba(8,11,20,0.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--surface-border);padding:14px 20px;animation:fadeInDown .5s ease}
+        [data-theme="light"] .top-header{background:rgba(241,245,249,0.88)}
+        .top-header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+        .th-back{width:38px;height:38px;border-radius:10px;background:var(--surface);border:1px solid var(--surface-border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-secondary);transition:all var(--transition-normal);flex-shrink:0}
+        .th-back:hover{background:var(--primary-light);color:var(--primary);border-color:var(--primary)}
+        .th-back i{width:20px;height:20px}
+        .th-title-area{flex:1;min-width:0}
+        .th-page-title{font-size:18px;font-weight:700;letter-spacing:-0.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .th-page-sub{font-size:12px;color:var(--text-tertiary);font-weight:500}
+        .th-actions{display:flex;gap:8px}
+        .th-btn{width:38px;height:38px;border-radius:10px;background:var(--surface);border:1px solid var(--surface-border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-secondary);transition:all var(--transition-normal);position:relative}
+        .th-btn:hover{background:var(--surface-hover);color:var(--primary);border-color:var(--primary)}
+        .th-btn i{width:20px;height:20px}
+
+        /* MAIN */
+        .main-content{max-width:1200px;margin:0 auto;padding:20px 16px;position:relative;z-index:1}
+
+        /* VIEWS */
+        .view{display:none;opacity:0}
+        .view.active{display:block;animation:fadeIn .4s ease forwards}
+        .view.slide-in-right{animation:slideInRight .4s ease forwards}
+        .view.slide-in-left{animation:slideInLeft .4s ease forwards}
+
+        /* ===== COURSES LIST VIEW ===== */
+        .search-bar{display:flex;gap:10px;margin-bottom:20px;animation:fadeInUp .5s ease .1s both}
+        .search-input-wrap{flex:1;position:relative}
+        .search-input-wrap .s-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted)}
+        .search-input-wrap .s-icon i{width:18px;height:18px}
+        .search-input{width:100%;padding:13px 14px 13px 44px;background:var(--surface);border:1.5px solid var(--surface-border);border-radius:var(--input-radius);color:var(--text-primary);font-size:14px;font-family:var(--font);outline:none;transition:all var(--transition-normal)}
+        .search-input::placeholder{color:var(--text-muted)}
+        .search-input:focus{border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-light)}
+        .filter-btn{padding:13px 16px;background:var(--surface);border:1.5px solid var(--surface-border);border-radius:var(--input-radius);color:var(--text-secondary);cursor:pointer;transition:all var(--transition-normal);display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;font-family:var(--font)}
+        .filter-btn:hover{border-color:var(--primary);color:var(--primary)}
+        .filter-btn i{width:18px;height:18px}
+        .filter-btn.active{background:var(--primary-light);border-color:var(--primary);color:var(--primary)}
+
+        .courses-stats{display:flex;gap:12px;margin-bottom:20px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:2px 0}
+        .courses-stats::-webkit-scrollbar{display:none}
+        .cs-chip{padding:10px 18px;background:var(--surface);border:1px solid var(--surface-border);border-radius:12px;white-space:nowrap;flex-shrink:0;text-align:center;animation:fadeInUp .4s ease both;transition:all var(--transition-normal);cursor:pointer}
+        .cs-chip:hover{border-color:var(--primary-light);background:var(--surface-hover)}
+        .cs-chip:nth-child(1){animation-delay:.1s}.cs-chip:nth-child(2){animation-delay:.15s}.cs-chip:nth-child(3){animation-delay:.2s}
+        .cs-chip .cs-val{font-size:20px;font-weight:800;letter-spacing:-0.5px}
+        .cs-chip .cs-lab{font-size:11px;color:var(--text-tertiary);font-weight:600}
+
+        .courses-grid{display:grid;gap:14px}
+        .course-card{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);padding:20px;cursor:pointer;animation:fadeInUp .5s ease both;transition:all var(--transition-smooth);position:relative;overflow:hidden}
+        .course-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--primary);opacity:0;transition:opacity var(--transition-normal)}
+        .course-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--surface-border-hover)}
+        .course-card:hover::before{opacity:1}
+        .course-card:nth-child(1){animation-delay:.1s}.course-card:nth-child(2){animation-delay:.15s}.course-card:nth-child(3){animation-delay:.2s}.course-card:nth-child(4){animation-delay:.25s}.course-card:nth-child(5){animation-delay:.3s}.course-card:nth-child(6){animation-delay:.35s}
+        .cc-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
+        .cc-code{font-size:13px;font-weight:700;color:var(--primary);background:var(--primary-light);padding:5px 12px;border-radius:8px;display:inline-block}
+        .cc-strength{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center}
+        .cc-strength i{width:16px;height:16px}
+        .cc-strength.strong{background:var(--success-light);color:var(--success)}
+        .cc-strength.mid{background:var(--warning-light);color:var(--warning)}
+        .cc-strength.weak{background:var(--danger-light);color:var(--danger)}
+        .cc-strength.none{background:var(--surface-hover);color:var(--text-muted)}
+        .cc-name{font-size:16px;font-weight:700;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+        .cc-progress{margin-bottom:10px}
+        .cc-prog-bar{height:5px;background:var(--bg);border-radius:5px;overflow:hidden;margin-bottom:6px}
+        .cc-prog-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--primary),var(--accent));transform-origin:left;animation:barGrow .8s ease both}
+        .cc-prog-info{display:flex;justify-content:space-between;font-size:12px}
+        .cc-prog-info .prog-pct{font-weight:700;color:var(--primary)}
+        .cc-prog-info .prog-label{color:var(--text-tertiary)}
+        .cc-stats{display:flex;gap:16px;font-size:12px;color:var(--text-tertiary)}
+        .cc-stats span{display:flex;align-items:center;gap:4px}
+        .cc-stats span i{width:14px;height:14px}
+        .cc-btn{margin-top:14px;width:100%;padding:11px;background:var(--primary-light);color:var(--primary);border:none;border-radius:var(--btn-radius);font-size:13px;font-weight:600;font-family:var(--font);cursor:pointer;transition:all var(--transition-normal);display:flex;align-items:center;justify-content:center;gap:6px}
+        .cc-btn:hover{background:var(--primary);color:#fff}
+        .cc-btn i{width:16px;height:16px}
+
+        /* ===== COURSE DETAIL VIEW ===== */
+        .course-hero{background:var(--surface);border:1px solid var(--surface-border);border-radius:20px;padding:24px;margin-bottom:20px;animation:fadeInUp .5s ease .1s both;position:relative;overflow:hidden}
+        .course-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--primary),var(--accent),var(--success));background-size:200% 100%;animation:gradientShift 4s ease infinite}
+        .ch-code{font-size:14px;font-weight:700;color:var(--primary);margin-bottom:4px}
+        .ch-name{font-size:22px;font-weight:800;margin-bottom:16px;letter-spacing:-0.5px}
+        .ch-stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+        .ch-stat{text-align:center;padding:12px 8px;background:var(--bg);border-radius:12px}
+        .ch-stat .chv{font-size:20px;font-weight:800;margin-bottom:2px}
+        .ch-stat .chl{font-size:11px;color:var(--text-tertiary);font-weight:600}
+        .ch-stat:nth-child(1) .chv{color:var(--primary)}
+        .ch-stat:nth-child(2) .chv{color:var(--success)}
+        .ch-stat:nth-child(3) .chv{color:var(--accent)}
+
+        .course-actions{display:flex;gap:10px;margin-bottom:20px;animation:fadeInUp .5s ease .2s both}
+        .ca-btn{flex:1;padding:14px;border:none;border-radius:var(--btn-radius);font-size:14px;font-weight:600;font-family:var(--font);cursor:pointer;transition:all var(--transition-normal);display:flex;align-items:center;justify-content:center;gap:8px}
+        .ca-btn i{width:18px;height:18px}
+        .ca-btn.primary{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;box-shadow:0 4px 16px rgba(99,102,241,0.3)}
+        .ca-btn.primary:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(99,102,241,0.4)}
+        .ca-btn.secondary{background:var(--surface);color:var(--text-primary);border:1px solid var(--surface-border)}
+        .ca-btn.secondary:hover{border-color:var(--primary);color:var(--primary)}
+
+        .section-title{font-size:16px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;animation:fadeInUp .5s ease .3s both}
+        .section-title i{width:18px;height:18px;color:var(--primary)}
+
+        .topics-list{display:flex;flex-direction:column;gap:10px}
+        .topic-card{display:flex;align-items:center;gap:14px;padding:16px;background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);cursor:pointer;animation:fadeInLeft .4s ease both;transition:all var(--transition-smooth)}
+        .topic-card:hover{transform:translateX(5px);border-color:var(--primary);box-shadow:var(--shadow-sm)}
+        .topic-card:nth-child(1){animation-delay:.1s}.topic-card:nth-child(2){animation-delay:.14s}.topic-card:nth-child(3){animation-delay:.18s}.topic-card:nth-child(4){animation-delay:.22s}.topic-card:nth-child(5){animation-delay:.26s}.topic-card:nth-child(6){animation-delay:.3s}.topic-card:nth-child(7){animation-delay:.34s}
+        .tc-status{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .tc-status i{width:18px;height:18px}
+        .tc-status.strong{background:var(--success-light);color:var(--success)}
+        .tc-status.improving{background:var(--warning-light);color:var(--warning)}
+        .tc-status.weak{background:var(--danger-light);color:var(--danger)}
+        .tc-status.not-started{background:var(--surface-hover);color:var(--text-muted)}
+        .tc-info{flex:1;min-width:0}
+        .tc-name{font-size:14px;font-weight:600;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .tc-meta{font-size:12px;color:var(--text-tertiary);display:flex;gap:10px}
+        .tc-meta span{display:flex;align-items:center;gap:3px}
+        .tc-meta span i{width:12px;height:12px}
+        .tc-pct{font-size:15px;font-weight:800;min-width:40px;text-align:right}
+        .tc-pct.strong{color:var(--success)}.tc-pct.improving{color:var(--warning)}.tc-pct.weak{color:var(--danger)}.tc-pct.none{color:var(--text-muted)}
+        .tc-arrow{color:var(--text-muted);transition:transform var(--transition-normal)}
+        .topic-card:hover .tc-arrow{transform:translateX(4px);color:var(--primary)}
+        .tc-arrow i{width:18px;height:18px}
+
+        /* ===== TOPIC DETAIL VIEW ===== */
+        .topic-hero{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);padding:24px;margin-bottom:20px;animation:fadeInUp .5s ease .1s both}
+        .tph-name{font-size:20px;font-weight:800;margin-bottom:6px}
+        .tph-course{font-size:13px;color:var(--primary);font-weight:600;margin-bottom:12px}
+        .tph-desc{font-size:14px;color:var(--text-secondary);margin-bottom:16px;line-height:1.6}
+        .tph-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+        .tph-stat{text-align:center;padding:12px;background:var(--bg);border-radius:12px}
+        .tph-stat .tv{font-size:22px;font-weight:800}
+        .tph-stat .tl{font-size:11px;color:var(--text-tertiary);font-weight:600}
+
+        .practice-options{display:flex;flex-direction:column;gap:12px;margin-bottom:20px;animation:fadeInUp .5s ease .25s both}
+        .practice-opt{display:flex;align-items:center;gap:14px;padding:18px;background:var(--surface);border:2px solid var(--surface-border);border-radius:var(--card-radius);cursor:pointer;transition:all var(--transition-smooth)}
+        .practice-opt:hover{border-color:var(--primary);transform:translateY(-2px);box-shadow:var(--shadow-md)}
+        .practice-opt.selected{border-color:var(--primary);background:var(--primary-light)}
+        .po-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .po-icon i{width:22px;height:22px}
+        .po-icon.sm{background:var(--success-light);color:var(--success)}
+        .po-icon.md{background:var(--primary-light);color:var(--primary)}
+        .po-icon.lg{background:var(--accent-light);color:var(--accent)}
+        .po-info{flex:1}
+        .po-info h4{font-size:15px;font-weight:700}
+        .po-info p{font-size:13px;color:var(--text-secondary)}
+        .po-arrow{color:var(--text-muted)}.po-arrow i{width:18px;height:18px}
+
+        /* ===== PRACTICE VIEW ===== */
+        .practice-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);margin-bottom:16px;animation:fadeInDown .4s ease}
+        .ph-left{display:flex;align-items:center;gap:10px}
+        .ph-num{font-size:13px;font-weight:700;color:var(--primary)}
+        .ph-progress{width:120px;height:5px;background:var(--bg);border-radius:5px;overflow:hidden}
+        .ph-progress-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:5px;transition:width .4s ease}
+        .ph-right{display:flex;gap:6px}
+        .ph-action{width:34px;height:34px;border-radius:8px;background:var(--bg);border:1px solid var(--surface-border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-muted);transition:all var(--transition-normal)}
+        .ph-action:hover{color:var(--primary);border-color:var(--primary)}
+        .ph-action.bookmarked{color:var(--warning);background:var(--warning-light);border-color:var(--warning)}
+        .ph-action i{width:16px;height:16px}
+
+        .question-card{background:var(--surface);border:1px solid var(--surface-border);border-radius:20px;padding:28px 22px;margin-bottom:16px;animation:scaleIn .4s ease}
+        .question-card.correct-anim{animation:correctPulse .6s ease}
+        .question-card.wrong-anim{animation:wrongShake .5s ease}
+        .q-text{font-size:16px;font-weight:600;line-height:1.7;margin-bottom:24px}
+
+        .options-list{display:flex;flex-direction:column;gap:10px}
+        .option-btn{display:flex;align-items:center;gap:14px;padding:16px;background:var(--bg);border:2px solid var(--surface-border);border-radius:14px;cursor:pointer;transition:all var(--transition-smooth);font-family:var(--font);font-size:15px;font-weight:500;color:var(--text-primary);text-align:left;width:100%;position:relative;overflow:hidden}
+        .option-btn:hover:not(.disabled){border-color:var(--primary);background:var(--primary-light);transform:translateX(4px)}
+        .option-btn .opt-letter{width:32px;height:32px;border-radius:10px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0;transition:all var(--transition-normal)}
+        .option-btn:hover:not(.disabled) .opt-letter{background:var(--primary);color:#fff}
+        .option-btn .opt-text{flex:1;line-height:1.5}
+        .option-btn .opt-icon{display:none;flex-shrink:0}
+        .option-btn .opt-icon i{width:20px;height:20px}
+        .option-btn.selected{border-color:var(--primary);background:var(--primary-light)}
+        .option-btn.selected .opt-letter{background:var(--primary);color:#fff}
+        .option-btn.correct{border-color:var(--success);background:var(--success-light)}
+        .option-btn.correct .opt-letter{background:var(--success);color:#fff}
+        .option-btn.correct .opt-icon{display:flex;color:var(--success)}
+        .option-btn.wrong{border-color:var(--danger);background:var(--danger-light)}
+        .option-btn.wrong .opt-letter{background:var(--danger);color:#fff}
+        .option-btn.wrong .opt-icon{display:flex;color:var(--danger)}
+        .option-btn.disabled{pointer-events:none;opacity:.7}
+        .option-btn.show-correct{border-color:var(--success);background:var(--success-light)}
+        .option-btn.show-correct .opt-letter{background:var(--success);color:#fff}
+
+        .explanation-card{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);padding:20px;margin-bottom:16px;animation:expandIn .4s ease both;overflow:hidden}
+        .exp-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+        .exp-header .exp-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center}
+        .exp-header .exp-icon i{width:18px;height:18px}
+        .exp-header.correct .exp-icon{background:var(--success-light);color:var(--success)}
+        .exp-header.wrong .exp-icon{background:var(--danger-light);color:var(--danger)}
+        .exp-header h4{font-size:15px;font-weight:700}
+        .exp-header.correct h4{color:var(--success)}
+        .exp-header.wrong h4{color:var(--danger)}
+        .exp-text{font-size:14px;color:var(--text-secondary);line-height:1.7}
+
+        .practice-nav{display:flex;gap:10px;margin-bottom:20px}
+        .pn-btn{flex:1;padding:14px;border:none;border-radius:var(--btn-radius);font-size:14px;font-weight:600;font-family:var(--font);cursor:pointer;transition:all var(--transition-normal);display:flex;align-items:center;justify-content:center;gap:8px}
+        .pn-btn i{width:18px;height:18px}
+        .pn-btn.prev{background:var(--surface);color:var(--text-secondary);border:1px solid var(--surface-border)}
+        .pn-btn.prev:hover{border-color:var(--primary);color:var(--primary)}
+        .pn-btn.next{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;box-shadow:0 4px 16px rgba(99,102,241,0.3)}
+        .pn-btn.next:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(99,102,241,0.4)}
+        .pn-btn:disabled{opacity:.5;cursor:not-allowed;transform:none!important}
+        .pn-btn.submit-btn{background:linear-gradient(135deg,var(--success),#059669);box-shadow:0 4px 16px rgba(16,185,129,0.3)}
+
+        /* ===== RESULTS VIEW ===== */
+        .results-card{background:var(--surface);border:1px solid var(--surface-border);border-radius:20px;padding:32px 24px;text-align:center;margin-bottom:20px;animation:scaleIn .5s ease .1s both;position:relative;overflow:hidden}
+        .results-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--primary),var(--accent),var(--success))}
+        .results-score{font-size:64px;font-weight:900;letter-spacing:-2px;margin:16px 0 8px;animation:bounceIn .7s ease .3s both}
+        .results-label{font-size:14px;color:var(--text-secondary);margin-bottom:20px}
+        .results-ring{width:120px;height:120px;position:relative;margin:0 auto 20px;animation:scaleIn .6s ease .2s both}
+        .results-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+        .results-ring .rr-bg{fill:none;stroke:var(--surface-border);stroke-width:10}
+        .results-ring .rr-fill{fill:none;stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset 1.5s cubic-bezier(0.4,0,0.2,1)}
+        .results-ring .rr-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+        .results-ring .rr-val{font-size:28px;font-weight:900}
+        .results-ring .rr-lab{font-size:10px;color:var(--text-tertiary);font-weight:600}
+        .results-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+        .rs-stat{padding:14px;background:var(--bg);border-radius:12px}
+        .rs-stat .rsv{font-size:20px;font-weight:800}
+        .rs-stat .rsl{font-size:11px;color:var(--text-tertiary);font-weight:600}
+        .results-actions{display:flex;gap:10px;flex-wrap:wrap}
+        .results-actions .ra-btn{flex:1;min-width:140px;padding:13px 16px;border:none;border-radius:var(--btn-radius);font-size:14px;font-weight:600;font-family:var(--font);cursor:pointer;transition:all var(--transition-normal);display:flex;align-items:center;justify-content:center;gap:8px}
+        .ra-btn i{width:18px;height:18px}
+        .ra-btn.primary{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff}
+        .ra-btn.primary:hover{transform:translateY(-2px)}
+        .ra-btn.ghost{background:var(--surface);color:var(--text-primary);border:1px solid var(--surface-border)}
+        .ra-btn.ghost:hover{border-color:var(--primary);color:var(--primary)}
+
+        /* EMPTY */
+        .empty-state{text-align:center;padding:60px 20px}
+        .empty-icon{width:72px;height:72px;border-radius:50%;background:var(--surface);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:var(--text-muted)}
+        .empty-icon i{width:32px;height:32px}
+        .empty-state h4{font-size:18px;font-weight:700;margin-bottom:6px}
+        .empty-state p{font-size:14px;color:var(--text-secondary);max-width:320px;margin:0 auto}
+
+        /* SKELETON */
+        .skeleton{background:linear-gradient(90deg,var(--surface) 25%,var(--surface-hover) 50%,var(--surface) 75%);background-size:200% 100%;animation:shimmer 1.5s ease infinite;border-radius:8px}
+
+        /* BOTTOM NAV */
+        .bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:1000;background:rgba(8,11,20,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--surface-border);padding:8px 0 calc(8px + var(--safe-bottom));animation:slideUp .5s ease .3s both}
+        [data-theme="light"] .bottom-nav{background:rgba(241,245,249,0.92)}
+        .nav-inner{display:flex;max-width:600px;margin:0 auto;padding:0 8px}
+        .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;cursor:pointer;color:var(--text-muted);transition:all var(--transition-normal);text-decoration:none;position:relative;border-radius:12px}
+        .nav-item:hover{color:var(--text-secondary)}
+        .nav-item.active{color:var(--primary)}
+        .nav-item.active::before{content:'';position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:24px;height:3px;background:var(--primary);border-radius:0 0 3px 3px}
+        .nav-item i{width:22px;height:22px}.nav-item span{font-size:11px;font-weight:600}
+
+        /* DESKTOP */
+        @media(min-width:1024px){
+            .bottom-nav{display:none}body{padding-bottom:0;padding-left:240px}
+            .desktop-sidebar{display:flex!important}
+        }
+        .desktop-sidebar{display:none;position:fixed;top:0;left:0;width:240px;height:100%;background:var(--surface);border-right:1px solid var(--surface-border);z-index:1001;flex-direction:column;padding:20px 0;animation:fadeInLeft .5s ease}
+        .ds-brand{display:flex;align-items:center;gap:10px;padding:0 20px;margin-bottom:32px}
+        .ds-brand .brand-icon{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center}
+        .ds-brand .brand-icon i{width:20px;height:20px;color:#fff}
+        .ds-brand .brand-name{font-size:20px;font-weight:800;letter-spacing:-1px;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .ds-nav{flex:1;display:flex;flex-direction:column;gap:4px;padding:0 12px}
+        .ds-nav-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:12px;color:var(--text-secondary);font-size:14px;font-weight:500;cursor:pointer;transition:all var(--transition-normal);text-decoration:none}
+        .ds-nav-item:hover{background:var(--surface-hover);color:var(--text-primary)}
+        .ds-nav-item.active{background:var(--primary-light);color:var(--primary);font-weight:600}
+        .ds-nav-item i{width:20px;height:20px}
+
+        /* RESPONSIVE */
+        @media(max-width:360px){.ch-stats-row{grid-template-columns:1fr}.tph-stats{grid-template-columns:1fr}.results-stats{grid-template-columns:1fr}.q-text{font-size:15px}}
+        @media(min-width:768px){.main-content{padding:24px 32px}.courses-grid{grid-template-columns:1fr 1fr}.course-hero .ch-stats-row{grid-template-columns:repeat(3,1fr)}}
+        @media(min-width:1200px){.courses-grid{grid-template-columns:1fr 1fr 1fr}}
+
+        /* MODAL */
+        .modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:5000;display:none;align-items:center;justify-content:center;padding:20px;animation:fadeIn .3s ease}
+        .modal-overlay.open{display:flex}
+        .modal{background:var(--surface);border:1px solid var(--surface-border);border-radius:20px;padding:28px;max-width:420px;width:100%;animation:scaleIn .3s ease;position:relative}
+        .modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:8px;background:var(--bg);border:none;color:var(--text-muted);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--transition-fast)}
+        .modal-close:hover{color:var(--danger);background:var(--danger-light)}
+        .modal-close i{width:18px;height:18px}
+        .modal h3{font-size:18px;font-weight:700;margin-bottom:8px}
+        .modal p{font-size:14px;color:var(--text-secondary);margin-bottom:20px}
+        .modal-actions{display:flex;gap:10px}
+        .modal-actions .m-btn{flex:1;padding:12px;border:none;border-radius:var(--btn-radius);font-size:14px;font-weight:600;font-family:var(--font);cursor:pointer;transition:all var(--transition-normal)}
+        .m-btn.cancel{background:var(--bg);color:var(--text-secondary)}.m-btn.cancel:hover{color:var(--text-primary)}
+        .m-btn.confirm{background:var(--primary);color:#fff}.m-btn.confirm:hover{opacity:.9}
+    </style>
+</head>
+<body>
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="lo-icon"><i data-lucide="graduation-cap"></i></div>
+        <div class="lo-bar"><div class="lo-bar-inner"></div></div>
+    </div>
+    <div class="bg-particles" id="bgParticles"></div>
+    <div class="bg-gradient-orb orb-1"></div>
+    <div class="bg-gradient-orb orb-2"></div>
+    <div class="toast-container" id="toastContainer"></div>
+
+    <nav class="desktop-sidebar">
+        <div class="ds-brand"><div class="brand-icon"><i data-lucide="graduation-cap"></i></div><span class="brand-name">FAVOJE</span></div>
+        <div class="ds-nav">
+            <a class="ds-nav-item" href="home.html"><i data-lucide="home"></i>Home</a>
+            <a class="ds-nav-item active" href="courses.html"><i data-lucide="book-open"></i>Courses</a>
+            <a class="ds-nav-item" href="cbt.html"><i data-lucide="file-text"></i>Practice</a>
+            <a class="ds-nav-item" href="leaderboard.html"><i data-lucide="trophy"></i>Leaderboard</a>
+            <a class="ds-nav-item" href="profile.html"><i data-lucide="user"></i>Profile</a>
+        </div>
+    </nav>
+
+    <header class="top-header" id="topHeader">
+        <div class="top-header-inner">
+            <button class="th-back" id="headerBack" style="display:none"><i data-lucide="arrow-left"></i></button>
+            <div class="th-title-area">
+                <div class="th-page-title" id="pageTitle">My Courses</div>
+                <div class="th-page-sub" id="pageSub"></div>
+            </div>
+            <div class="th-actions">
+                <button class="th-btn" id="themeToggle"><i data-lucide="moon"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content" id="mainContent">
+        <!-- COURSES LIST -->
+        <div class="view active" id="coursesListView">
+            <div class="search-bar">
+                <div class="search-input-wrap">
+                    <span class="s-icon"><i data-lucide="search"></i></span>
+                    <input class="search-input" id="searchInput" type="text" placeholder="Search courses...">
+                </div>
+                <button class="filter-btn" id="filterBtn"><i data-lucide="sliders-horizontal"></i></button>
+            </div>
+            <div class="courses-stats" id="coursesStats"></div>
+            <div class="courses-grid" id="coursesGrid"></div>
+        </div>
+
+        <!-- COURSE DETAIL -->
+        <div class="view" id="courseDetailView">
+            <div class="course-hero" id="courseHero"></div>
+            <div class="course-actions" id="courseActions"></div>
+            <div class="section-title"><i data-lucide="list"></i>Topics</div>
+            <div class="topics-list" id="topicsList"></div>
+        </div>
+
+        <!-- TOPIC DETAIL -->
+        <div class="view" id="topicDetailView">
+            <div class="topic-hero" id="topicHero"></div>
+            <div class="section-title" style="animation-delay:.2s"><i data-lucide="play-circle"></i>Practice Options</div>
+            <div class="practice-options" id="practiceOptions"></div>
+        </div>
+
+        <!-- PRACTICE -->
+        <div class="view" id="practiceView">
+            <div class="practice-header" id="practiceHeader"></div>
+            <div id="questionArea"></div>
+            <div id="explanationArea"></div>
+            <div class="practice-nav" id="practiceNav"></div>
+        </div>
+
+        <!-- RESULTS -->
+        <div class="view" id="resultsView">
+            <div class="results-card" id="resultsCard"></div>
+            <div class="section-title"><i data-lucide="bar-chart-3"></i>Topic Performance</div>
+            <div id="topicPerformance"></div>
+        </div>
+    </main>
+
+    <!-- Report Modal -->
+    <div class="modal-overlay" id="reportModal">
+        <div class="modal">
+            <button class="modal-close" id="reportClose"><i data-lucide="x"></i></button>
+            <h3>Report Question</h3>
+            <p>Is there an issue with this question?</p>
+            <select class="search-input" id="reportReason" style="padding-left:14px;margin-bottom:16px">
+                <option value="">Select reason</option>
+                <option value="incorrect_answer">Incorrect answer</option>
+                <option value="unclear">Question is unclear</option>
+                <option value="duplicate">Duplicate question</option>
+                <option value="wrong_topic">Wrong topic</option>
+                <option value="other">Other</option>
+            </select>
+            <div class="modal-actions">
+                <button class="m-btn cancel" id="reportCancel">Cancel</button>
+                <button class="m-btn confirm" id="reportSubmit">Submit Report</button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <div class="nav-inner">
+            <a class="nav-item" href="home.html"><i data-lucide="home"></i><span>Home</span></a>
+            <a class="nav-item active" href="courses.html"><i data-lucide="book-open"></i><span>Courses</span></a>
+            <a class="nav-item" href="cbt.html"><i data-lucide="file-text"></i><span>Practice</span></a>
+            <a class="nav-item" href="leaderboard.html"><i data-lucide="trophy"></i><span>Board</span></a>
+            <a class="nav-item" href="profile.html"><i data-lucide="user"></i><span>Profile</span></a>
+        </div>
+    </nav>
+
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+
+    <script>
+    const firebaseConfig={apiKey: "AIzaSyC1SmazNPbak8vMvi-jD40EGqpvWmWdd0U",
+  authDomain: "favoje-fcb02.firebaseapp.com",
+  projectId: "favoje-fcb02",
+  storageBucket: "favoje-fcb02.firebasestorage.app",
+  messagingSenderId: "837946471768",
+  appId: "1:837946471768:web:6ea76eee926fe77bdc212d"};
+    firebase.initializeApp(firebaseConfig);
+    const auth=firebase.auth(),db=firebase.firestore();
+
+    const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+
+    // ========== STATE ==========
+    const S={
+        user:null,profile:null,courses:[],currentCourse:null,currentTopic:null,
+        questions:[],currentQ:0,answers:{},bookmarks:{},practiceCount:10,
+        viewHistory:['coursesList'],theme:localStorage.getItem('favoje-theme')||'dark'
+    };
+
+    // ========== TOAST ==========
+    const Toast={show(t,ti,m,d=3500){const ic={success:'check-circle',error:'x-circle',warning:'alert-triangle',info:'info'};const el=document.createElement('div');el.className=`toast ${t}`;el.innerHTML=`<div class="ti"><i data-lucide="${ic[t]}"></i></div><div class="tb"><div class="tt">${ti}</div><div class="tm">${m}</div></div><button class="tc"><i data-lucide="x"></i></button>`;$('#toastContainer').appendChild(el);lucide.createIcons({nodes:[el]});const cl=()=>{el.classList.add('removing');setTimeout(()=>el.remove(),300)};el.querySelector('.tc').onclick=cl;setTimeout(cl,d)}};
+
+    // ========== THEME ==========
+    const Theme={
+        init(){this.apply(S.theme);$('#themeToggle').onclick=()=>this.toggle()},
+        apply(t){document.documentElement.setAttribute('data-theme',t);S.theme=t;localStorage.setItem('favoje-theme',t);this.icon()},
+        toggle(){this.apply(S.theme==='dark'?'light':'dark')},
+        icon(){const b=$('#themeToggle');b.innerHTML=`<i data-lucide="${S.theme==='dark'?'sun':'moon'}"></i>`;lucide.createIcons({nodes:[b]})}
+    };
+
+    // ========== PARTICLES ==========
+    function initParticles(){const c=$('#bgParticles');for(let i=0;i<18;i++){const p=document.createElement('div');p.className='particle';p.style.left=Math.random()*100+'%';p.style.top=Math.random()*100+'%';p.style.setProperty('--tx',(Math.random()*200-100)+'px');p.style.setProperty('--ty',(Math.random()*200-100)+'px');p.style.animation=`particleFloat ${5+Math.random()*10}s ease-in-out infinite`;p.style.animationDelay=Math.random()*5+'s';p.style.width=(2+Math.random()*3)+'px';p.style.height=p.style.width;c.appendChild(p)}}
+
+    // ========== VIEW MANAGEMENT ==========
+    function showView(viewId,direction='right'){
+        $$('.view').forEach(v=>{v.classList.remove('active','slide-in-right','slide-in-left')});
+        const view=$(`#${viewId}`);
+        view.classList.add('active',direction==='right'?'slide-in-right':'slide-in-left');
+        window.scrollTo({top:0,behavior:'smooth'});
+    }
+
+    function navigateTo(viewId){
+        S.viewHistory.push(viewId);
+        showView(viewId+'View','right');
+        updateHeader();
+    }
+
+    function goBack(){
+        if(S.viewHistory.length<=1){window.location.href='home.html';return}
+        S.viewHistory.pop();
+        const prev=S.viewHistory[S.viewHistory.length-1];
+        showView(prev+'View','left');
+        updateHeader();
+    }
+
+    function updateHeader(){
+        const current=S.viewHistory[S.viewHistory.length-1];
+        const back=$('#headerBack');
+        const title=$('#pageTitle');
+        const sub=$('#pageSub');
+        back.style.display=S.viewHistory.length>1?'flex':'none';
+        switch(current){
+            case'coursesList':title.textContent='My Courses';sub.textContent=S.courses.length+' courses selected';break;
+            case'courseDetail':title.textContent=S.currentCourse?.code||'Course';sub.textContent=S.currentCourse?.name||'';break;
+            case'topicDetail':title.textContent=S.currentTopic?.name||'Topic';sub.textContent=S.currentCourse?.code||'';break;
+            case'practice':title.textContent='Practice';sub.textContent=`Q${S.currentQ+1} of ${S.questions.length}`;break;
+            case'results':title.textContent='Results';sub.textContent=S.currentCourse?.code||'';break;
+        }
+    }
+
+    // ========== LOAD COURSES ==========
+    async function loadCourses(){
+        const grid=$('#coursesGrid');
+        grid.innerHTML=Array(4).fill('<div class="skeleton" style="height:180px;border-radius:16px"></div>').join('');
+        try{
+            if(!S.profile?.selectedCourses?.length){
+                grid.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon"><i data-lucide="book-open"></i></div><h4>No Courses Selected</h4><p>Go to your profile to select courses</p></div>`;
+                lucide.createIcons({nodes:[grid]});return;
+            }
+            const courses=[];
+            // Firebase in query limit 10
+            const chunks=[];
+            const ids=[...S.profile.selectedCourses];
+            while(ids.length)chunks.push(ids.splice(0,10));
+
+            for(const chunk of chunks){
+                const snap=await db.collection('courses').where(firebase.firestore.FieldPath.documentId(),'in',chunk).get();
+                snap.forEach(doc=>courses.push({id:doc.id,...doc.data()}));
+            }
+            S.courses=courses;
+
+            // Get performance per course
+            for(let c of S.courses){
+                try{
+                    const attSnap=await db.collection('attempts').where('userId','==',S.user.uid).where('courseId','==',c.id).get();
+                    let total=0,correct=0;
+                    attSnap.forEach(d=>{const a=d.data();total+=(a.totalQuestions||0);correct+=(a.correctAnswers||0)});
+                    c._attempted=total;c._correct=correct;c._accuracy=total>0?Math.round((correct/total)*100):0;
+                    // Count questions available
+                    const qSnap=await db.collection('questions').where('courseId','==',c.id).where('status','==','published').get();
+                    c._totalQuestions=qSnap.size;
+                    c._progress=c._totalQuestions>0?Math.min(100,Math.round((total/c._totalQuestions)*100)):0;
+                }catch(e){c._attempted=0;c._correct=0;c._accuracy=0;c._totalQuestions=0;c._progress=0}
+            }
+            renderCourses();renderCourseStats();
+        }catch(e){
+            console.error(e);
+            grid.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon"><i data-lucide="alert-circle"></i></div><h4>Error Loading Courses</h4><p>${e.message}</p></div>`;
+            lucide.createIcons({nodes:[grid]});
+        }
+    }
+
+    function renderCourseStats(){
+        const container=$('#coursesStats');
+        const totalQ=S.courses.reduce((s,c)=>s+c._totalQuestions,0);
+        const totalAtt=S.courses.reduce((s,c)=>s+c._attempted,0);
+        const avgAcc=S.courses.length>0?Math.round(S.courses.reduce((s,c)=>s+c._accuracy,0)/S.courses.length):0;
+        container.innerHTML=`
+            <div class="cs-chip"><div class="cs-val" style="color:var(--primary)">${S.courses.length}</div><div class="cs-lab">COURSES</div></div>
+            <div class="cs-chip"><div class="cs-val" style="color:var(--accent)">${totalQ}</div><div class="cs-lab">QUESTIONS</div></div>
+            <div class="cs-chip"><div class="cs-val" style="color:var(--success)">${avgAcc}%</div><div class="cs-lab">AVG ACCURACY</div></div>
+        `;
+    }
+
+    function renderCourses(filter=''){
+        const grid=$('#coursesGrid');grid.innerHTML='';
+        let filtered=S.courses;
+        if(filter){const f=filter.toLowerCase();filtered=filtered.filter(c=>(c.code||'').toLowerCase().includes(f)||(c.name||'').toLowerCase().includes(f))}
+        if(!filtered.length){grid.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon"><i data-lucide="search"></i></div><h4>No Courses Found</h4><p>Try a different search term</p></div>`;lucide.createIcons({nodes:[grid]});return}
+        filtered.forEach((c,i)=>{
+            const strength=c._accuracy>=70?'strong':c._accuracy>=45?'mid':c._accuracy>0?'weak':'none';
+            const strengthIcon=c._accuracy>=70?'trending-up':c._accuracy>=45?'minus':c._accuracy>0?'trending-down':'circle';
+            const card=document.createElement('div');
+            card.className='course-card';
+            card.style.animationDelay=`${0.1+i*0.05}s`;
+            card.innerHTML=`
+                <div class="cc-top">
+                    <span class="cc-code">${c.code||'N/A'}</span>
+                    <div class="cc-strength ${strength}"><i data-lucide="${strengthIcon}"></i></div>
+                </div>
+                <div class="cc-name">${c.name||'Unnamed Course'}</div>
+                <div class="cc-progress">
+                    <div class="cc-prog-bar"><div class="cc-prog-fill" style="width:${c._progress}%;animation-delay:${0.3+i*0.1}s"></div></div>
+                    <div class="cc-prog-info"><span class="prog-pct">${c._progress}% complete</span><span class="prog-label">${c._attempted} attempted</span></div>
+                </div>
+                <div class="cc-stats">
+                    <span><i data-lucide="help-circle"></i>${c._totalQuestions}Q</span>
+                    <span><i data-lucide="target"></i>${c._accuracy}%</span>
+                    <span><i data-lucide="book-open"></i>${c.units||'?'} units</span>
+                </div>
+                <button class="cc-btn"><i data-lucide="arrow-right"></i>Open Course</button>
+            `;
+            card.onclick=()=>openCourse(c);
+            grid.appendChild(card);
+        });
+        lucide.createIcons({nodes:[grid]});
+    }
+
+    // ========== COURSE DETAIL ==========
+    async function openCourse(course){
+        S.currentCourse=course;navigateTo('courseDetail');
+        const hero=$('#courseHero');
+        hero.innerHTML=`
+            <div class="ch-code">${course.code}</div>
+            <div class="ch-name">${course.name}</div>
+            <div class="ch-stats-row">
+                <div class="ch-stat"><div class="chv">${course._totalQuestions}</div><div class="chl">QUESTIONS</div></div>
+                <div class="ch-stat"><div class="chv">${course._accuracy}%</div><div class="chl">ACCURACY</div></div>
+                <div class="ch-stat"><div class="chv">${course._progress}%</div><div class="chl">PROGRESS</div></div>
+            </div>
+        `;
+        const actions=$('#courseActions');
+        actions.innerHTML=`
+            <button class="ca-btn primary" id="practiceAllBtn"><i data-lucide="play"></i>Practice</button>
+            <button class="ca-btn secondary" id="cbtBtn"><i data-lucide="clock"></i>Timed CBT</button>
+        `;
+        lucide.createIcons({nodes:[actions]});
+        $('#practiceAllBtn').onclick=()=>startCoursePractice(course,10);
+        $('#cbtBtn').onclick=()=>{window.location.href='cbt.html?course='+course.id};
+        await loadTopics(course.id);
+    }
+
+    async function loadTopics(courseId){
+        const list=$('#topicsList');
+        list.innerHTML=Array(5).fill('<div class="skeleton" style="height:70px;border-radius:16px;margin-bottom:10px"></div>').join('');
+        try{
+            const snap=await db.collection('topics').where('courseId','==',courseId).orderBy('order','asc').get();
+            const topics=[];snap.forEach(d=>topics.push({id:d.id,...d.data()}));
+            if(!topics.length){
+                // Try without order
+                const snap2=await db.collection('topics').where('courseId','==',courseId).get();
+                snap2.forEach(d=>{if(!topics.find(t=>t.id===d.id))topics.push({id:d.id,...d.data()})});
+            }
+            list.innerHTML='';
+            if(!topics.length){list.innerHTML=`<div class="empty-state"><div class="empty-icon"><i data-lucide="list"></i></div><h4>No Topics Yet</h4><p>Topics for this course haven't been added</p></div>`;lucide.createIcons({nodes:[list]});return}
+
+            for(const t of topics){
+                // Get topic performance
+                try{
+                    const perfSnap=await db.collection('topic_performance').where('userId','==',S.user.uid).where('topicId','==',t.id).limit(1).get();
+                    if(!perfSnap.empty){const p=perfSnap.docs[0].data();t._accuracy=Math.round(p.accuracy||0);t._attempted=p.attempted||0}
+                    else{t._accuracy=0;t._attempted=0}
+                }catch(e){t._accuracy=0;t._attempted=0}
+                // Count questions
+                try{const qSnap=await db.collection('questions').where('topicId','==',t.id).where('status','==','published').get();t._qCount=qSnap.size}catch(e){t._qCount=0}
+                const status=t._attempted===0?'not-started':t._accuracy>=70?'strong':t._accuracy>=45?'improving':'weak';
+                const statusIcon=t._attempted===0?'circle':t._accuracy>=70?'check-circle':t._accuracy>=45?'clock':'alert-circle';
+                const pctClass=t._attempted===0?'none':t._accuracy>=70?'strong':t._accuracy>=45?'improving':'weak';
+                const card=document.createElement('div');card.className='topic-card';
+                card.innerHTML=`
+                    <div class="tc-status ${status}"><i data-lucide="${statusIcon}"></i></div>
+                    <div class="tc-info">
+                        <div class="tc-name">${t.name}</div>
+                        <div class="tc-meta"><span><i data-lucide="help-circle"></i>${t._qCount}Q</span><span><i data-lucide="target"></i>${t._attempted} tried</span></div>
+                    </div>
+                    <span class="tc-pct ${pctClass}">${t._attempted>0?t._accuracy+'%':'—'}</span>
+                    <span class="tc-arrow"><i data-lucide="chevron-right"></i></span>
+                `;
+                card.onclick=()=>openTopic(t);
+                list.appendChild(card);
+            }
+            lucide.createIcons({nodes:[list]});
+        }catch(e){console.error(e);list.innerHTML=`<div class="empty-state"><div class="empty-icon"><i data-lucide="alert-circle"></i></div><h4>Error</h4><p>${e.message}</p></div>`;lucide.createIcons({nodes:[list]})}
+    }
+
+    // ========== TOPIC DETAIL ==========
+    function openTopic(topic){
+        S.currentTopic=topic;navigateTo('topicDetail');
+        const hero=$('#topicHero');
+        hero.innerHTML=`
+            <div class="tph-name">${topic.name}</div>
+            <div class="tph-course">${S.currentCourse?.code||''} — ${S.currentCourse?.name||''}</div>
+            ${topic.description?`<div class="tph-desc">${topic.description}</div>`:''}
+            <div class="tph-stats">
+                <div class="tph-stat"><div class="tv" style="color:var(--primary)">${topic._qCount||0}</div><div class="tl">QUESTIONS</div></div>
+                <div class="tph-stat"><div class="tv" style="color:var(--success)">${topic._accuracy||0}%</div><div class="tl">ACCURACY</div></div>
+                <div class="tph-stat"><div class="tv" style="color:var(--accent)">${topic._attempted||0}</div><div class="tl">ATTEMPTED</div></div>
+            </div>
+        `;
+        const opts=$('#practiceOptions');
+        const maxQ=topic._qCount||0;
+        const options=[{count:Math.min(10,maxQ),label:'Quick Practice',desc:'10 questions',icon:'sm'},{count:Math.min(20,maxQ),label:'Standard Practice',desc:'20 questions',icon:'md'},{count:Math.min(50,maxQ),label:'Deep Practice',desc:'Up to 50 questions',icon:'lg'}].filter(o=>o.count>0);
+        opts.innerHTML='';
+        if(!options.length){opts.innerHTML=`<div class="empty-state" style="padding:24px"><div class="empty-icon"><i data-lucide="help-circle"></i></div><h4>No Questions</h4><p>No practice questions available for this topic yet</p></div>`;lucide.createIcons({nodes:[opts]});return}
+        options.forEach(o=>{
+            const el=document.createElement('div');el.className='practice-opt';
+            el.innerHTML=`
+                <div class="po-icon ${o.icon}"><i data-lucide="play"></i></div>
+                <div class="po-info"><h4>${o.label}</h4><p>${o.count} questions</p></div>
+                <span class="po-arrow"><i data-lucide="chevron-right"></i></span>
+            `;
+            el.onclick=()=>{S.practiceCount=o.count;startTopicPractice(topic,o.count)};
+            opts.appendChild(el);
+        });
+        lucide.createIcons({nodes:[opts]});
+    }
+
+    // ========== START PRACTICE ==========
+    async function startTopicPractice(topic,count){
+        await loadQuestions({topicId:topic.id},count);
+        if(S.questions.length)startPracticeSession();
+        else Toast.show('warning','No Questions','No questions available for this topic yet.');
+    }
+
+    async function startCoursePractice(course,count){
+        await loadQuestions({courseId:course.id},count);
+        if(S.questions.length)startPracticeSession();
+        else Toast.show('warning','No Questions','No questions available for this course yet.');
+    }
+
+    async function loadQuestions(filter,count){
+        try{
+            let query=db.collection('questions').where('status','==','published');
+            if(filter.topicId)query=query.where('topicId','==',filter.topicId);
+            else if(filter.courseId)query=query.where('courseId','==',filter.courseId);
+            const snap=await query.limit(100).get();
+            let questions=[];snap.forEach(d=>questions.push({id:d.id,...d.data()}));
+            // Shuffle
+            for(let i=questions.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[questions[i],questions[j]]=[questions[j],questions[i]]}
+            S.questions=questions.slice(0,count);
+            S.currentQ=0;S.answers={};S.bookmarks={};
+        }catch(e){console.error(e);S.questions=[];Toast.show('error','Error','Could not load questions.')}
+    }
+
+    function startPracticeSession(){
+        navigateTo('practice');renderQuestion();
+    }
+
+    // ========== RENDER QUESTION ==========
+    function renderQuestion(){
+        const q=S.questions[S.currentQ];
+        if(!q)return;
+        updateHeader();
+
+        // Header
+        const ph=$('#practiceHeader');
+        const pct=Math.round(((S.currentQ+1)/S.questions.length)*100);
+        const isBookmarked=S.bookmarks[q.id];
+        ph.innerHTML=`
+            <div class="ph-left">
+                <span class="ph-num">Q${S.currentQ+1}/${S.questions.length}</span>
+                <div class="ph-progress"><div class="ph-progress-fill" style="width:${pct}%"></div></div>
+            </div>
+            <div class="ph-right">
+                <button class="ph-action ${isBookmarked?'bookmarked':''}" id="bookmarkBtn" title="Bookmark"><i data-lucide="bookmark"></i></button>
+                <button class="ph-action" id="reportBtn" title="Report"><i data-lucide="flag"></i></button>
+            </div>
+        `;
+        lucide.createIcons({nodes:[ph]});
+        $('#bookmarkBtn').onclick=()=>toggleBookmark(q.id);
+        $('#reportBtn').onclick=()=>openReportModal(q.id);
+
+        // Question
+        const qa=$('#questionArea');
+        const answered=S.answers[q.id]!==undefined;
+        const letters=['A','B','C','D','E','F'];
+        const options=(q.options||[]).map((o,i)=>{
+            let cls='option-btn';
+            let iconHtml='';
+            if(answered){
+                cls+=' disabled';
+                if(S.answers[q.id]===i&&o.isCorrect){cls+=' correct';iconHtml=`<span class="opt-icon"><i data-lucide="check-circle"></i></span>`}
+                else if(S.answers[q.id]===i&&!o.isCorrect){cls+=' wrong';iconHtml=`<span class="opt-icon"><i data-lucide="x-circle"></i></span>`}
+                else if(o.isCorrect){cls+=' show-correct'}
+            }
+            return`<button class="${cls}" data-idx="${i}">
+                <span class="opt-letter">${letters[i]||'?'}</span>
+                <span class="opt-text">${o.text||''}</span>
+                ${iconHtml}
+            </button>`;
+        }).join('');
+
+        qa.innerHTML=`<div class="question-card" id="qCard"><div class="q-text">${q.question||'Question not available'}</div><div class="options-list">${options}</div></div>`;
+        lucide.createIcons({nodes:[qa]});
+
+        if(!answered){
+            qa.querySelectorAll('.option-btn').forEach(btn=>{
+                btn.onclick=()=>answerQuestion(parseInt(btn.dataset.idx));
+            });
+        }
+
+        // Explanation
+        const ea=$('#explanationArea');
+        if(answered){
+            const isCorrect=q.options[S.answers[q.id]]?.isCorrect;
+            ea.innerHTML=`<div class="explanation-card">
+                <div class="exp-header ${isCorrect?'correct':'wrong'}">
+                    <div class="exp-icon"><i data-lucide="${isCorrect?'check-circle':'x-circle'}"></i></div>
+                    <h4>${isCorrect?'Correct! 🎉':'Incorrect'}</h4>
+                </div>
+                ${q.explanation?`<div class="exp-text">${q.explanation}</div>`:''}
+            </div>`;
+        }else{ea.innerHTML=''}
+        lucide.createIcons({nodes:[ea]});
+
+        // Nav buttons
+        renderPracticeNav();
+    }
+
+    function answerQuestion(idx){
+        const q=S.questions[S.currentQ];
+        S.answers[q.id]=idx;
+        const isCorrect=q.options[idx]?.isCorrect;
+        const card=$('#qCard');
+        if(isCorrect){card.classList.add('correct-anim')}else{card.classList.add('wrong-anim')}
+        renderQuestion();
+    }
+
+    function toggleBookmark(qId){
+        S.bookmarks[qId]=!S.bookmarks[qId];
+        // Save bookmark to Firebase
+        if(S.bookmarks[qId]){
+            db.collection('bookmarks').doc(`${S.user.uid}_${qId}`).set({
+                userId:S.user.uid,questionId:qId,createdAt:firebase.firestore.FieldValue.serverTimestamp()
+            }).catch(e=>console.error(e));
+            Toast.show('info','Bookmarked','Question saved to bookmarks');
+        }else{
+            db.collection('bookmarks').doc(`${S.user.uid}_${qId}`).delete().catch(e=>console.error(e));
+        }
+        renderQuestion();
+    }
+
+    function openReportModal(qId){
+        const modal=$('#reportModal');modal.classList.add('open');
+        $('#reportClose').onclick=$('#reportCancel').onclick=()=>modal.classList.remove('open');
+        $('#reportSubmit').onclick=async()=>{
+            const reason=$('#reportReason').value;
+            if(!reason){Toast.show('warning','Select Reason','Please select a reason');return}
+            try{
+                await db.collection('question_reports').add({userId:S.user.uid,questionId:qId,reason,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+                Toast.show('success','Reported','Thanks for your feedback');modal.classList.remove('open');
+            }catch(e){Toast.show('error','Error','Could not submit report')}
+        };
+    }
+
+    function renderPracticeNav(){
+        const nav=$('#practiceNav');
+        const isFirst=S.currentQ===0;
+        const isLast=S.currentQ===S.questions.length-1;
+        const allAnswered=S.questions.every(q=>S.answers[q.id]!==undefined);
+        const currentAnswered=S.answers[S.questions[S.currentQ]?.id]!==undefined;
+
+        let nextText=currentAnswered?(isLast?'See Results':'Next'):'Answer to continue';
+        let nextClass=isLast&&allAnswered?'pn-btn next submit-btn':'pn-btn next';
+
+        nav.innerHTML=`
+            <button class="pn-btn prev" ${isFirst?'disabled':''} id="prevBtn"><i data-lucide="arrow-left"></i>Previous</button>
+            <button class="${nextClass}" ${!currentAnswered?'disabled':''} id="nextQBtn"><span>${isLast&&allAnswered?'Finish':'Next'}</span><i data-lucide="${isLast&&allAnswered?'check':'arrow-right'}"></i></button>
+        `;
+        lucide.createIcons({nodes:[nav]});
+        $('#prevBtn').onclick=()=>{if(S.currentQ>0){S.currentQ--;renderQuestion()}};
+        $('#nextQBtn').onclick=()=>{
+            if(isLast&&allAnswered){finishPractice()}
+            else if(!isLast&&currentAnswered){S.currentQ++;renderQuestion()}
+        };
+    }
+
+    // ========== FINISH PRACTICE ==========
+    async function finishPractice(){
+        const totalQ=S.questions.length;
+        let correct=0;
+        const topicStats={};
+        S.questions.forEach(q=>{
+            const ans=S.answers[q.id];
+            const isCorrect=ans!==undefined&&q.options[ans]?.isCorrect;
+            if(isCorrect)correct++;
+            const topicName=q.topicName||q.topic||'General';
+            const topicId=q.topicId||'general';
+            if(!topicStats[topicId])topicStats[topicId]={name:topicName,total:0,correct:0};
+            topicStats[topicId].total++;
+            if(isCorrect)topicStats[topicId].correct++;
+        });
+        const score=Math.round((correct/totalQ)*100);
+        navigateTo('results');
+        renderResults(score,correct,totalQ,topicStats);
+        await saveAttempt(score,correct,totalQ,topicStats);
+    }
+
+    function renderResults(score,correct,total,topicStats){
+        const card=$('#resultsCard');
+        const circumference=2*Math.PI*50;
+        const color=score>=70?'var(--success)':score>=45?'var(--warning)':'var(--danger)';
+        card.innerHTML=`
+            <div class="results-ring"><svg viewBox="0 0 120 120"><circle class="rr-bg" cx="60" cy="60" r="50"/><circle class="rr-fill" id="rrFill" cx="60" cy="60" r="50" stroke="${color}" stroke-dasharray="${circumference}" stroke-dashoffset="${circumference}"/></svg>
+                <div class="rr-center"><div class="rr-val" style="color:${color}">${score}%</div><div class="rr-lab">SCORE</div></div>
+            </div>
+            <div class="results-label">${S.currentCourse?.code||''} Practice Results</div>
+            <div class="results-stats">
+                <div class="rs-stat"><div class="rsv" style="color:var(--success)">${correct}</div><div class="rsl">CORRECT</div></div>
+                <div class="rs-stat"><div class="rsv" style="color:var(--danger)">${total-correct}</div><div class="rsl">WRONG</div></div>
+                <div class="rs-stat"><div class="rsv" style="color:var(--primary)">${total}</div><div class="rsl">TOTAL</div></div>
+            </div>
+            <div class="results-actions">
+                <button class="ra-btn ghost" id="reviewBtn"><i data-lucide="eye"></i>Review</button>
+                <button class="ra-btn primary" id="retryBtn"><i data-lucide="rotate-ccw"></i>Retry</button>
+            </div>
+        `;
+        lucide.createIcons({nodes:[card]});
+        setTimeout(()=>{const offset=circumference-(score/100)*circumference;$('#rrFill').style.strokeDashoffset=offset},300);
+
+        $('#reviewBtn').onclick=()=>{S.currentQ=0;navigateTo('practice');renderQuestion()};
+        $('#retryBtn').onclick=()=>{S.answers={};S.currentQ=0;navigateTo('practice');renderQuestion()};
+
+        // Topic performance
+        const tp=$('#topicPerformance');tp.innerHTML='';
+        Object.values(topicStats).forEach(t=>{
+            const pct=Math.round((t.correct/t.total)*100);
+            const cls=pct>=70?'strong':pct>=45?'improving':'weak';
+            const icon=pct>=70?'check-circle':pct>=45?'clock':'alert-circle';
+            const card=document.createElement('div');card.className='topic-card';card.style.cursor='default';
+            card.innerHTML=`
+                <div class="tc-status ${cls}"><i data-lucide="${icon}"></i></div>
+                <div class="tc-info"><div class="tc-name">${t.name}</div><div class="tc-meta"><span>${t.correct}/${t.total} correct</span></div></div>
+                <span class="tc-pct ${cls}">${pct}%</span>
+            `;
+            tp.appendChild(card);
+        });
+        lucide.createIcons({nodes:[tp]});
+    }
+
+    // ========== SAVE ATTEMPT TO FIREBASE ==========
+    async function saveAttempt(score,correct,total,topicStats){
+        try{
+            await db.collection('attempts').add({
+                userId:S.user.uid,
+                courseId:S.currentCourse?.id||'',
+                courseCode:S.currentCourse?.code||'',
+                topicId:S.currentTopic?.id||'',
+                type:'practice',
+                score,correctAnswers:correct,totalQuestions:total,
+                topicStats,
+                createdAt:firebase.firestore.FieldValue.serverTimestamp()
+            });
+            // Update user stats
+            const userRef=db.collection('users').doc(S.user.uid);
+            await userRef.update({
+                questionsAttempted:firebase.firestore.FieldValue.increment(total),
+                questionsCorrect:firebase.firestore.FieldValue.increment(correct),
+                testsCompleted:firebase.firestore.FieldValue.increment(1),
+                bestScore:Math.max(S.profile.bestScore||0,score),
+                updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+            });
+            // Update topic performance
+            for(const[topicId,stats] of Object.entries(topicStats)){
+                const ref=db.collection('topic_performance').doc(`${S.user.uid}_${topicId}`);
+                const existing=await ref.get();
+                if(existing.exists){
+                    const prev=existing.data();
+                    const newTotal=(prev.attempted||0)+stats.total;
+                    const newCorrect=(prev.correct||0)+stats.correct;
+                    await ref.update({
+                        attempted:newTotal,correct:newCorrect,
+                        accuracy:Math.round((newCorrect/newTotal)*100),
+                        updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                }else{
+                    await ref.set({
+                        userId:S.user.uid,topicId,topicName:stats.name,
+                        courseId:S.currentCourse?.id||'',courseCode:S.currentCourse?.code||'',
+                        attempted:stats.total,correct:stats.correct,
+                        accuracy:Math.round((stats.correct/stats.total)*100),
+                        createdAt:firebase.firestore.FieldValue.serverTimestamp(),
+                        updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                }
+            }
+            // Update streak
+            const today=new Date().toISOString().split('T')[0];
+            const streakRef=db.collection('streaks').doc(S.user.uid);
+            const streakDoc=await streakRef.get();
+            if(streakDoc.exists){
+                const sd=streakDoc.data();
+                const weekData=sd.weekData||{};
+                weekData[today]=true;
+                let newStreak=sd.currentStreak||0;
+                const yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);
+                const yStr=yesterday.toISOString().split('T')[0];
+                if(!sd.weekData||!sd.weekData[today]){
+                    if(sd.lastPracticeDate===yStr||sd.lastPracticeDate===today)newStreak++;
+                    else newStreak=1;
+                }
+                await streakRef.update({
+                    currentStreak:newStreak,
+                    longestStreak:Math.max(sd.longestStreak||0,newStreak),
+                    lastPracticeDate:today,weekData,
+                    updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+                });
+            }
+        }catch(e){console.error('Save attempt error:',e)}
+    }
+
+    // ========== SEARCH ==========
+    function initSearch(){
+        let timer;
+        $('#searchInput').addEventListener('input',e=>{
+            clearTimeout(timer);
+            timer=setTimeout(()=>renderCourses(e.target.value),300);
+        });
+    }
+
+    // ========== INIT ==========
+    function init(){
+        lucide.createIcons();Theme.init();initParticles();initSearch();
+        $('#headerBack').onclick=goBack;
+
+        auth.onAuthStateChanged(async user=>{
+            if(!user){window.location.href='index.html';return}
+            S.user=user;
+            try{
+                const doc=await db.collection('users').doc(user.uid).get();
+                if(!doc.exists){window.location.href='index.html';return}
+                S.profile=doc.data();
+                if(!S.profile.onboardingCompleted){window.location.href='onboarding.html';return}
+                await loadCourses();
+                updateHeader();
+            }catch(e){console.error(e);Toast.show('error','Error','Could not load data')}
+            setTimeout(()=>{const o=$('#loadingOverlay');o.classList.add('hidden');setTimeout(()=>o.remove(),600)},500);
+        });
+    }
+    document.addEventListener('DOMContentLoaded',init);
+    </script>
+</body>
+</html>

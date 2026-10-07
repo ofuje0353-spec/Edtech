@@ -1,0 +1,583 @@
+ <!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>FAVOJE Admin — Finance</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        :root{--primary:#6366F1;--primary-hover:#5558E6;--primary-light:rgba(99,102,241,0.12);--primary-glow:rgba(99,102,241,0.3);--secondary:#4F46E5;--bg:#080B14;--bg-secondary:#0D1117;--surface:#111827;--surface-hover:#1a2234;--surface-border:rgba(255,255,255,0.06);--surface-border-hover:rgba(255,255,255,0.12);--accent:#F97316;--accent-light:rgba(249,115,22,0.12);--success:#10B981;--success-light:rgba(16,185,129,0.12);--danger:#EF4444;--danger-light:rgba(239,68,68,0.12);--warning:#F59E0B;--warning-light:rgba(245,158,11,0.12);--text-primary:#F8FAFC;--text-secondary:#94A3B8;--text-tertiary:#64748B;--text-muted:#475569;--card-radius:16px;--btn-radius:12px;--input-radius:12px;--transition-fast:0.15s ease;--transition-normal:0.3s ease;--transition-smooth:0.4s cubic-bezier(0.4,0,0.2,1);--shadow-sm:0 1px 3px rgba(0,0,0,0.3);--shadow-md:0 4px 12px rgba(0,0,0,0.4);--shadow-lg:0 8px 32px rgba(0,0,0,0.5);--font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;--sidebar-width:260px}
+        [data-theme="light"]{--bg:#F1F5F9;--bg-secondary:#E2E8F0;--surface:#FFFFFF;--surface-hover:#F8FAFC;--surface-border:rgba(0,0,0,0.08);--surface-border-hover:rgba(0,0,0,0.15);--text-primary:#0F172A;--text-secondary:#475569;--text-tertiary:#64748B;--text-muted:#94A3B8;--shadow-sm:0 1px 3px rgba(0,0,0,0.08);--shadow-md:0 4px 12px rgba(0,0,0,0.1);--shadow-lg:0 8px 32px rgba(0,0,0,0.12);--primary-light:rgba(99,102,241,0.08);--accent-light:rgba(249,115,22,0.08);--success-light:rgba(16,185,129,0.08);--danger-light:rgba(239,68,68,0.08);--warning-light:rgba(245,158,11,0.08)}
+        *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+        body{font-family:var(--font);background:var(--bg);color:var(--text-primary);min-height:100vh;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+        ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--text-muted);border-radius:3px}
+        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+        @keyframes fadeInUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes fadeInDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes fadeInLeft{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes fadeInRight{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes scaleIn{from{opacity:0;transform:scale(0.88)}to{opacity:1;transform:scale(1)}}
+        @keyframes bounceIn{0%{opacity:0;transform:scale(0.3)}50%{opacity:1;transform:scale(1.06)}70%{transform:scale(0.94)}100%{opacity:1;transform:scale(1)}}
+        @keyframes slideUp{from{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}
+        @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        @keyframes popIn{0%{opacity:0;transform:scale(0) rotate(-8deg)}60%{transform:scale(1.1) rotate(2deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
+        @keyframes barGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+        @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+        @keyframes glowPulse{0%,100%{box-shadow:0 0 8px var(--primary-glow)}50%{box-shadow:0 0 24px var(--primary-glow)}}
+        @keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+        @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+        @keyframes particleFloat{0%,100%{transform:translate(0,0) rotate(0);opacity:0}10%{opacity:.4}90%{opacity:.4}100%{transform:translate(var(--tx),var(--ty)) rotate(360deg);opacity:0}}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+        @keyframes countUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes shineEffect{0%{left:-100%}100%{left:200%}}
+
+        .bg-particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+        .particle{position:absolute;width:3px;height:3px;background:var(--primary);border-radius:50%;opacity:0}
+
+        .loading-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:20000;transition:opacity .6s,visibility .6s}
+        .loading-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none}
+        .lo-icon{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;animation:bounceIn .8s ease,float 2s ease-in-out infinite .8s;box-shadow:0 4px 20px rgba(99,102,241,0.4)}
+        .lo-icon i{width:30px;height:30px;color:#fff}
+        .lo-bar{width:100px;height:3px;background:var(--surface);border-radius:3px;overflow:hidden;margin-top:20px}
+        .lo-bar-inner{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent),var(--primary));width:40%;animation:shimmer 1.4s ease-in-out infinite;background-size:200% 100%;border-radius:3px}
+
+        .toast-container{position:fixed;top:20px;right:20px;z-index:10000;display:flex;flex-direction:column;gap:8px;width:380px;max-width:calc(100% - 40px)}
+        .toast{display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);box-shadow:var(--shadow-lg);animation:fadeInRight .4s ease;position:relative;overflow:hidden}
+        .toast::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px}
+        .toast.success::before{background:var(--success)}.toast.error::before{background:var(--danger)}.toast.info::before{background:var(--primary)}.toast.warning::before{background:var(--warning)}
+        .toast .ti{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .toast.success .ti{background:var(--success-light);color:var(--success)}.toast.error .ti{background:var(--danger-light);color:var(--danger)}.toast.info .ti{background:var(--primary-light);color:var(--primary)}.toast.warning .ti{background:var(--warning-light);color:var(--warning)}
+        .toast .ti i{width:18px;height:18px}.toast .tb{flex:1}.toast .tt{font-size:14px;font-weight:600}.toast .tm{font-size:13px;color:var(--text-secondary)}
+        .toast .tc{background:none;border:none;color:var(--text-muted);cursor:pointer;padding:4px;display:flex}.toast .tc i{width:16px;height:16px}
+        .toast.removing{animation:fadeIn .3s ease reverse forwards}
+
+        .admin-sidebar{position:fixed;top:0;left:0;width:var(--sidebar-width);height:100%;background:var(--surface);border-right:1px solid var(--surface-border);z-index:1001;display:flex;flex-direction:column;transition:transform .3s ease;overflow-y:auto}
+        .admin-sidebar.collapsed{transform:translateX(-100%)}
+        .sidebar-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:1000;display:none}.sidebar-overlay.open{display:block}
+        .sb-header{padding:20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--surface-border)}
+        .sb-logo{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(99,102,241,.3);flex-shrink:0}
+        .sb-logo i{width:22px;height:22px;color:#fff}
+        .sb-brand-name{font-size:18px;font-weight:800;letter-spacing:-1px;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .sb-brand-sub{font-size:11px;color:var(--text-muted);font-weight:600}
+        .sb-nav{flex:1;padding:16px 12px;display:flex;flex-direction:column;gap:3px}
+        .sb-nav-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-muted);padding:12px 16px 6px;margin-top:8px}
+        .sb-nav-item{display:flex;align-items:center;gap:12px;padding:11px 16px;border-radius:12px;color:var(--text-secondary);font-size:13px;font-weight:500;cursor:pointer;transition:all var(--transition-normal);text-decoration:none}
+        .sb-nav-item:hover{background:var(--surface-hover);color:var(--text-primary)}
+        .sb-nav-item.active{background:var(--primary-light);color:var(--primary);font-weight:600}
+        .sb-nav-item i{width:20px;height:20px;flex-shrink:0}
+        .sb-nav-item .nav-badge{margin-left:auto;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700;background:var(--danger);color:#fff;animation:pulse 2s ease-in-out infinite}
+
+        .admin-topbar{position:sticky;top:0;z-index:100;background:rgba(8,11,20,0.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--surface-border);padding:12px 24px;margin-left:var(--sidebar-width);transition:margin-left .3s ease}
+        [data-theme="light"] .admin-topbar{background:rgba(241,245,249,0.88)}
+        .topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:16px}
+        .tb-left{display:flex;align-items:center;gap:12px}
+        .tb-menu{width:38px;height:38px;border-radius:10px;background:var(--surface);border:1px solid var(--surface-border);display:none;align-items:center;justify-content:center;cursor:pointer;color:var(--text-secondary);transition:all var(--transition-normal)}
+        .tb-menu:hover{color:var(--primary);border-color:var(--primary)}.tb-menu i{width:20px;height:20px}
+        .tb-title{font-size:20px;font-weight:700;letter-spacing:-.3px}
+        .tb-sub{font-size:12px;color:var(--text-tertiary)}
+        .tb-right{display:flex;align-items:center;gap:10px}
+        .tb-btn{width:38px;height:38px;border-radius:10px;background:var(--surface);border:1px solid var(--surface-border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-secondary);transition:all var(--transition-normal)}
+        .tb-btn:hover{background:var(--surface-hover);color:var(--primary);border-color:var(--primary);transform:translateY(-1px)}.tb-btn i{width:20px;height:20px}
+
+        .admin-main{margin-left:var(--sidebar-width);padding:24px;min-height:calc(100vh - 64px);transition:margin-left .3s ease;position:relative;z-index:1}
+        .view{display:none;opacity:0}.view.active{display:block;animation:fadeIn .4s ease forwards}
+
+        /* FINANCE HERO */
+        .finance-hero{background:linear-gradient(135deg,var(--primary),var(--secondary),#3730A3);border-radius:20px;padding:28px;color:#fff;margin-bottom:24px;position:relative;overflow:hidden;animation:fadeInUp .5s ease .1s both}
+        .finance-hero::before{content:'';position:absolute;top:0;right:0;width:220px;height:220px;background:radial-gradient(circle,rgba(255,255,255,.08),transparent 70%)}
+        .finance-hero::after{content:'';position:absolute;bottom:-40px;left:-40px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.04)}
+        .fh-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;position:relative;z-index:1}
+        .fh-stat{padding:16px;background:rgba(255,255,255,.08);backdrop-filter:blur(8px);border-radius:14px;border:1px solid rgba(255,255,255,.1);text-align:center;animation:popIn .4s ease both}
+        .fh-stat:nth-child(1){animation-delay:.2s}.fh-stat:nth-child(2){animation-delay:.25s}.fh-stat:nth-child(3){animation-delay:.3s}.fh-stat:nth-child(4){animation-delay:.35s}.fh-stat:nth-child(5){animation-delay:.4s}
+        .fh-stat .fhv{font-size:24px;font-weight:900;letter-spacing:-.5px;margin-bottom:2px}
+        .fh-stat .fhl{font-size:11px;opacity:.75;font-weight:600}
+
+        /* TABS */
+        .fin-tabs{display:flex;background:var(--surface);border-radius:14px;padding:4px;margin-bottom:24px;border:1px solid var(--surface-border);animation:fadeInUp .5s ease .15s both;overflow-x:auto;scrollbar-width:none}
+        .fin-tabs::-webkit-scrollbar{display:none}
+        .ft-tab{flex:1;padding:12px 16px;text-align:center;font-size:13px;font-weight:600;color:var(--text-secondary);background:transparent;border:none;border-radius:11px;cursor:pointer;transition:all var(--transition-normal);font-family:var(--font);white-space:nowrap;display:flex;align-items:center;justify-content:center;gap:6px;min-width:0;position:relative}
+        .ft-tab:hover{color:var(--text-primary);background:var(--surface-hover)}
+        .ft-tab.active{background:var(--primary);color:#fff;box-shadow:0 2px 10px rgba(99,102,241,0.3)}
+        .ft-tab i{width:16px;height:16px}
+        .ft-tab .ft-count{padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700}
+        .ft-tab.active .ft-count{background:rgba(255,255,255,.2)}
+        .ft-tab:not(.active) .ft-count{background:var(--surface-hover);color:var(--text-muted)}
+        .ft-tab .ft-count.urgent{background:var(--danger);color:#fff;animation:pulse 2s ease-in-out infinite}
+
+        /* TOOLBAR */
+        .toolbar{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;animation:fadeInUp .5s ease .2s both}
+        .search-wrap{flex:1;min-width:200px;position:relative}
+        .search-wrap .s-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted)}.search-wrap .s-icon i{width:18px;height:18px}
+        .search-input{width:100%;padding:12px 14px 12px 44px;background:var(--surface);border:1.5px solid var(--surface-border);border-radius:var(--input-radius);color:var(--text-primary);font-size:14px;font-family:var(--font);outline:none;transition:all var(--transition-normal)}
+        .search-input::placeholder{color:var(--text-muted)}.search-input:focus{border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-light)}
+        .filter-select{padding:12px 36px 12px 14px;background:var(--surface);border:1.5px solid var(--surface-border);border-radius:var(--input-radius);color:var(--text-primary);font-size:13px;font-family:var(--font);outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;transition:all var(--transition-normal)}
+        .filter-select:focus{border-color:var(--primary)}
+        .toolbar-btn{padding:12px 20px;border:none;border-radius:var(--btn-radius);font-size:13px;font-weight:600;font-family:var(--font);cursor:pointer;transition:all var(--transition-normal);display:flex;align-items:center;gap:8px;white-space:nowrap}
+        .toolbar-btn:hover{transform:translateY(-2px)}.toolbar-btn i{width:18px;height:18px}
+        .toolbar-btn.primary{background:var(--primary);color:#fff;box-shadow:0 2px 10px rgba(99,102,241,.2)}
+        .toolbar-btn.secondary{background:var(--surface);color:var(--text-primary);border:1px solid var(--surface-border)}
+        .toolbar-btn.secondary:hover{border-color:var(--primary);color:var(--primary)}
+        .toolbar-btn.success{background:var(--success);color:#fff}.toolbar-btn.danger{background:var(--danger);color:#fff}
+
+        /* TABLE */
+        .table-card{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);overflow:hidden;margin-bottom:20px;animation:fadeInUp .5s ease .25s both}
+        .table-header{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--surface-border)}
+        .table-header h3{font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px}.table-header h3 i{width:18px;height:18px;color:var(--primary)}
+        .table-scroll{overflow-x:auto}
+        table{width:100%;border-collapse:collapse;min-width:750px}
+        th{text-align:left;padding:12px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text-muted);border-bottom:1px solid var(--surface-border);background:var(--bg-secondary)}
+        td{padding:14px 16px;font-size:13px;border-bottom:1px solid var(--surface-border);vertical-align:middle}
+        tr:last-child td{border-bottom:none}
+        tr:hover td{background:var(--surface-hover)}
+        .user-cell{display:flex;align-items:center;gap:10px}
+        .user-cell img{width:32px;height:32px;border-radius:50%;object-fit:cover;border:2px solid var(--surface-border)}
+        .user-cell .uc-name{font-weight:600}.user-cell .uc-email{font-size:11px;color:var(--text-tertiary)}
+        .status-badge{padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:4px}.status-badge i{width:12px;height:12px}
+        .status-badge.pending{background:var(--warning-light);color:var(--warning)}.status-badge.verified,.status-badge.completed,.status-badge.successful{background:var(--success-light);color:var(--success)}
+        .status-badge.rejected{background:var(--danger-light);color:var(--danger)}.status-badge.refunded{background:var(--primary-light);color:var(--primary)}
+        .amount-cell{font-weight:700;font-variant-numeric:tabular-nums}
+        .amount-cell.credit{color:var(--success)}.amount-cell.debit{color:var(--danger)}
+
+        .action-btn{width:30px;height:30px;border-radius:8px;background:var(--bg);border:1px solid var(--surface-border);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-muted);transition:all var(--transition-normal);margin-right:4px}
+        .action-btn:hover{color:var(--primary);border-color:var(--primary);background:var(--primary-light)}
+        .action-btn.success:hover{color:var(--success);border-color:var(--success);background:var(--success-light)}
+        .action-btn.danger:hover{color:var(--danger);border-color:var(--danger);background:var(--danger-light)}
+        .action-btn i{width:14px;height:14px}
+
+        .pagination{display:flex;align-items:center;justify-content:center;gap:6px;padding:16px;border-top:1px solid var(--surface-border)}
+        .page-btn{width:36px;height:36px;border-radius:8px;background:var(--bg);border:1px solid var(--surface-border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-secondary);transition:all var(--transition-normal);font-family:var(--font)}
+        .page-btn:hover{border-color:var(--primary);color:var(--primary)}.page-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
+        .page-btn:disabled{opacity:.4;cursor:not-allowed}.page-btn i{width:16px;height:16px}
+        .page-info{font-size:13px;color:var(--text-tertiary);padding:0 8px}
+
+        /* DEPOSIT DETAIL CARD */
+        .detail-card{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);padding:24px;margin-bottom:20px;animation:fadeInUp .5s ease both}
+        .dc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+        .dc-header h3{font-size:18px;font-weight:700;display:flex;align-items:center;gap:8px}.dc-header h3 i{width:20px;height:20px}
+        .dc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:20px}
+        .dc-field{padding:14px;background:var(--bg);border-radius:12px}
+        .dc-field .dfl{font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+        .dc-field .dfv{font-size:14px;font-weight:600;word-break:break-all}
+        .dc-field .dfv.amount{font-size:20px;font-weight:800;color:var(--primary)}
+        .dc-field .dfv.ref{font-family:monospace;color:var(--accent)}
+        .dc-actions{display:flex;gap:10px;flex-wrap:wrap}
+        .dc-actions .da-btn{padding:12px 24px;border:none;border-radius:var(--btn-radius);font-size:14px;font-weight:600;font-family:var(--font);cursor:pointer;transition:all var(--transition-normal);display:flex;align-items:center;gap:8px}
+        .da-btn i{width:18px;height:18px}
+        .da-btn.verify{background:var(--success);color:#fff;box-shadow:0 4px 16px rgba(16,185,129,.3)}
+        .da-btn.verify:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(16,185,129,.4)}
+        .da-btn.reject{background:var(--danger);color:#fff}
+        .da-btn.reject:hover{transform:translateY(-2px)}
+        .da-btn.back{background:var(--surface-hover);color:var(--text-secondary);border:1px solid var(--surface-border)}
+        .da-btn.back:hover{color:var(--primary);border-color:var(--primary)}
+        .da-btn:disabled{opacity:.5;cursor:not-allowed;transform:none!important}
+        .da-btn-spinner{display:none;width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite}
+        .da-btn.loading .da-btn-text{display:none}.da-btn.loading .da-btn-spinner{display:inline-block}.da-btn.loading{pointer-events:none}
+
+        /* MODAL */
+        .modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:5000;display:none;align-items:center;justify-content:center;padding:20px;animation:fadeIn .3s ease}
+        .modal-overlay.open{display:flex}
+        .modal{background:var(--surface);border:1px solid var(--surface-border);border-radius:20px;padding:28px;max-width:520px;width:100%;animation:scaleIn .3s ease;position:relative;max-height:90vh;overflow-y:auto}
+        .modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:8px;background:var(--bg);border:none;color:var(--text-muted);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--transition-fast)}
+        .modal-close:hover{color:var(--danger);background:var(--danger-light)}.modal-close i{width:18px;height:18px}
+        .modal h3{font-size:20px;font-weight:700;margin-bottom:4px}
+        .modal .modal-desc{font-size:14px;color:var(--text-secondary);margin-bottom:24px}
+        .form-group{margin-bottom:16px}
+        .form-label{display:block;font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:8px}
+        .form-input,.form-textarea{width:100%;padding:12px 16px;background:var(--bg);border:1.5px solid var(--surface-border);border-radius:var(--input-radius);color:var(--text-primary);font-size:14px;font-family:var(--font);outline:none;transition:all var(--transition-normal)}
+        .form-input:focus,.form-textarea:focus{border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-light)}
+        .form-input::placeholder,.form-textarea::placeholder{color:var(--text-muted)}
+        .form-textarea{resize:vertical;min-height:80px}
+        .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+        @media(max-width:480px){.form-row{grid-template-columns:1fr}}
+        .modal-actions{display:flex;gap:10px;margin-top:24px}
+        .m-btn{flex:1;padding:13px;border:none;border-radius:var(--btn-radius);font-size:14px;font-weight:600;font-family:var(--font);cursor:pointer;transition:all var(--transition-normal);display:flex;align-items:center;justify-content:center;gap:6px}
+        .m-btn i{width:18px;height:18px}
+        .m-btn.cancel{background:var(--bg);color:var(--text-secondary)}.m-btn.cancel:hover{color:var(--text-primary)}
+        .m-btn.primary{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff}
+        .m-btn.primary:hover{transform:translateY(-2px)}.m-btn.primary:disabled{opacity:.5;cursor:not-allowed;transform:none}
+        .m-btn.success{background:var(--success);color:#fff}.m-btn.danger{background:var(--danger);color:#fff}
+        .m-btn-spinner{display:none;width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite}
+        .m-btn.loading .m-btn-text{display:none}.m-btn.loading .m-btn-spinner{display:inline-block}.m-btn.loading{pointer-events:none}
+
+        /* ADJUSTMENT PREVIEW */
+        .adj-preview{background:var(--bg);border-radius:12px;padding:16px;margin:16px 0;display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;text-align:center}
+        .adj-preview .ap-val{font-size:18px;font-weight:800}.adj-preview .ap-label{font-size:11px;color:var(--text-tertiary);font-weight:600}
+        .adj-preview .ap-arrow{font-size:20px;color:var(--primary)}
+
+        .empty-state{text-align:center;padding:60px 20px}
+        .empty-icon{width:72px;height:72px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:var(--text-muted)}.empty-icon i{width:32px;height:32px}
+        .empty-state h4{font-size:18px;font-weight:700;margin-bottom:6px}.empty-state p{font-size:14px;color:var(--text-secondary)}
+        .skeleton{background:linear-gradient(90deg,var(--surface) 25%,var(--surface-hover) 50%,var(--surface) 75%);background-size:200% 100%;animation:shimmer 1.5s ease infinite;border-radius:12px}
+
+        @media(max-width:1024px){.admin-sidebar{transform:translateX(-100%)}.admin-sidebar.open{transform:translateX(0)}.admin-topbar{margin-left:0}.admin-main{margin-left:0}.tb-menu{display:flex}}
+        @media(max-width:600px){.admin-main{padding:16px}.fh-row{grid-template-columns:repeat(2,1fr)}.dc-grid{grid-template-columns:1fr}}
+        @media(max-width:360px){.fh-row{grid-template-columns:1fr}.fh-stat .fhv{font-size:20px}}
+    </style>
+</head>
+<body>
+    <div class="loading-overlay" id="loadingOverlay"><div class="lo-icon"><i data-lucide="wallet"></i></div><div class="lo-bar"><div class="lo-bar-inner"></div></div></div>
+    <div class="bg-particles" id="bgParticles"></div>
+    <div class="toast-container" id="toastContainer"></div>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <nav class="admin-sidebar" id="adminSidebar">
+        <div class="sb-header"><div class="sb-logo"><i data-lucide="graduation-cap"></i></div><div><span class="sb-brand-name">FAVOJE</span><div class="sb-brand-sub">Admin Panel</div></div></div>
+        <div class="sb-nav">
+            <div class="sb-nav-label">Main</div>
+            <a class="sb-nav-item" href="admin.html"><i data-lucide="layout-dashboard"></i>Dashboard</a>
+            <a class="sb-nav-item" href="admin.html?page=users"><i data-lucide="users"></i>Users</a>
+            <div class="sb-nav-label">Content</div>
+            <a class="sb-nav-item" href="admin-content.html"><i data-lucide="book-open"></i>Content</a>
+            <div class="sb-nav-label">Finance</div>
+            <a class="sb-nav-item active" href="admin-finance.html"><i data-lucide="wallet"></i>Finance</a>
+        </div>
+    </nav>
+
+    <header class="admin-topbar"><div class="topbar-inner">
+        <div class="tb-left"><button class="tb-menu" id="menuToggle"><i data-lucide="menu"></i></button><div><div class="tb-title">Finance Management</div><div class="tb-sub">Transactions, deposits & adjustments</div></div></div>
+        <div class="tb-right"><button class="tb-btn" id="themeToggle"><i data-lucide="moon"></i></button><button class="tb-btn" onclick="location.href='admin.html'"><i data-lucide="layout-dashboard"></i></button></div>
+    </div></header>
+
+    <main class="admin-main">
+        <div class="finance-hero" id="financeHero"></div>
+        <div class="fin-tabs" id="finTabs">
+            <button class="ft-tab active" data-tab="deposits"><i data-lucide="banknote"></i>Deposits<span class="ft-count" id="depPendingCount"></span></button>
+            <button class="ft-tab" data-tab="transactions"><i data-lucide="repeat"></i>Transactions</button>
+            <button class="ft-tab" data-tab="purchases"><i data-lucide="shopping-cart"></i>Purchases</button>
+            <button class="ft-tab" data-tab="adjustments"><i data-lucide="sliders-horizontal"></i>Adjustments</button>
+        </div>
+
+        <div class="view active" id="depositsView"><div class="toolbar" id="depToolbar"></div><div id="depContent"></div></div>
+        <div class="view" id="transactionsView"><div class="toolbar" id="txToolbar"></div><div class="table-card" id="txTable"></div></div>
+        <div class="view" id="purchasesView"><div class="toolbar" id="purToolbar"></div><div class="table-card" id="purTable"></div></div>
+        <div class="view" id="adjustmentsView"><div class="toolbar" id="adjToolbar"></div><div class="table-card" id="adjTable"></div></div>
+        <div class="view" id="depositDetailView"><div id="depDetailContent"></div></div>
+    </main>
+
+    <div class="modal-overlay" id="adjustModal"><div class="modal" id="adjustModalContent"></div></div>
+    <div class="modal-overlay" id="refundModal"><div class="modal" id="refundModalContent"></div></div>
+    <div class="modal-overlay" id="rejectModal"><div class="modal" id="rejectModalContent"></div></div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+    <script>
+    const firebaseConfig={apiKey: "AIzaSyC1SmazNPbak8vMvi-jD40EGqpvWmWdd0U",
+  authDomain: "favoje-fcb02.firebaseapp.com",
+  projectId: "favoje-fcb02",
+  storageBucket: "favoje-fcb02.firebasestorage.app",
+  messagingSenderId: "837946471768",
+  appId: "1:837946471768:web:6ea76eee926fe77bdc212d"};
+    firebase.initializeApp(firebaseConfig);const auth=firebase.auth(),db=firebase.firestore();
+    const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s),fmt=n=>new Intl.NumberFormat('en-NG').format(n||0);
+    function timeAgo(d){if(!d)return'—';const dt=d.toDate?d.toDate():new Date(d);const s=Math.floor((Date.now()-dt.getTime())/1000);if(s<60)return'Now';if(s<3600)return Math.floor(s/60)+'m';if(s<86400)return Math.floor(s/3600)+'h';return dt.toLocaleDateString('en-NG',{month:'short',day:'numeric',year:'numeric'})}
+    const S={user:null,profile:null,deposits:[],transactions:[],purchases:[],adjustments:[],depPage:1,txPage:1,purPage:1,adjPage:1,ps:12,depFilter:'all',txSearch:'',theme:localStorage.getItem('favoje-theme')||'dark'};
+    const Toast={show(t,ti,m,d=4e3){const ic={success:'check-circle',error:'x-circle',warning:'alert-triangle',info:'info'};const el=document.createElement('div');el.className=`toast ${t}`;el.innerHTML=`<div class="ti"><i data-lucide="${ic[t]}"></i></div><div class="tb"><div class="tt">${ti}</div><div class="tm">${m}</div></div><button class="tc"><i data-lucide="x"></i></button>`;$('#toastContainer').appendChild(el);lucide.createIcons({nodes:[el]});const cl=()=>{el.classList.add('removing');setTimeout(()=>el.remove(),300)};el.querySelector('.tc').onclick=cl;setTimeout(cl,d)}};
+    const Theme={init(){this.apply(S.theme);$('#themeToggle').onclick=()=>this.toggle()},apply(t){document.documentElement.setAttribute('data-theme',t);S.theme=t;localStorage.setItem('favoje-theme',t);this.icon()},toggle(){this.apply(S.theme==='dark'?'light':'dark')},icon(){const b=$('#themeToggle');b.innerHTML=`<i data-lucide="${S.theme==='dark'?'sun':'moon'}"></i>`;lucide.createIcons({nodes:[b]})}};
+    function initParticles(){const c=$('#bgParticles');for(let i=0;i<12;i++){const p=document.createElement('div');p.className='particle';p.style.left=Math.random()*100+'%';p.style.top=Math.random()*100+'%';p.style.setProperty('--tx',(Math.random()*200-100)+'px');p.style.setProperty('--ty',(Math.random()*200-100)+'px');p.style.animation=`particleFloat ${6+Math.random()*10}s ease-in-out infinite`;p.style.animationDelay=Math.random()*5+'s';const sz=(2+Math.random()*3)+'px';p.style.width=sz;p.style.height=sz;c.appendChild(p)}}
+    function initNav(){$('#menuToggle').onclick=()=>{$('#adminSidebar').classList.toggle('open');$('#sidebarOverlay').classList.toggle('open')};$('#sidebarOverlay').onclick=()=>{$('#adminSidebar').classList.remove('open');$('#sidebarOverlay').classList.remove('open')}}
+    function initTabs(){$$('.ft-tab').forEach(tab=>{tab.onclick=()=>{$$('.ft-tab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');$$('.view').forEach(v=>v.classList.remove('active'));$(`#${tab.dataset.tab}View`).classList.add('active')}})}
+    function showTab(id){$$('.ft-tab').forEach(t=>{t.classList.toggle('active',t.dataset.tab===id)});$$('.view').forEach(v=>v.classList.remove('active'));$(`#${id}View`).classList.add('active')}
+
+    // ===== LOAD ALL DATA =====
+    async function loadFinanceData(){
+        try{
+            const[depSnap,txSnap,purSnap]=await Promise.all([
+                db.collection('payment_transactions').orderBy('createdAt','desc').get(),
+                db.collection('wallet_transactions').orderBy('createdAt','desc').get(),
+                db.collection('test_purchases').orderBy('createdAt','desc').get()
+            ]);
+            S.deposits=[];depSnap.forEach(d=>S.deposits.push({id:d.id,...d.data()}));
+            S.transactions=[];txSnap.forEach(d=>S.transactions.push({id:d.id,...d.data()}));
+            S.purchases=[];purSnap.forEach(d=>S.purchases.push({id:d.id,...d.data()}));
+            S.adjustments=S.transactions.filter(t=>t.category==='adjustment'||t.category==='refund');
+            renderHero();renderDeposits();renderTransactions();renderPurchases();renderAdjustments();
+            const pending=S.deposits.filter(d=>d.status==='pending').length;
+            $('#depPendingCount').textContent=pending||'';
+            if(pending)$('#depPendingCount').classList.add('urgent');
+        }catch(e){console.error(e);Toast.show('error','Error',e.message)}
+    }
+
+    function renderHero(){
+        const totalDep=S.deposits.reduce((s,d)=>s+(d.status==='verified'||d.status==='successful'?d.amount||0:0),0);
+        const pending=S.deposits.filter(d=>d.status==='pending').length;
+        const totalPur=S.purchases.reduce((s,p)=>s+(p.amount||0),0);
+        const totalTx=S.transactions.length;
+        const totalRefunds=S.adjustments.filter(a=>a.category==='refund').reduce((s,a)=>s+(a.amount||0),0);
+        $('#financeHero').innerHTML=`<div class="fh-row">
+            <div class="fh-stat"><div class="fhv">₦${fmt(totalDep)}</div><div class="fhl">TOTAL DEPOSITS</div></div>
+            <div class="fh-stat"><div class="fhv" style="color:var(--warning)">${pending}</div><div class="fhl">PENDING</div></div>
+            <div class="fh-stat"><div class="fhv">₦${fmt(totalPur)}</div><div class="fhl">TEST SALES</div></div>
+            <div class="fh-stat"><div class="fhv">${totalTx}</div><div class="fhl">TRANSACTIONS</div></div>
+            <div class="fh-stat"><div class="fhv">₦${fmt(totalRefunds)}</div><div class="fhl">REFUNDS</div></div>
+        </div>`;
+    }
+
+    // ===== DEPOSITS =====
+    function renderDeposits(){
+        $('#depToolbar').innerHTML=`<div class="search-wrap"><span class="s-icon"><i data-lucide="search"></i></span><input class="search-input" id="depSearch" placeholder="Search by reference or name..."></div><select class="filter-select" id="depStatusFilter"><option value="all">All</option><option value="pending">Pending</option><option value="verified">Verified</option><option value="rejected">Rejected</option></select><button class="toolbar-btn secondary" onclick="loadFinanceData()"><i data-lucide="refresh-cw"></i>Refresh</button>`;
+        lucide.createIcons({nodes:[$('#depToolbar')]});
+        let timer;$('#depSearch').oninput=e=>{clearTimeout(timer);timer=setTimeout(()=>{S.depSearch=e.target.value;S.depPage=1;renderDepTable()},300)};
+        $('#depStatusFilter').onchange=e=>{S.depFilter=e.target.value;S.depPage=1;renderDepTable()};
+        renderDepTable();
+    }
+    function renderDepTable(){
+        let filtered=[...S.deposits];
+        if(S.depFilter&&S.depFilter!=='all')filtered=filtered.filter(d=>d.status===S.depFilter);
+        if(S.depSearch){const s=S.depSearch.toLowerCase();filtered=filtered.filter(d=>(d.reference||'').toLowerCase().includes(s)||(d.studentName||'').toLowerCase().includes(s))}
+        const total=filtered.length;const pages=Math.ceil(total/S.ps)||1;if(S.depPage>pages)S.depPage=pages;
+        const start=(S.depPage-1)*S.ps;const page=filtered.slice(start,start+S.ps);
+        $('#depContent').innerHTML=`<div class="table-card"><div class="table-header"><h3><i data-lucide="banknote"></i>Deposits (${total})</h3></div><div class="table-scroll"><table><thead><tr><th>Student</th><th>Amount</th><th>Reference</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody>
+        ${page.length?page.map(d=>`<tr><td><div class="user-cell"><div><div class="uc-name">${d.studentName||'Unknown'}</div><div class="uc-email">${d.studentEmail||''}</div></div></div></td><td class="amount-cell credit">₦${fmt(d.amount)}</td><td style="font-family:monospace;font-size:12px;color:var(--accent)">${d.reference||'—'}</td><td><span class="status-badge ${d.status||'pending'}">${(d.status||'pending').charAt(0).toUpperCase()+(d.status||'pending').slice(1)}</span></td><td>${timeAgo(d.createdAt)}</td><td><button class="action-btn" onclick="viewDeposit('${d.id}')" title="View"><i data-lucide="eye"></i></button>${d.status==='pending'?`<button class="action-btn success" onclick="verifyDeposit('${d.id}')" title="Verify"><i data-lucide="check"></i></button><button class="action-btn danger" onclick="openRejectModal('${d.id}')" title="Reject"><i data-lucide="x"></i></button>`:''}</td></tr>`).join(''):`<tr><td colspan="6"><div class="empty-state" style="padding:30px"><h4>No Deposits</h4></div></td></tr>`}
+        </tbody></table></div><div class="pagination"><button class="page-btn" ${S.depPage<=1?'disabled':''} onclick="S.depPage--;renderDepTable()"><i data-lucide="chevron-left"></i></button><span class="page-info">${S.depPage}/${pages}</span><button class="page-btn" ${S.depPage>=pages?'disabled':''} onclick="S.depPage++;renderDepTable()"><i data-lucide="chevron-right"></i></button></div></div>`;
+        lucide.createIcons({nodes:[$('#depContent')]});
+    }
+
+    function viewDeposit(depId){
+        const d=S.deposits.find(x=>x.id===depId);if(!d)return;
+        showTab('depositDetail');
+        const isPending=d.status==='pending';
+        $('#depDetailContent').innerHTML=`
+            <div class="detail-card">
+                <div class="dc-header"><h3><i data-lucide="banknote"></i>Deposit Details</h3><span class="status-badge ${d.status||'pending'}" style="font-size:13px;padding:6px 14px">${(d.status||'pending').charAt(0).toUpperCase()+(d.status||'pending').slice(1)}</span></div>
+                <div class="dc-grid">
+                    <div class="dc-field"><div class="dfl">Amount</div><div class="dfv amount">₦${fmt(d.amount)}</div></div>
+                    <div class="dc-field"><div class="dfl">Reference</div><div class="dfv ref">${d.reference||'—'}</div></div>
+                    <div class="dc-field"><div class="dfl">Student</div><div class="dfv">${d.studentName||'Unknown'}</div></div>
+                    <div class="dc-field"><div class="dfl">Email</div><div class="dfv">${d.studentEmail||'—'}</div></div>
+                    <div class="dc-field"><div class="dfl">User ID</div><div class="dfv" style="font-size:12px;font-family:monospace">${d.userId||'—'}</div></div>
+                    <div class="dc-field"><div class="dfl">Method</div><div class="dfv">${d.method||'Bank Transfer'}</div></div>
+                    <div class="dc-field"><div class="dfl">Date</div><div class="dfv">${timeAgo(d.createdAt)}</div></div>
+                    <div class="dc-field"><div class="dfl">Status</div><div class="dfv">${d.status||'pending'}</div></div>
+                    ${d.rejectionReason?`<div class="dc-field" style="grid-column:1/-1"><div class="dfl">Rejection Reason</div><div class="dfv" style="color:var(--danger)">${d.rejectionReason}</div></div>`:''}
+                    ${d.verifiedBy?`<div class="dc-field"><div class="dfl">Verified By</div><div class="dfv">${d.verifiedBy}</div></div>`:''}
+                </div>
+                <div class="dc-actions">
+                    <button class="da-btn back" onclick="showTab('deposits')"><i data-lucide="arrow-left"></i>Back</button>
+                    ${isPending?`<button class="da-btn verify" onclick="verifyDeposit('${d.id}')"><i data-lucide="check-circle"></i><span class="da-btn-text">Verify & Credit</span><div class="da-btn-spinner"></div></button><button class="da-btn reject" onclick="openRejectModal('${d.id}')"><i data-lucide="x-circle"></i>Reject</button>`:''}
+                </div>
+            </div>
+        `;
+        lucide.createIcons({nodes:[$('#depDetailContent')]});
+    }
+
+    async function verifyDeposit(depId){
+        const d=S.deposits.find(x=>x.id===depId);if(!d||d.status!=='pending')return;
+        if(!confirm(`Verify and credit ₦${fmt(d.amount)} to ${d.studentName||'student'}?`))return;
+        try{
+            const batch=db.batch();
+            // 1. Update deposit status
+            batch.update(db.collection('payment_transactions').doc(depId),{status:'verified',verifiedBy:S.profile.fullName||S.user.uid,verifiedAt:firebase.firestore.FieldValue.serverTimestamp()});
+            // 2. Credit wallet
+            batch.update(db.collection('wallet_accounts').doc(d.userId),{balance:firebase.firestore.FieldValue.increment(d.amount),totalDeposited:firebase.firestore.FieldValue.increment(d.amount),updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
+            // 3. Create wallet transaction
+            const txRef=db.collection('wallet_transactions').doc();
+            batch.set(txRef,{userId:d.userId,type:'credit',category:'deposit',amount:d.amount,description:'Balance Funding',reference:d.reference||'',status:'completed',createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+            // 4. Audit log
+            const auditRef=db.collection('audit_logs').doc();
+            batch.set(auditRef,{action:'deposit_verified',adminId:S.user.uid,targetId:d.userId,amount:d.amount,reference:d.reference||'',details:`Deposit ₦${fmt(d.amount)} verified for ${d.studentName||d.userId}`,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+            // 5. Notify student
+            const notifRef=db.collection('notifications').doc();
+            batch.set(notifRef,{userId:d.userId,type:'deposit',title:'Deposit Verified! ✅',message:`Your ₦${fmt(d.amount)} deposit has been verified and credited to your balance.`,read:false,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+            await batch.commit();
+            Toast.show('success','Verified',`₦${fmt(d.amount)} credited to ${d.studentName||'student'}`);
+            await loadFinanceData();showTab('deposits');
+        }catch(e){Toast.show('error','Error',e.message)}
+    }
+
+    function openRejectModal(depId){
+        const d=S.deposits.find(x=>x.id===depId);if(!d)return;
+        const modal=$('#rejectModal');const content=$('#rejectModalContent');
+        content.innerHTML=`
+            <button class="modal-close" onclick="$('#rejectModal').classList.remove('open')"><i data-lucide="x"></i></button>
+            <h3>Reject Deposit</h3><p class="modal-desc">Reject ₦${fmt(d.amount)} deposit from ${d.studentName||'student'}</p>
+            <div class="form-group"><label class="form-label">Rejection Reason *</label><textarea class="form-textarea" id="rejectReason" rows="3" placeholder="Why is this deposit being rejected?"></textarea></div>
+            <div class="modal-actions"><button class="m-btn cancel" onclick="$('#rejectModal').classList.remove('open')">Cancel</button><button class="m-btn danger" id="confirmRejectBtn"><i data-lucide="x-circle"></i><span class="m-btn-text">Reject Deposit</span><div class="m-btn-spinner"></div></button></div>
+        `;
+        modal.classList.add('open');lucide.createIcons({nodes:[content]});
+        $('#confirmRejectBtn').onclick=async()=>{
+            const reason=$('#rejectReason').value.trim();
+            if(!reason){Toast.show('warning','Required','Enter rejection reason');return}
+            const btn=$('#confirmRejectBtn');btn.classList.add('loading');
+            try{
+                const batch=db.batch();
+                batch.update(db.collection('payment_transactions').doc(depId),{status:'rejected',rejectionReason:reason,rejectedBy:S.profile.fullName||S.user.uid,rejectedAt:firebase.firestore.FieldValue.serverTimestamp()});
+                batch.set(db.collection('audit_logs').doc(),{action:'deposit_rejected',adminId:S.user.uid,targetId:d.userId,amount:d.amount,reason,details:`Deposit ₦${fmt(d.amount)} rejected: ${reason}`,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+                batch.set(db.collection('notifications').doc(),{userId:d.userId,type:'deposit',title:'Deposit Rejected',message:`Your ₦${fmt(d.amount)} deposit was rejected. Reason: ${reason}`,read:false,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+                await batch.commit();
+                btn.classList.remove('loading');modal.classList.remove('open');
+                Toast.show('info','Rejected','Deposit rejected');await loadFinanceData();showTab('deposits');
+            }catch(e){btn.classList.remove('loading');Toast.show('error','Error',e.message)}
+        };
+    }
+
+    // ===== TRANSACTIONS =====
+    function renderTransactions(){
+        $('#txToolbar').innerHTML=`<div class="search-wrap"><span class="s-icon"><i data-lucide="search"></i></span><input class="search-input" id="txSearch" placeholder="Search transactions..."></div><select class="filter-select" id="txTypeFilter"><option value="">All Types</option><option value="credit">Credits</option><option value="debit">Debits</option></select>`;
+        lucide.createIcons({nodes:[$('#txToolbar')]});
+        let timer;$('#txSearch').oninput=e=>{clearTimeout(timer);timer=setTimeout(()=>{S.txSearch=e.target.value;S.txPage=1;renderTxTable()},300)};
+        $('#txTypeFilter').onchange=()=>{S.txPage=1;renderTxTable()};
+        renderTxTable();
+    }
+    function renderTxTable(){
+        let filtered=[...S.transactions];
+        if(S.txSearch){const s=S.txSearch.toLowerCase();filtered=filtered.filter(t=>(t.description||'').toLowerCase().includes(s)||(t.reference||'').toLowerCase().includes(s)||(t.userId||'').toLowerCase().includes(s))}
+        const tf=$('#txTypeFilter')?.value;if(tf)filtered=filtered.filter(t=>t.type===tf);
+        const total=filtered.length;const pages=Math.ceil(total/S.ps)||1;if(S.txPage>pages)S.txPage=pages;
+        const start=(S.txPage-1)*S.ps;const page=filtered.slice(start,start+S.ps);
+        $('#txTable').innerHTML=`<div class="table-header"><h3><i data-lucide="repeat"></i>All Transactions (${total})</h3></div><div class="table-scroll"><table><thead><tr><th>Type</th><th>Description</th><th>Amount</th><th>Reference</th><th>Status</th><th>Date</th></tr></thead><tbody>
+        ${page.length?page.map(t=>`<tr><td><span class="status-badge ${t.type==='credit'?'successful':'pending'}">${t.type==='credit'?'Credit':'Debit'}</span></td><td>${t.description||'—'}</td><td class="amount-cell ${t.type}">${t.type==='credit'?'+':'-'}₦${fmt(t.amount)}</td><td style="font-size:12px;font-family:monospace">${t.reference||'—'}</td><td><span class="status-badge ${t.status||'completed'}">${(t.status||'completed').charAt(0).toUpperCase()+(t.status||'').slice(1)}</span></td><td>${timeAgo(t.createdAt)}</td></tr>`).join(''):`<tr><td colspan="6"><div class="empty-state" style="padding:30px"><h4>No Transactions</h4></div></td></tr>`}
+        </tbody></table></div><div class="pagination"><button class="page-btn" ${S.txPage<=1?'disabled':''} onclick="S.txPage--;renderTxTable()"><i data-lucide="chevron-left"></i></button><span class="page-info">${S.txPage}/${pages}</span><button class="page-btn" ${S.txPage>=pages?'disabled':''} onclick="S.txPage++;renderTxTable()"><i data-lucide="chevron-right"></i></button></div>`;
+        lucide.createIcons({nodes:[$('#txTable')]});
+    }
+
+    // ===== PURCHASES =====
+    function renderPurchases(){
+        $('#purToolbar').innerHTML=`<div class="search-wrap"><span class="s-icon"><i data-lucide="search"></i></span><input class="search-input" id="purSearch" placeholder="Search purchases..."></div><button class="toolbar-btn secondary" onclick="loadFinanceData()"><i data-lucide="refresh-cw"></i>Refresh</button>`;
+        lucide.createIcons({nodes:[$('#purToolbar')]});
+        let timer;$('#purSearch').oninput=e=>{clearTimeout(timer);timer=setTimeout(()=>{S.purPage=1;renderPurTable(e.target.value)},300)};
+        renderPurTable();
+    }
+    function renderPurTable(search=''){
+        let filtered=[...S.purchases];
+        if(search){const s=search.toLowerCase();filtered=filtered.filter(p=>(p.testTitle||'').toLowerCase().includes(s)||(p.reference||'').toLowerCase().includes(s))}
+        const total=filtered.length;const pages=Math.ceil(total/S.ps)||1;if(S.purPage>pages)S.purPage=pages;
+        const start=(S.purPage-1)*S.ps;const page=filtered.slice(start,start+S.ps);
+        $('#purTable').innerHTML=`<div class="table-header"><h3><i data-lucide="shopping-cart"></i>Test Purchases (${total})</h3></div><div class="table-scroll"><table><thead><tr><th>Test</th><th>User ID</th><th>Amount</th><th>Reference</th><th>Date</th><th>Actions</th></tr></thead><tbody>
+        ${page.length?page.map(p=>`<tr><td style="font-weight:600">${p.testTitle||'—'}</td><td style="font-size:12px;font-family:monospace">${(p.userId||'').substring(0,12)}...</td><td class="amount-cell debit">₦${fmt(p.amount)}</td><td style="font-size:12px;font-family:monospace">${p.reference||'—'}</td><td>${timeAgo(p.createdAt)}</td><td><button class="action-btn" onclick="openRefundModal('${p.id}')" title="Refund"><i data-lucide="rotate-ccw"></i></button></td></tr>`).join(''):`<tr><td colspan="6"><div class="empty-state" style="padding:30px"><h4>No Purchases</h4></div></td></tr>`}
+        </tbody></table></div><div class="pagination"><button class="page-btn" ${S.purPage<=1?'disabled':''} onclick="S.purPage--;renderPurTable()"><i data-lucide="chevron-left"></i></button><span class="page-info">${S.purPage}/${pages}</span><button class="page-btn" ${S.purPage>=pages?'disabled':''} onclick="S.purPage++;renderPurTable()"><i data-lucide="chevron-right"></i></button></div>`;
+        lucide.createIcons({nodes:[$('#purTable')]});
+    }
+
+    // ===== REFUND =====
+    function openRefundModal(purId){
+        const p=S.purchases.find(x=>x.id===purId);if(!p)return;
+        const modal=$('#refundModal');const content=$('#refundModalContent');
+        content.innerHTML=`
+            <button class="modal-close" onclick="$('#refundModal').classList.remove('open')"><i data-lucide="x"></i></button>
+            <h3>Issue Refund</h3><p class="modal-desc">Refund ₦${fmt(p.amount)} for "${p.testTitle||'Test'}"</p>
+            <div class="form-group"><label class="form-label">Reason *</label><textarea class="form-textarea" id="refundReason" rows="2" placeholder="Refund reason..."></textarea></div>
+            <div class="adj-preview"><div><div class="ap-val" style="color:var(--danger)">-₦${fmt(p.amount)}</div><div class="ap-label">ORIGINAL</div></div><div class="ap-arrow">→</div><div><div class="ap-val" style="color:var(--success)">+₦${fmt(p.amount)}</div><div class="ap-label">REFUND</div></div></div>
+            <div class="modal-actions"><button class="m-btn cancel" onclick="$('#refundModal').classList.remove('open')">Cancel</button><button class="m-btn success" id="confirmRefundBtn"><i data-lucide="rotate-ccw"></i><span class="m-btn-text">Process Refund</span><div class="m-btn-spinner"></div></button></div>
+        `;
+        modal.classList.add('open');lucide.createIcons({nodes:[content]});
+        $('#confirmRefundBtn').onclick=async()=>{
+            const reason=$('#refundReason').value.trim();if(!reason){Toast.show('warning','Required','Enter refund reason');return}
+            const btn=$('#confirmRefundBtn');btn.classList.add('loading');
+            try{
+                const batch=db.batch();
+                // Create refund transaction (never edit original)
+                batch.set(db.collection('wallet_transactions').doc(),{userId:p.userId,type:'credit',category:'refund',amount:p.amount,description:`Refund: ${p.testTitle||'Test'}`,reference:'FAV-REF-'+Date.now().toString(36).toUpperCase(),status:'completed',originalPurchaseId:purId,reason,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+                // Credit balance
+                batch.update(db.collection('wallet_accounts').doc(p.userId),{balance:firebase.firestore.FieldValue.increment(p.amount),updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
+                // Audit
+                batch.set(db.collection('audit_logs').doc(),{action:'refund_issued',adminId:S.user.uid,targetId:p.userId,amount:p.amount,reason,details:`Refund ₦${fmt(p.amount)} for ${p.testTitle||'Test'}`,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+                // Notify
+                batch.set(db.collection('notifications').doc(),{userId:p.userId,type:'deposit',title:'Refund Processed',message:`₦${fmt(p.amount)} refunded for ${p.testTitle||'Test'}. Reason: ${reason}`,read:false,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+                await batch.commit();
+                btn.classList.remove('loading');modal.classList.remove('open');
+                Toast.show('success','Refunded',`₦${fmt(p.amount)} refunded`);loadFinanceData();
+            }catch(e){btn.classList.remove('loading');Toast.show('error','Error',e.message)}
+        };
+    }
+
+    // ===== ADJUSTMENTS =====
+    function renderAdjustments(){
+        $('#adjToolbar').innerHTML=`<div class="search-wrap"><span class="s-icon"><i data-lucide="search"></i></span><input class="search-input" id="adjSearch" placeholder="Search adjustments..."></div><button class="toolbar-btn primary" id="newAdjBtn"><i data-lucide="plus"></i>New Adjustment</button>`;
+        lucide.createIcons({nodes:[$('#adjToolbar')]});
+        $('#newAdjBtn').onclick=()=>openAdjustModal();
+        renderAdjTable();
+    }
+    function renderAdjTable(){
+        const total=S.adjustments.length;const pages=Math.ceil(total/S.ps)||1;if(S.adjPage>pages)S.adjPage=pages;
+        const start=(S.adjPage-1)*S.ps;const page=S.adjustments.slice(start,start+S.ps);
+        $('#adjTable').innerHTML=`<div class="table-header"><h3><i data-lucide="sliders-horizontal"></i>Adjustments & Refunds (${total})</h3></div><div class="table-scroll"><table><thead><tr><th>Type</th><th>User</th><th>Amount</th><th>Reason</th><th>Reference</th><th>Date</th></tr></thead><tbody>
+        ${page.length?page.map(a=>`<tr><td><span class="status-badge ${a.category==='refund'?'refunded':'completed'}">${a.category==='refund'?'Refund':'Adjustment'}</span></td><td style="font-size:12px;font-family:monospace">${(a.userId||'').substring(0,12)}...</td><td class="amount-cell ${a.type}">${a.type==='credit'?'+':'-'}₦${fmt(a.amount)}</td><td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${a.reason||a.description||'—'}</td><td style="font-size:12px">${a.reference||'—'}</td><td>${timeAgo(a.createdAt)}</td></tr>`).join(''):`<tr><td colspan="6"><div class="empty-state" style="padding:30px"><h4>No Adjustments</h4></div></td></tr>`}
+        </tbody></table></div><div class="pagination"><button class="page-btn" ${S.adjPage<=1?'disabled':''} onclick="S.adjPage--;renderAdjTable()"><i data-lucide="chevron-left"></i></button><span class="page-info">${S.adjPage}/${pages}</span><button class="page-btn" ${S.adjPage>=pages?'disabled':''} onclick="S.adjPage++;renderAdjTable()"><i data-lucide="chevron-right"></i></button></div>`;
+        lucide.createIcons({nodes:[$('#adjTable')]});
+    }
+
+    // ===== WALLET ADJUSTMENT =====
+    function openAdjustModal(){
+        const modal=$('#adjustModal');const content=$('#adjustModalContent');
+        content.innerHTML=`
+            <button class="modal-close" onclick="$('#adjustModal').classList.remove('open')"><i data-lucide="x"></i></button>
+            <h3>Create Wallet Adjustment</h3><p class="modal-desc">Credit or debit a student's Favoje Balance with a reason</p>
+            <div class="form-group"><label class="form-label">Student User ID *</label><input class="form-input" id="adjUserId" placeholder="Paste student's user ID"><div style="font-size:11px;color:var(--text-muted);margin-top:4px">Find the user ID from the Users page</div></div>
+            <div class="form-row">
+                <div class="form-group"><label class="form-label">Type *</label><select class="form-input" id="adjType"><option value="credit">Credit (+)</option><option value="debit">Debit (-)</option></select></div>
+                <div class="form-group"><label class="form-label">Amount (₦) *</label><input class="form-input" id="adjAmount" type="number" min="1" placeholder="0"></div>
+            </div>
+            <div class="form-group"><label class="form-label">Reason *</label><textarea class="form-textarea" id="adjReason" rows="2" placeholder="Why is this adjustment being made?"></textarea></div>
+            <div class="adj-preview" id="adjPreview" style="display:none"><div><div class="ap-val" id="adjPrevBefore">₦0</div><div class="ap-label">BEFORE</div></div><div class="ap-arrow">→</div><div><div class="ap-val" id="adjPrevAfter">₦0</div><div class="ap-label">AFTER</div></div></div>
+            <div class="modal-actions"><button class="m-btn cancel" onclick="$('#adjustModal').classList.remove('open')">Cancel</button><button class="m-btn primary" id="confirmAdjBtn"><i data-lucide="check"></i><span class="m-btn-text">Create Adjustment</span><div class="m-btn-spinner"></div></button></div>
+        `;
+        modal.classList.add('open');lucide.createIcons({nodes:[content]});
+        // Preview
+        const updatePreview=async()=>{
+            const uid=$('#adjUserId').value.trim();const amount=parseInt($('#adjAmount').value)||0;const type=$('#adjType').value;
+            if(!uid||!amount){$('#adjPreview').style.display='none';return}
+            try{const wDoc=await db.collection('wallet_accounts').doc(uid).get();
+            if(wDoc.exists){const bal=wDoc.data().balance||0;const after=type==='credit'?bal+amount:bal-amount;
+            $('#adjPrevBefore').textContent='₦'+fmt(bal);$('#adjPrevAfter').textContent='₦'+fmt(after);$('#adjPrevAfter').style.color=after>=0?'var(--success)':'var(--danger)';
+            $('#adjPreview').style.display='grid'}else{$('#adjPreview').style.display='none'}}catch(e){$('#adjPreview').style.display='none'}
+        };
+        let timer;$('#adjUserId').oninput=()=>{clearTimeout(timer);timer=setTimeout(updatePreview,500)};
+        $('#adjAmount').oninput=updatePreview;$('#adjType').onchange=updatePreview;
+
+        $('#confirmAdjBtn').onclick=async()=>{
+            const uid=$('#adjUserId').value.trim();const type=$('#adjType').value;
+            const amount=parseInt($('#adjAmount').value)||0;const reason=$('#adjReason').value.trim();
+            if(!uid||!amount||!reason){Toast.show('warning','Required','Fill all fields');return}
+            const btn=$('#confirmAdjBtn');btn.classList.add('loading');
+            try{
+                // Verify user exists
+                const userDoc=await db.collection('users').doc(uid).get();
+                if(!userDoc.exists){btn.classList.remove('loading');Toast.show('error','Not Found','User not found');return}
+                // Get current balance
+                const wDoc=await db.collection('wallet_accounts').doc(uid).get();
+                const prevBal=wDoc.exists?wDoc.data().balance||0:0;
+                const newBal=type==='credit'?prevBal+amount:prevBal-amount;
+                if(newBal<0&&type==='debit'){btn.classList.remove('loading');Toast.show('warning','Insufficient','Debit would make balance negative');return}
+                const batch=db.batch();
+                // Transaction
+                batch.set(db.collection('wallet_transactions').doc(),{userId:uid,type,category:'adjustment',amount,description:`Admin adjustment: ${reason}`,reference:'FAV-ADJ-'+Date.now().toString(36).toUpperCase(),reason,status:'completed',previousBalance:prevBal,newBalance:newBal,adjustedBy:S.user.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+                // Update balance
+                const increment=type==='credit'?amount:-amount;
+                batch.update(db.collection('wallet_accounts').doc(uid),{balance:firebase.firestore.FieldValue.increment(increment),updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
+                // Audit
+                batch.set(db.collection('audit_logs').doc(),{action:'wallet_adjustment',adminId:S.user.uid,targetId:uid,type,amount,reason,previousBalance:prevBal,newBalance:newBal,details:`${type==='credit'?'Credit':'Debit'} ₦${fmt(amount)}: ${reason}`,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+                // Notify
+                batch.set(db.collection('notifications').doc(),{userId:uid,type:'deposit',title:`Balance ${type==='credit'?'Credited':'Debited'}`,message:`₦${fmt(amount)} ${type==='credit'?'added to':'removed from'} your balance. Reason: ${reason}`,read:false,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+                await batch.commit();
+                btn.classList.remove('loading');modal.classList.remove('open');
+                Toast.show('success','Adjustment Created',`₦${fmt(amount)} ${type} applied`);loadFinanceData();
+            }catch(e){btn.classList.remove('loading');Toast.show('error','Error',e.message)}
+        };
+    }
+
+    // ===== URL PARAMS =====
+    function handleParams(){const p=new URLSearchParams(window.location.search);if(p.get('tab')==='deposits')showTab('deposits')}
+
+    // ===== INIT =====
+    function init(){
+        lucide.createIcons();Theme.init();initParticles();initNav();initTabs();
+        auth.onAuthStateChanged(async user=>{
+            if(!user){window.location.href='index.html';return}
+            S.user=user;
+            try{
+                const doc=await db.collection('users').doc(user.uid).get();
+                if(!doc.exists||!['admin','moderator','content_manager'].includes(doc.data().role)){window.location.href='home.html';return}
+                S.profile=doc.data();
+                await loadFinanceData();handleParams();
+            }catch(e){console.error(e);Toast.show('error','Error',e.message)}
+            setTimeout(()=>{const o=$('#loadingOverlay');o.classList.add('hidden');setTimeout(()=>o.remove(),600)},500);
+        });
+    }
+    document.addEventListener('DOMContentLoaded',init);
+    </script>
+</body>
+</html>

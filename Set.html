@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>FAVOJE — Admin Setup</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        :root{--primary:#6366F1;--primary-hover:#5558E6;--primary-light:rgba(99,102,241,0.12);--primary-glow:rgba(99,102,241,0.3);--secondary:#4F46E5;--bg:#080B14;--bg-secondary:#0D1117;--surface:#111827;--surface-hover:#1a2234;--surface-border:rgba(255,255,255,0.06);--surface-border-hover:rgba(255,255,255,0.12);--accent:#F97316;--accent-light:rgba(249,115,22,0.12);--success:#10B981;--success-light:rgba(16,185,129,0.12);--danger:#EF4444;--danger-light:rgba(239,68,68,0.12);--warning:#F59E0B;--warning-light:rgba(245,158,11,0.12);--text-primary:#F8FAFC;--text-secondary:#94A3B8;--text-tertiary:#64748B;--text-muted:#475569;--card-radius:16px;--btn-radius:12px;--input-radius:12px;--transition-fast:0.15s ease;--transition-normal:0.3s ease;--transition-smooth:0.4s cubic-bezier(0.4,0,0.2,1);--shadow-sm:0 1px 3px rgba(0,0,0,0.3);--shadow-md:0 4px 12px rgba(0,0,0,0.4);--shadow-lg:0 8px 32px rgba(0,0,0,0.5);--font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;--safe-bottom:env(safe-area-inset-bottom,0px)}
+        [data-theme="light"]{--bg:#F1F5F9;--bg-secondary:#E2E8F0;--surface:#FFFFFF;--surface-hover:#F8FAFC;--surface-border:rgba(0,0,0,0.08);--surface-border-hover:rgba(0,0,0,0.15);--text-primary:#0F172A;--text-secondary:#475569;--text-tertiary:#64748B;--text-muted:#94A3B8;--shadow-sm:0 1px 3px rgba(0,0,0,0.08);--shadow-md:0 4px 12px rgba(0,0,0,0.1);--shadow-lg:0 8px 32px rgba(0,0,0,0.12);--primary-light:rgba(99,102,241,0.08);--accent-light:rgba(249,115,22,0.08);--success-light:rgba(16,185,129,0.08);--danger-light:rgba(239,68,68,0.08);--warning-light:rgba(245,158,11,0.08)}
+        *{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+        body{font-family:var(--font);background:var(--bg);color:var(--text-primary);min-height:100vh;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+        ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--text-muted);border-radius:3px}
+
+        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+        @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes fadeInDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes fadeInLeft{from{opacity:0;transform:translateX(-30px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes fadeInRight{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes scaleIn{from{opacity:0;transform:scale(0.88)}to{opacity:1;transform:scale(1)}}
+        @keyframes bounceIn{0%{opacity:0;transform:scale(0.3)}50%{opacity:1;transform:scale(1.06)}70%{transform:scale(0.94)}100%{opacity:1;transform:scale(1)}}
+        @keyframes slideInRight{from{opacity:0;transform:translateX(60px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes slideInLeft{from{opacity:0;transform:translateX(-60px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes slideOutLeft{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(-60px)}}
+        @keyframes slideOutRight{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(60px)}}
+        @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+        @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        @keyframes glowPulse{0%,100%{box-shadow:0 0 8px var(--primary-glow)}50%{box-shadow:0 0 30px var(--primary-glow),0 0 60px rgba(99,102,241,0.1)}}
+        @keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+        @keyframes popIn{0%{opacity:0;transform:scale(0) rotate(-10deg)}60%{transform:scale(1.12) rotate(3deg)}100%{opacity:1;transform:scale(1) rotate(0deg)}}
+        @keyframes shake{0%,100%{transform:translateX(0)}10%,30%,50%,70%,90%{transform:translateX(-5px)}20%,40%,60%,80%{transform:translateX(5px)}}
+        @keyframes checkDraw{from{stroke-dashoffset:50}to{stroke-dashoffset:0}}
+        @keyframes confettiFall{0%{transform:translateY(-100vh) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+        @keyframes particleFloat{0%,100%{transform:translate(0,0) rotate(0deg);opacity:0}10%{opacity:.5}90%{opacity:.5}100%{transform:translate(var(--tx),var(--ty)) rotate(360deg);opacity:0}}
+        @keyframes ripple{to{transform:scale(4);opacity:0}}
+        @keyframes barGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+        @keyframes typeIn{from{width:0;opacity:0}to{width:100%;opacity:1}}
+        @keyframes borderGlow{0%,100%{border-color:var(--primary);box-shadow:0 0 10px var(--primary-glow)}50%{border-color:var(--accent);box-shadow:0 0 20px rgba(249,115,22,0.2)}}
+        @keyframes successPulse{0%{transform:scale(1)}50%{transform:scale(1.05)}100%{transform:scale(1)}}
+        @keyframes countUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+        /* BACKGROUND */
+        .bg-particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+        .particle{position:absolute;width:3px;height:3px;background:var(--primary);border-radius:50%;opacity:0}
+        .bg-gradient-orb{position:fixed;border-radius:50%;filter:blur(120px);pointer-events:none;z-index:0}
+        .orb-1{width:400px;height:400px;background:rgba(99,102,241,0.07);top:-100px;right:-100px;animation:float 8s ease-in-out infinite}
+        .orb-2{width:300px;height:300px;background:rgba(249,115,22,0.04);bottom:-50px;left:-50px;animation:float 10s ease-in-out infinite reverse}
+        .orb-3{width:250px;height:250px;background:rgba(16,185,129,0.04);top:40%;left:30%;animation:float 12s ease-in-out infinite 2s}
+        [data-theme="light"] .orb-1{background:rgba(99,102,241,0.04)}
+        [data-theme="light"] .orb-2{background:rgba(249,115,22,0.03)}
+        [data-theme="light"] .orb-3{background:rgba(16,185,129,0.03)}
+
+        /* THEME TOGGLE */
+        .theme-toggle{position:fixed;top:20px;right:20px;z-index:1000;width:46px;height:46px;border-radius:50%;background:var(--surface);border:1px solid var(--surface-border);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all var(--transition-normal);box-shadow:var(--shadow-md);color:var(--text-secondary)}
+        .theme-toggle:hover{background:var(--surface-hover);border-color:var(--primary);color:var(--primary);transform:rotate(30deg) scale(1.05)}
+        .theme-toggle i{width:20px;height:20px}
+
+        /* TOAST */
+        .toast-container{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:10000;display:flex;flex-direction:column;gap:8px;width:92%;max-width:440px}
+        .toast{display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);box-shadow:var(--shadow-lg);animation:fadeInDown .4s ease;position:relative;overflow:hidden}
+        .toast::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px}
+        .toast.success::before{background:var(--success)}.toast.error::before{background:var(--danger)}.toast.info::before{background:var(--primary)}.toast.warning::before{background:var(--warning)}
+        .toast .ti{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .toast.success .ti{background:var(--success-light);color:var(--success)}.toast.error .ti{background:var(--danger-light);color:var(--danger)}.toast.info .ti{background:var(--primary-light);color:var(--primary)}.toast.warning .ti{background:var(--warning-light);color:var(--warning)}
+        .toast .ti i{width:18px;height:18px}.toast .tb{flex:1}.toast .tt{font-size:14px;font-weight:600;margin-bottom:1px}.toast .tm{font-size:13px;color:var(--text-secondary)}
+        .toast .tc{background:none;border:none;color:var(--text-muted);cursor:pointer;padding:4px;display:flex;transition:color var(--transition-fast)}.toast .tc:hover{color:var(--text-primary)}.toast .tc i{width:16px;height:16px}
+        .toast.removing{animation:fadeIn .3s ease reverse forwards}
+
+        /* CONFETTI */
+        .confetti-container{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;overflow:hidden}
+        .confetti-piece{position:absolute;top:-20px;animation:confettiFall linear forwards}
+
+        /* LOADING */
+        .loading-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:20000;transition:opacity .6s ease,visibility .6s ease}
+        .loading-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none}
+        .lo-logo{animation:bounceIn .8s ease,float 2s ease-in-out infinite .8s}
+        .lo-logo .lo-icon{width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(99,102,241,0.4)}
+        .lo-logo .lo-icon i{width:34px;height:34px;color:#fff}
+        .lo-bar{width:120px;height:3px;background:var(--surface);border-radius:3px;overflow:hidden;margin-top:24px}
+        .lo-bar-inner{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent),var(--primary));border-radius:3px;width:30%;animation:shimmer 1.5s ease-in-out infinite;background-size:200% 100%}
+        .lo-text{margin-top:16px;font-size:14px;color:var(--text-secondary);animation:pulse 1.5s ease-in-out infinite}
+
+        /* MAIN WRAPPER */
+        .setup-wrapper{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;position:relative;z-index:1}
+
+        /* SETUP CONTAINER */
+        .setup-container{width:100%;max-width:600px}
+
+        /* HEADER */
+        .setup-header{text-align:center;margin-bottom:32px;animation:fadeInDown .6s ease}
+        .brand-logo{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:12px}
+        .brand-icon{width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(99,102,241,0.3);animation:glowPulse 3s ease-in-out infinite}
+        .brand-icon i{width:28px;height:28px;color:#fff}
+        .brand-name{font-size:32px;font-weight:900;letter-spacing:-1.5px;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .setup-header h1{font-size:24px;font-weight:800;margin-bottom:4px;letter-spacing:-.5px;animation:fadeInUp .5s ease .15s both}
+        .setup-header p{font-size:14px;color:var(--text-secondary);animation:fadeInUp .5s ease .25s both}
+
+        /* PROGRESS */
+        .setup-progress{margin-bottom:28px;animation:fadeInUp .5s ease .3s both}
+        .progress-info{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+        .progress-step-text{font-size:13px;font-weight:600;color:var(--text-secondary)}
+        .progress-pct{font-size:13px;font-weight:700;color:var(--primary)}
+        .progress-track{height:6px;background:var(--surface);border-radius:6px;overflow:hidden}
+        .progress-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:6px;transition:width .6s cubic-bezier(0.4,0,0.2,1);position:relative}
+        .progress-fill::after{content:'';position:absolute;right:0;top:-2px;width:10px;height:10px;background:var(--accent);border-radius:50%;box-shadow:0 0 10px rgba(249,115,22,0.5);animation:glowPulse 2s ease-in-out infinite}
+        .step-indicators{display:flex;justify-content:center;gap:8px;margin-top:14px}
+        .step-ind{width:10px;height:10px;border-radius:50%;background:var(--surface-border);transition:all var(--transition-smooth);cursor:pointer}
+        .step-ind.active{background:var(--primary);width:28px;border-radius:5px;box-shadow:0 0 10px var(--primary-glow)}
+        .step-ind.done{background:var(--success)}
+        .step-ind.done::after{content:'';display:block;width:4px;height:4px;background:#fff;border-radius:50%;margin:3px auto}
+
+        /* STEP CONTENT */
+        .step{display:none;opacity:0}
+        .step.active{display:block}
+        .step.slide-in-right{animation:slideInRight .5s ease forwards}
+        .step.slide-in-left{animation:slideInLeft .5s ease forwards}
+
+        .step-card{background:var(--surface);border:1px solid var(--surface-border);border-radius:20px;padding:32px 28px;position:relative;overflow:hidden}
+        .step-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--primary),var(--accent),var(--success));background-size:200% 100%;animation:gradientShift 4s ease infinite}
+
+        .step-icon{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;animation:bounceIn .6s ease .2s both}
+        .step-icon i{width:30px;height:30px}
+        .step-icon.purple{background:var(--primary-light);color:var(--primary)}
+        .step-icon.orange{background:var(--accent-light);color:var(--accent)}
+        .step-icon.green{background:var(--success-light);color:var(--success)}
+        .step-icon.blue{background:rgba(59,130,246,.12);color:#3B82F6}
+
+        .step-title{font-size:22px;font-weight:800;text-align:center;margin-bottom:6px;letter-spacing:-.5px;animation:fadeInUp .5s ease .25s both}
+        .step-desc{font-size:14px;color:var(--text-secondary);text-align:center;margin-bottom:28px;max-width:420px;margin-left:auto;margin-right:auto;line-height:1.6;animation:fadeInUp .5s ease .3s both}
+
+        /* FORMS */
+        .form-group{margin-bottom:18px;opacity:0;animation:fadeInUp .4s ease forwards}
+        .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+        @media(max-width:480px){.form-row{grid-template-columns:1fr}}
+        .form-label{display:block;font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:8px;letter-spacing:.3px}
+        .form-label .required{color:var(--danger);margin-left:2px}
+        .input-wrap{position:relative;display:flex;align-items:center}
+        .input-icon{position:absolute;left:14px;color:var(--text-muted);pointer-events:none;transition:color var(--transition-fast)}
+        .input-icon i{width:18px;height:18px}
+        .form-input{width:100%;padding:14px 14px 14px 44px;background:var(--bg);border:1.5px solid var(--surface-border);border-radius:var(--input-radius);color:var(--text-primary);font-size:15px;font-family:var(--font);transition:all var(--transition-normal);outline:none}
+        .form-input.no-icon{padding-left:16px}
+        .form-input::placeholder{color:var(--text-muted)}
+        .form-input:focus{border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-light);background:var(--bg-secondary)}
+        .form-input:focus~.input-icon,.form-input:focus+.input-icon{color:var(--primary)}
+        .form-input.error{border-color:var(--danger);box-shadow:0 0 0 4px var(--danger-light)}
+        .form-input.success{border-color:var(--success);box-shadow:0 0 0 4px var(--success-light)}
+        .form-select{width:100%;padding:14px 40px 14px 44px;background:var(--bg);border:1.5px solid var(--surface-border);border-radius:var(--input-radius);color:var(--text-primary);font-size:15px;font-family:var(--font);transition:all var(--transition-normal);outline:none;appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+        .form-select:focus{border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-light)}
+        .form-error{font-size:12px;color:var(--danger);margin-top:6px;display:none;align-items:center;gap:4px}
+        .form-error i{width:14px;height:14px}
+        .form-error.visible{display:flex;animation:shake .4s ease}
+        .form-hint{font-size:12px;color:var(--text-tertiary);margin-top:6px}
+        .password-toggle{position:absolute;right:14px;background:none;border:none;color:var(--text-muted);cursor:pointer;padding:4px;display:flex;align-items:center;transition:color var(--transition-fast)}
+        .password-toggle:hover{color:var(--text-primary)}
+        .password-toggle i{width:18px;height:18px}
+
+        /* PASSWORD STRENGTH */
+        .pw-strength{margin-top:8px}
+        .pw-bar{display:flex;gap:4px;margin-bottom:4px}
+        .pw-seg{flex:1;height:3px;background:var(--surface-border);border-radius:3px;transition:background var(--transition-normal)}
+        .pw-seg.active.weak{background:var(--danger)}.pw-seg.active.fair{background:var(--warning)}.pw-seg.active.good{background:var(--accent)}.pw-seg.active.strong{background:var(--success)}
+        .pw-text{font-size:11px;color:var(--text-tertiary)}
+
+        /* BUTTONS */
+        .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;border:none;border-radius:var(--btn-radius);font-size:15px;font-weight:600;font-family:var(--font);cursor:pointer;transition:all var(--transition-normal);position:relative;overflow:hidden;text-decoration:none;width:100%}
+        .btn::after{content:'';position:absolute;top:50%;left:50%;width:0;height:0;background:rgba(255,255,255,.15);border-radius:50%;transform:translate(-50%,-50%);transition:width .5s ease,height .5s ease}
+        .btn:active::after{width:300%;height:300%}
+        .btn i{width:18px;height:18px}
+        .btn-primary{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;box-shadow:0 4px 16px rgba(99,102,241,.3)}
+        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(99,102,241,.4)}
+        .btn-primary:active{transform:translateY(0)}
+        .btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none}
+        .btn-secondary{background:var(--surface);color:var(--text-secondary);border:1px solid var(--surface-border)}
+        .btn-secondary:hover{border-color:var(--primary);color:var(--primary)}
+        .btn-success{background:linear-gradient(135deg,var(--success),#059669);color:#fff;box-shadow:0 4px 16px rgba(16,185,129,.3)}
+        .btn-success:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(16,185,129,.4)}
+        .btn-danger{background:var(--danger);color:#fff}
+        .btn-spinner{display:none;width:20px;height:20px;border:2.5px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite}
+        .btn.loading .btn-text{display:none}.btn.loading .btn-spinner{display:inline-block}.btn.loading{pointer-events:none}
+
+        /* ACTION BAR */
+        .action-bar{display:flex;gap:12px;margin-top:24px}
+        .action-bar .btn{flex:1}
+
+        /* SEED DATA LIST */
+        .seed-section{margin-bottom:24px}
+        .seed-title{font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+        .seed-title i{width:18px;height:18px;color:var(--primary)}
+        .seed-list{display:flex;flex-direction:column;gap:8px}
+        .seed-item{display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--bg);border:1px solid var(--surface-border);border-radius:var(--card-radius);transition:all var(--transition-normal);animation:fadeInLeft .4s ease both}
+        .seed-item:hover{border-color:var(--surface-border-hover);background:var(--surface-hover)}
+        .seed-item:nth-child(1){animation-delay:.05s}.seed-item:nth-child(2){animation-delay:.1s}.seed-item:nth-child(3){animation-delay:.15s}.seed-item:nth-child(4){animation-delay:.2s}.seed-item:nth-child(5){animation-delay:.25s}
+        .si-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .si-icon i{width:18px;height:18px}
+        .si-info{flex:1;min-width:0}
+        .si-name{font-size:14px;font-weight:600}
+        .si-detail{font-size:12px;color:var(--text-tertiary)}
+        .si-status{display:flex;align-items:center;gap:4px;font-size:12px;font-weight:600}
+        .si-status.pending{color:var(--text-muted)}.si-status.loading{color:var(--warning)}.si-status.done{color:var(--success)}.si-status.error{color:var(--danger)}
+        .si-status i{width:14px;height:14px}
+
+        /* ADD ITEM FORM */
+        .add-form{background:var(--bg);border:1px solid var(--surface-border);border-radius:var(--card-radius);padding:18px;margin-bottom:12px;animation:fadeInUp .4s ease}
+        .add-form-row{display:flex;gap:10px;align-items:flex-end}
+        .add-form-row .form-group{flex:1;margin-bottom:0}
+        .add-form-row .form-input,.add-form-row .form-select{padding:12px 14px;font-size:14px}
+        .add-form-row .form-select{padding-left:14px}
+        .add-btn-sm{padding:12px 18px;background:var(--primary);color:#fff;border:none;border-radius:var(--btn-radius);font-size:13px;font-weight:600;font-family:var(--font);cursor:pointer;transition:all var(--transition-normal);display:flex;align-items:center;gap:6px;white-space:nowrap;flex-shrink:0}
+        .add-btn-sm:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(99,102,241,.3)}
+        .add-btn-sm i{width:16px;height:16px}
+        .add-btn-sm:disabled{opacity:.5;cursor:not-allowed;transform:none}
+        .remove-btn{padding:8px;background:none;border:1px solid var(--surface-border);border-radius:8px;color:var(--text-muted);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--transition-normal);flex-shrink:0}
+        .remove-btn:hover{color:var(--danger);border-color:var(--danger);background:var(--danger-light)}
+        .remove-btn i{width:16px;height:16px}
+
+        /* TABS */
+        .mini-tabs{display:flex;gap:6px;margin-bottom:16px}
+        .mini-tab{padding:8px 16px;background:var(--bg);border:1px solid var(--surface-border);border-radius:8px;font-size:12px;font-weight:600;color:var(--text-secondary);cursor:pointer;transition:all var(--transition-normal);font-family:var(--font)}
+        .mini-tab:hover{border-color:var(--primary);color:var(--primary)}
+        .mini-tab.active{background:var(--primary);border-color:var(--primary);color:#fff}
+
+        /* SUCCESS VIEW */
+        .success-view{text-align:center;padding:32px 0}
+        .success-icon{width:88px;height:88px;border-radius:50%;background:var(--success-light);color:var(--success);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;animation:bounceIn .6s ease .2s both}
+        .success-icon i{width:42px;height:42px}
+        .success-title{font-size:26px;font-weight:900;margin-bottom:8px;animation:fadeInUp .5s ease .4s both}
+        .success-msg{font-size:15px;color:var(--text-secondary);margin-bottom:24px;max-width:380px;margin-left:auto;margin-right:auto;line-height:1.6;animation:fadeInUp .5s ease .5s both}
+        .success-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px;max-width:400px;margin-left:auto;margin-right:auto}
+        .ss-card{padding:16px;background:var(--surface);border:1px solid var(--surface-border);border-radius:14px;text-align:center;animation:popIn .4s ease both}
+        .ss-card:nth-child(1){animation-delay:.6s}.ss-card:nth-child(2){animation-delay:.7s}.ss-card:nth-child(3){animation-delay:.8s}
+        .ss-card .ssv{font-size:24px;font-weight:800;margin-bottom:2px}
+        .ss-card .ssl{font-size:11px;color:var(--text-tertiary);font-weight:600}
+
+        /* INFO CARDS */
+        .info-card{display:flex;align-items:flex-start;gap:12px;padding:14px;background:var(--primary-light);border:1px solid rgba(99,102,241,.15);border-radius:12px;margin-bottom:20px;animation:fadeInUp .4s ease .2s both}
+        .info-card.warning{background:var(--warning-light);border-color:rgba(245,158,11,.15)}
+        .info-card .ic-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .info-card .ic-icon i{width:16px;height:16px}
+        .info-card .ic-text{font-size:13px;color:var(--text-secondary);line-height:1.5}
+        .info-card .ic-text strong{color:var(--text-primary)}
+
+        /* RESPONSIVE */
+        @media(max-width:360px){
+            .setup-wrapper{padding:16px}
+            .step-card{padding:24px 18px}
+            .step-title{font-size:20px}
+            .brand-name{font-size:26px}
+            .success-stats{grid-template-columns:1fr}
+            .add-form-row{flex-direction:column}
+        }
+        @media(min-width:768px){
+            .step-card{padding:40px 36px}
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="lo-logo"><div class="lo-icon"><i data-lucide="shield"></i></div></div>
+        <div class="lo-bar"><div class="lo-bar-inner"></div></div>
+        <div class="lo-text">Initializing admin setup...</div>
+    </div>
+
+    <!-- Background -->
+    <div class="bg-particles" id="bgParticles"></div>
+    <div class="bg-gradient-orb orb-1"></div>
+    <div class="bg-gradient-orb orb-2"></div>
+    <div class="bg-gradient-orb orb-3"></div>
+
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"><i data-lucide="moon"></i></button>
+
+    <!-- Toast -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Confetti -->
+    <div class="confetti-container" id="confettiContainer"></div>
+
+    <!-- Main -->
+    <div class="setup-wrapper">
+        <div class="setup-container">
+            <!-- Header -->
+            <div class="setup-header">
+                <div class="brand-logo">
+                    <div class="brand-icon"><i data-lucide="graduation-cap"></i></div>
+                    <span class="brand-name">FAVOJE</span>
+                </div>
+                <h1 id="mainTitle">Platform Setup</h1>
+                <p id="mainDesc">Set up your admin account and seed initial data</p>
+            </div>
+
+            <!-- Progress -->
+            <div class="setup-progress" id="progressSection">
+                <div class="progress-info">
+                    <span class="progress-step-text" id="stepText">Step 1 of 4</span>
+                    <span class="progress-pct" id="stepPct">25%</span>
+                </div>
+                <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:25%"></div></div>
+                <div class="step-indicators" id="stepIndicators">
+                    <div class="step-ind active" data-step="0"></div>
+                    <div class="step-ind" data-step="1"></div>
+                    <div class="step-ind" data-step="2"></div>
+                    <div class="step-ind" data-step="3"></div>
+                </div>
+            </div>
+
+            <!-- STEP 0: Create Admin Account -->
+            <div class="step active slide-in-right" id="step0">
+                <div class="step-card">
+                    <div class="step-icon purple"><i data-lucide="shield-plus"></i></div>
+                    <h2 class="step-title">Create Admin Account</h2>
+                    <p class="step-desc">This will be the super admin account with full access to manage the platform</p>
+
+                    <div class="info-card warning">
+                        <div class="ic-icon" style="background:var(--warning-light);color:var(--warning)"><i data-lucide="alert-triangle"></i></div>
+                        <div class="ic-text"><strong>Important:</strong> Save these credentials securely. This account cannot be recovered through the regular forgot password flow without email access.</div>
+                    </div>
+
+                    <form id="adminForm" novalidate>
+                        <div class="form-row">
+                            <div class="form-group" style="animation-delay:.1s">
+                                <label class="form-label">Full Name <span class="required">*</span></label>
+                                <div class="input-wrap"><span class="input-icon"><i data-lucide="user"></i></span><input class="form-input" id="adminName" placeholder="Admin full name" required></div>
+                                <div class="form-error" id="adminNameErr"><i data-lucide="alert-circle"></i><span></span></div>
+                            </div>
+                            <div class="form-group" style="animation-delay:.15s">
+                                <label class="form-label">Username <span class="required">*</span></label>
+                                <div class="input-wrap"><span class="input-icon"><i data-lucide="at-sign"></i></span><input class="form-input" id="adminUsername" placeholder="admin_username" required></div>
+                                <div class="form-error" id="adminUsernameErr"><i data-lucide="alert-circle"></i><span></span></div>
+                            </div>
+                        </div>
+                        <div class="form-group" style="animation-delay:.2s">
+                            <label class="form-label">Email Address <span class="required">*</span></label>
+                            <div class="input-wrap"><span class="input-icon"><i data-lucide="mail"></i></span><input class="form-input" id="adminEmail" type="email" placeholder="admin@favoje.com" required></div>
+                            <div class="form-error" id="adminEmailErr"><i data-lucide="alert-circle"></i><span></span></div>
+                        </div>
+                        <div class="form-group" style="animation-delay:.25s">
+                            <label class="form-label">Phone Number</label>
+                            <div class="input-wrap"><span class="input-icon"><i data-lucide="phone"></i></span><input class="form-input" id="adminPhone" placeholder="08012345678"></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group" style="animation-delay:.3s">
+                                <label class="form-label">Password <span class="required">*</span></label>
+                                <div class="input-wrap">
+                                    <span class="input-icon"><i data-lucide="lock"></i></span>
+                                    <input class="form-input" id="adminPassword" type="password" placeholder="Min 8 characters" required>
+                                    <button type="button" class="password-toggle" data-target="adminPassword"><i data-lucide="eye"></i></button>
+                                </div>
+                                <div class="pw-strength" id="pwStrength" style="display:none">
+                                    <div class="pw-bar"><div class="pw-seg" id="ps1"></div><div class="pw-seg" id="ps2"></div><div class="pw-seg" id="ps3"></div><div class="pw-seg" id="ps4"></div></div>
+                                    <div class="pw-text" id="pwText"></div>
+                                </div>
+                                <div class="form-error" id="adminPasswordErr"><i data-lucide="alert-circle"></i><span></span></div>
+                            </div>
+                            <div class="form-group" style="animation-delay:.35s">
+                                <label class="form-label">Confirm Password <span class="required">*</span></label>
+                                <div class="input-wrap">
+                                    <span class="input-icon"><i data-lucide="lock"></i></span>
+                                    <input class="form-input" id="adminConfirm" type="password" placeholder="Confirm password" required>
+                                    <button type="button" class="password-toggle" data-target="adminConfirm"><i data-lucide="eye"></i></button>
+                                </div>
+                                <div class="form-error" id="adminConfirmErr"><i data-lucide="alert-circle"></i><span></span></div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="action-bar">
+                        <button class="btn btn-primary" id="createAdminBtn"><i data-lucide="shield-plus"></i><span class="btn-text">Create Admin Account</span><div class="btn-spinner"></div></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 1: Add University -->
+            <div class="step" id="step1">
+                <div class="step-card">
+                    <div class="step-icon orange"><i data-lucide="building-2"></i></div>
+                    <h2 class="step-title">Add University</h2>
+                    <p class="step-desc">Add the university that students will register under</p>
+
+                    <div class="info-card">
+                        <div class="ic-icon" style="background:var(--primary-light);color:var(--primary)"><i data-lucide="info"></i></div>
+                        <div class="ic-text">You can add more universities later from the admin dashboard. Start with <strong>FUTMINNA</strong> for the MVP.</div>
+                    </div>
+
+                    <div class="seed-section">
+                        <div class="seed-title"><i data-lucide="building-2"></i>Universities</div>
+                        <div class="add-form" id="addUniForm">
+                            <div class="add-form-row">
+                                <div class="form-group"><label class="form-label">University Name <span class="required">*</span></label><input class="form-input no-icon" id="uniName" placeholder="e.g. Federal University of Technology, Minna"></div>
+                                <div class="form-group"><label class="form-label">Short Name <span class="required">*</span></label><input class="form-input no-icon" id="uniShort" placeholder="e.g. FUTMINNA"></div>
+                                <button class="add-btn-sm" id="addUniBtn"><i data-lucide="plus"></i>Add</button>
+                            </div>
+                        </div>
+                        <div class="seed-list" id="uniList"></div>
+                    </div>
+
+                    <div class="action-bar">
+                        <button class="btn btn-secondary" id="backToStep0"><i data-lucide="arrow-left"></i><span class="btn-text">Back</span></button>
+                        <button class="btn btn-primary" id="nextToStep2"><span class="btn-text">Continue</span><i data-lucide="arrow-right"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 2: Add Faculties & Departments -->
+            <div class="step" id="step2">
+                <div class="step-card">
+                    <div class="step-icon blue"><i data-lucide="library"></i></div>
+                    <h2 class="step-title">Faculties & Departments</h2>
+                    <p class="step-desc">Add faculties/colleges and departments for each university</p>
+
+                    <div class="seed-section">
+                        <div class="form-group" style="animation-delay:.1s">
+                            <label class="form-label">Select University</label>
+                            <div class="input-wrap"><span class="input-icon"><i data-lucide="building-2"></i></span>
+                            <select class="form-select" id="facUniSelect"><option value="">Select university</option></select></div>
+                        </div>
+
+                        <!-- Add Faculty -->
+                        <div class="seed-title" style="margin-top:20px"><i data-lucide="library"></i>Faculties / Colleges</div>
+                        <div class="add-form" id="addFacForm">
+                            <div class="add-form-row">
+                                <div class="form-group"><label class="form-label">Faculty Name <span class="required">*</span></label><input class="form-input no-icon" id="facName" placeholder="e.g. School of Life Sciences"></div>
+                                <button class="add-btn-sm" id="addFacBtn" disabled><i data-lucide="plus"></i>Add</button>
+                            </div>
+                        </div>
+                        <div class="seed-list" id="facList"></div>
+
+                        <!-- Add Department -->
+                        <div class="seed-title" style="margin-top:24px"><i data-lucide="book-open"></i>Departments</div>
+                        <div class="add-form" id="addDeptForm">
+                            <div class="add-form-row">
+                                <div class="form-group"><label class="form-label">Select Faculty <span class="required">*</span></label>
+                                <select class="form-input no-icon" id="deptFacSelect"><option value="">Select faculty first</option></select></div>
+                                <div class="form-group"><label class="form-label">Department Name <span class="required">*</span></label><input class="form-input no-icon" id="deptName" placeholder="e.g. Biochemistry"></div>
+                                <button class="add-btn-sm" id="addDeptBtn" disabled><i data-lucide="plus"></i>Add</button>
+                            </div>
+                        </div>
+                        <div class="seed-list" id="deptList"></div>
+                    </div>
+
+                    <div class="action-bar">
+                        <button class="btn btn-secondary" id="backToStep1"><i data-lucide="arrow-left"></i><span class="btn-text">Back</span></button>
+                        <button class="btn btn-primary" id="nextToStep3"><span class="btn-text">Continue</span><i data-lucide="arrow-right"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 3: Add Courses -->
+            <div class="step" id="step3">
+                <div class="step-card">
+                    <div class="step-icon green"><i data-lucide="book-marked"></i></div>
+                    <h2 class="step-title">Add Courses</h2>
+                    <p class="step-desc">Add some initial courses students can select during onboarding. You can always add more later.</p>
+
+                    <div class="form-row" style="margin-bottom:16px">
+                        <div class="form-group" style="animation-delay:.05s"><label class="form-label">University</label>
+                            <select class="form-input no-icon" id="courseUniSelect"><option value="">Select</option></select></div>
+                        <div class="form-group" style="animation-delay:.1s"><label class="form-label">Department</label>
+                            <select class="form-input no-icon" id="courseDeptSelect"><option value="">Select</option></select></div>
+                    </div>
+                    <div class="form-row" style="margin-bottom:16px">
+                        <div class="form-group" style="animation-delay:.15s"><label class="form-label">Level</label>
+                            <select class="form-input no-icon" id="courseLevelSelect"><option value="">Level</option><option value="100">100</option><option value="200">200</option><option value="300">300</option><option value="400">400</option><option value="500">500</option></select></div>
+                        <div class="form-group" style="animation-delay:.2s"><label class="form-label">Semester</label>
+                            <select class="form-input no-icon" id="courseSemSelect"><option value="">Semester</option><option value="first">First</option><option value="second">Second</option></select></div>
+                    </div>
+
+                    <div class="add-form">
+                        <div class="add-form-row">
+                            <div class="form-group"><label class="form-label">Course Code <span class="required">*</span></label><input class="form-input no-icon" id="courseCode" placeholder="e.g. BCH 201"></div>
+                            <div class="form-group"><label class="form-label">Course Name <span class="required">*</span></label><input class="form-input no-icon" id="courseName" placeholder="e.g. General Biochemistry"></div>
+                            <div class="form-group" style="max-width:80px"><label class="form-label">Units</label><input class="form-input no-icon" id="courseUnits" type="number" value="3" min="1" max="6"></div>
+                            <div class="form-group"><label class="form-label">Type</label>
+                                <select class="form-input no-icon" id="courseType"><option value="core">Core</option><option value="elective">Elective</option><option value="general">General</option></select></div>
+                            <button class="add-btn-sm" id="addCourseBtn"><i data-lucide="plus"></i>Add</button>
+                        </div>
+                    </div>
+                    <div class="seed-list" id="courseList"></div>
+
+                    <div class="action-bar" style="margin-top:20px">
+                        <button class="btn btn-secondary" id="backToStep2"><i data-lucide="arrow-left"></i><span class="btn-text">Back</span></button>
+                        <button class="btn btn-success" id="finishSetup"><i data-lucide="check-circle"></i><span class="btn-text">Complete Setup</span><div class="btn-spinner"></div></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 4: Success -->
+            <div class="step" id="step4">
+                <div class="step-card">
+                    <div class="success-view">
+                        <div class="success-icon"><i data-lucide="check-circle"></i></div>
+                        <h2 class="success-title">Setup Complete! 🎉</h2>
+                        <p class="success-msg">Your admin account and platform data are ready. You can now manage everything from the admin dashboard.</p>
+                        <div class="success-stats">
+                            <div class="ss-card"><div class="ssv" style="color:var(--primary)" id="finalUniCount">0</div><div class="ssl">UNIVERSITIES</div></div>
+                            <div class="ss-card"><div class="ssv" style="color:var(--accent)" id="finalFacCount">0</div><div class="ssl">FACULTIES</div></div>
+                            <div class="ss-card"><div class="ssv" style="color:var(--success)" id="finalCourseCount">0</div><div class="ssl">COURSES</div></div>
+                        </div>
+                        <div class="action-bar" style="max-width:380px;margin:0 auto">
+                            <button class="btn btn-primary" id="goToDashboard"><i data-lucide="layout-dashboard"></i><span class="btn-text">Go to Admin Dashboard</span></button>
+                        </div>
+                        <div style="margin-top:12px"><button class="btn btn-secondary" id="goToLogin" style="max-width:380px;margin:0 auto"><span class="btn-text">Go to Login Page</span></button></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+
+    <script>
+    /* ============================================
+       FAVOJE ADMIN SETUP - COMPLETE JAVASCRIPT
+       ============================================ */
+
+    // Firebase
+    const firebaseConfig={apiKey: "AIzaSyC1SmazNPbak8vMvi-jD40EGqpvWmWdd0U",
+  authDomain: "favoje-fcb02.firebaseapp.com",
+  projectId: "favoje-fcb02",
+  storageBucket: "favoje-fcb02.firebasestorage.app",
+  messagingSenderId: "837946471768",
+  appId: "1:837946471768:web:6ea76eee926fe77bdc212d"};
+    firebase.initializeApp(firebaseConfig);
+    const auth=firebase.auth(),db=firebase.firestore();
+
+    const $=s=>document.querySelector(s);
+    const $$=s=>document.querySelectorAll(s);
+
+    // ============ STATE ============
+    const S={
+        currentStep:0,
+        totalSteps:5,
+        adminUid:null,
+        adminEmail:'',
+        adminPassword:'',
+        universities:[],  // {id, name, shortName}
+        faculties:[],      // {id, name, universityId}
+        departments:[],    // {id, name, facultyId, universityId}
+        courses:[],        // {id, code, name, ...}
+        theme:localStorage.getItem('favoje-theme')||'dark',
+        isTransitioning:false
+    };
+
+    // ============ TOAST ============
+    const Toast={show(type,title,msg,dur=4000){
+        const icons={success:'check-circle',error:'x-circle',warning:'alert-triangle',info:'info'};
+        const el=document.createElement('div');el.className=`toast ${type}`;
+        el.innerHTML=`<div class="ti"><i data-lucide="${icons[type]}"></i></div><div class="tb"><div class="tt">${title}</div><div class="tm">${msg}</div></div><button class="tc"><i data-lucide="x"></i></button>`;
+        $('#toastContainer').appendChild(el);lucide.createIcons({nodes:[el]});
+        const close=()=>{el.classList.add('removing');setTimeout(()=>el.remove(),300)};
+        el.querySelector('.tc').addEventListener('click',close);setTimeout(close,dur);
+    }};
+
+    // ============ THEME ============
+    const Theme={
+        init(){this.apply(S.theme);$('#themeToggle').addEventListener('click',()=>this.toggle())},
+        apply(t){document.documentElement.setAttribute('data-theme',t);S.theme=t;localStorage.setItem('favoje-theme',t);this.icon()},
+        toggle(){this.apply(S.theme==='dark'?'light':'dark')},
+        icon(){const b=$('#themeToggle');b.innerHTML=`<i data-lucide="${S.theme==='dark'?'sun':'moon'}"></i>`;lucide.createIcons({nodes:[b]})}
+    };
+
+    // ============ PARTICLES ============
+    function initParticles(){
+        const c=$('#bgParticles');
+        for(let i=0;i<20;i++){
+            const p=document.createElement('div');p.className='particle';
+            p.style.left=Math.random()*100+'%';p.style.top=Math.random()*100+'%';
+            p.style.setProperty('--tx',(Math.random()*200-100)+'px');
+            p.style.setProperty('--ty',(Math.random()*200-100)+'px');
+            p.style.animation=`particleFloat ${5+Math.random()*10}s ease-in-out infinite`;
+            p.style.animationDelay=Math.random()*5+'s';
+            const sz=(2+Math.random()*3)+'px';p.style.width=sz;p.style.height=sz;
+            c.appendChild(p);
+        }
+    }
+
+    // ============ CONFETTI ============
+    function launchConfetti(){
+        const c=$('#confettiContainer');
+        const colors=['#6366F1','#F97316','#10B981','#F59E0B','#EF4444','#8B5CF6','#EC4899'];
+        for(let i=0;i<60;i++){
+            const p=document.createElement('div');p.className='confetti-piece';
+            p.style.left=Math.random()*100+'%';
+            p.style.background=colors[Math.floor(Math.random()*colors.length)];
+            p.style.width=(6+Math.random()*8)+'px';p.style.height=p.style.width;
+            p.style.borderRadius=Math.random()>.5?'50%':'2px';
+            p.style.animationDuration=(2+Math.random()*3)+'s';
+            p.style.animationDelay=Math.random()*1.5+'s';
+            c.appendChild(p);setTimeout(()=>p.remove(),5000);
+        }
+    }
+
+    // ============ PROGRESS ============
+    function updateProgress(){
+        const pct=Math.round(((S.currentStep+1)/S.totalSteps)*100);
+        $('#progressFill').style.width=pct+'%';
+        $('#stepPct').textContent=pct+'%';
+        $('#stepText').textContent=`Step ${S.currentStep+1} of ${S.totalSteps}`;
+        $$('.step-ind').forEach((d,i)=>{
+            d.classList.remove('active','done');
+            if(i<S.currentStep)d.classList.add('done');
+            else if(i===S.currentStep)d.classList.add('active');
+        });
+        if(S.currentStep===S.totalSteps-1)$('#progressSection').style.display='none';
+        else $('#progressSection').style.display='block';
+    }
+
+    // ============ STEP NAVIGATION ============
+    async function goToStep(target,dir='forward'){
+        if(S.isTransitioning||target<0||target>=S.totalSteps)return;
+        S.isTransitioning=true;
+        const cur=$(`#step${S.currentStep}`);
+        cur.classList.remove('slide-in-right','slide-in-left');
+        cur.style.animation=dir==='forward'?'slideOutLeft .35s ease forwards':'slideOutRight .35s ease forwards';
+        await new Promise(r=>setTimeout(r,350));
+        cur.classList.remove('active');cur.style.display='none';cur.style.animation='';
+        const next=$(`#step${target}`);
+        next.style.display='block';next.classList.add('active');
+        void next.offsetHeight;
+        next.classList.add(dir==='forward'?'slide-in-right':'slide-in-left');
+        S.currentStep=target;
+        updateProgress();
+        lucide.createIcons({nodes:[next]});
+        S.isTransitioning=false;
+    }
+
+    // ============ VALIDATION HELPERS ============
+    function showError(id,msg){
+        const el=$(`#${id}`);if(!el)return;
+        el.querySelector('span').textContent=msg;
+        el.classList.add('visible');
+    }
+    function clearError(id){const el=$(`#${id}`);if(el)el.classList.remove('visible')}
+    function clearAllErrors(){$$('.form-error').forEach(e=>e.classList.remove('visible'));$$('.form-input').forEach(i=>i.classList.remove('error'))}
+    function getPasswordStrength(pw){
+        let sc=0;if(pw.length>=8)sc++;if(pw.length>=12)sc++;
+        if(/[A-Z]/.test(pw)&&/[a-z]/.test(pw))sc++;
+        if(/[0-9]/.test(pw))sc++;if(/[^A-Za-z0-9]/.test(pw))sc++;
+        if(sc<=1)return{l:1,t:'Weak',c:'weak'};
+        if(sc<=2)return{l:2,t:'Fair',c:'fair'};
+        if(sc<=3)return{l:3,t:'Good',c:'good'};
+        return{l:4,t:'Strong',c:'strong'};
+    }
+
+    // ============ STEP 0: CREATE ADMIN ============
+    function initStep0(){
+        // Password strength
+        $('#adminPassword').addEventListener('input',e=>{
+            const pw=e.target.value;
+            const container=$('#pwStrength');
+            if(!pw){container.style.display='none';return}
+            container.style.display='block';
+            const s=getPasswordStrength(pw);
+            for(let i=1;i<=4;i++){
+                const seg=$(`#ps${i}`);seg.className='pw-seg';
+                if(i<=s.l)seg.classList.add('active',s.c);
+            }
+            const colors={weak:'var(--danger)',fair:'var(--warning)',good:'var(--accent)',strong:'var(--success)'};
+            $('#pwText').textContent=s.t+' password';$('#pwText').style.color=colors[s.c];
+        });
+
+        // Password toggles
+        $$('.password-toggle').forEach(btn=>{
+            btn.addEventListener('click',()=>{
+                const input=$(`#${btn.dataset.target}`);
+                const isP=input.type==='password';
+                input.type=isP?'text':'password';
+                btn.innerHTML=`<i data-lucide="${isP?'eye-off':'eye'}"></i>`;
+                lucide.createIcons({nodes:[btn]});
+            });
+        });
+
+        // Clear errors on input
+        $$('.form-input').forEach(inp=>{inp.addEventListener('input',()=>{
+            inp.classList.remove('error');
+            const errId=inp.id+'Err';clearError(errId);
+        })});
+
+        // Create admin button
+        $('#createAdminBtn').addEventListener('click',async()=>{
+            clearAllErrors();
+            const name=$('#adminName').value.trim();
+            const username=$('#adminUsername').value.trim().toLowerCase();
+            const email=$('#adminEmail').value.trim();
+            const phone=$('#adminPhone').value.trim();
+            const password=$('#adminPassword').value;
+            const confirm=$('#adminConfirm').value;
+            let valid=true;
+            if(!name){showError('adminNameErr','Full name is required');valid=false}
+            if(!username||username.length<3){showError('adminUsernameErr','Username must be 3+ characters');valid=false}
+            if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){showError('adminEmailErr','Valid email is required');valid=false}
+            if(!password||password.length<8){showError('adminPasswordErr','Password must be 8+ characters');valid=false}
+            if(password!==confirm){showError('adminConfirmErr','Passwords do not match');valid=false}
+            if(!valid)return;
+
+            const btn=$('#createAdminBtn');btn.classList.add('loading');
+            try{
+                // Create Firebase Auth account
+                const cred=await auth.createUserWithEmailAndPassword(email,password);
+                S.adminUid=cred.user.uid;
+                S.adminEmail=email;
+                S.adminPassword=password;
+
+                // Create admin user profile in Firestore
+                await db.collection('users').doc(S.adminUid).set({
+                    uid:S.adminUid,
+                    fullName:name,
+                    username:username,
+                    email:email,
+                    phone:phone,
+                    role:'admin',
+                    avatar:'',
+                    onboardingCompleted:true,
+                    universityId:'',facultyId:'',departmentId:'',
+                    level:'',semester:'',selectedCourses:[],
+                    balance:0,questionsAttempted:0,questionsCorrect:0,
+                    testsCompleted:0,currentStreak:0,longestStreak:0,
+                    bestScore:0,lastPracticeDate:null,achievements:[],
+                    createdAt:firebase.firestore.FieldValue.serverTimestamp(),
+                    lastLogin:firebase.firestore.FieldValue.serverTimestamp(),
+                    updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                // Create wallet
+                await db.collection('wallet_accounts').doc(S.adminUid).set({
+                    userId:S.adminUid,balance:0,totalDeposited:0,totalSpent:0,
+                    createdAt:firebase.firestore.FieldValue.serverTimestamp(),
+                    updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                // Audit log
+                await db.collection('audit_logs').add({
+                    action:'admin_setup',adminId:S.adminUid,
+                    details:`Super admin account created: ${name} (${email})`,
+                    createdAt:firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                btn.classList.remove('loading');
+                Toast.show('success','Admin Created!',`Welcome, ${name}! Now let's set up the platform data.`);
+                goToStep(1,'forward');
+            }catch(e){
+                btn.classList.remove('loading');
+                let msg=e.message;
+                if(e.code==='auth/email-already-in-use')msg='An account with this email already exists.';
+                if(e.code==='auth/weak-password')msg='Password is too weak.';
+                Toast.show('error','Creation Failed',msg);
+            }
+        });
+    }
+
+    // ============ STEP 1: UNIVERSITIES ============
+    function initStep1(){
+        $('#addUniBtn').addEventListener('click',async()=>{
+            const name=$('#uniName').value.trim();
+            const short=$('#uniShort').value.trim().toUpperCase();
+            if(!name||!short){Toast.show('warning','Required','Enter university name and short name');return}
+            const btn=$('#addUniBtn');btn.disabled=true;btn.innerHTML='<i data-lucide="loader"></i>';lucide.createIcons({nodes:[btn]});
+            try{
+                const ref=await db.collection('universities').add({
+                    name,shortName:short,
+                    createdAt:firebase.firestore.FieldValue.serverTimestamp(),
+                    createdBy:S.adminUid
+                });
+                S.universities.push({id:ref.id,name,shortName:short});
+                $('#uniName').value='';$('#uniShort').value='';
+                renderUniList();refreshUniSelects();
+                Toast.show('success','Added',`${short} has been added`);
+            }catch(e){Toast.show('error','Error',e.message)}
+            btn.disabled=false;btn.innerHTML='<i data-lucide="plus"></i>Add';lucide.createIcons({nodes:[btn]});
+        });
+
+        $('#backToStep0').addEventListener('click',()=>goToStep(0,'backward'));
+        $('#nextToStep2').addEventListener('click',()=>{
+            if(!S.universities.length){Toast.show('warning','Required','Add at least one university');return}
+            goToStep(2,'forward');
+        });
+    }
+
+    function renderUniList(){
+        const list=$('#uniList');list.innerHTML='';
+        S.universities.forEach((u,i)=>{
+            const el=document.createElement('div');el.className='seed-item';el.style.animationDelay=`${i*0.05}s`;
+            el.innerHTML=`
+                <div class="si-icon" style="background:var(--accent-light);color:var(--accent)"><i data-lucide="building-2"></i></div>
+                <div class="si-info"><div class="si-name">${u.shortName}</div><div class="si-detail">${u.name}</div></div>
+                <div class="si-status done"><i data-lucide="check-circle"></i>Saved</div>
+                <button class="remove-btn" data-uid="${u.id}"><i data-lucide="trash-2"></i></button>
+            `;
+            el.querySelector('.remove-btn').addEventListener('click',async()=>{
+                try{await db.collection('universities').doc(u.id).delete();
+                S.universities=S.universities.filter(x=>x.id!==u.id);
+                renderUniList();refreshUniSelects();Toast.show('info','Removed','University removed')}catch(e){Toast.show('error','Error',e.message)}
+            });
+            list.appendChild(el);
+        });
+        lucide.createIcons({nodes:[list]});
+    }
+
+    function refreshUniSelects(){
+        ['facUniSelect','courseUniSelect'].forEach(selId=>{
+            const sel=$(`#${selId}`);if(!sel)return;
+            const val=sel.value;
+            sel.innerHTML='<option value="">Select university</option>';
+            S.universities.forEach(u=>{const o=document.createElement('option');o.value=u.id;o.textContent=u.shortName+' — '+u.name;sel.appendChild(o)});
+            sel.value=val;
+        });
+    }
+
+    // ============ STEP 2: FACULTIES & DEPARTMENTS ============
+    function initStep2(){
+        // When university selected, enable faculty add
+        $('#facUniSelect').addEventListener('change',e=>{
+            const uid=e.target.value;
+            $('#addFacBtn').disabled=!uid;
+            renderFacList(uid);
+            // Refresh dept faculty select
+            refreshFacSelectForDept(uid);
+        });
+
+        // Add faculty
+        $('#addFacBtn').addEventListener('click',async()=>{
+            const uid=$('#facUniSelect').value;
+            const name=$('#facName').value.trim();
+            if(!uid||!name){Toast.show('warning','Required','Select university and enter faculty name');return}
+            const btn=$('#addFacBtn');btn.disabled=true;
+            try{
+                const ref=await db.collection('universities').doc(uid).collection('faculties').add({
+                    name,createdAt:firebase.firestore.FieldValue.serverTimestamp(),createdBy:S.adminUid
+                });
+                S.faculties.push({id:ref.id,name,universityId:uid});
+                $('#facName').value='';
+                renderFacList(uid);refreshFacSelectForDept(uid);
+                Toast.show('success','Added',`${name} faculty added`);
+            }catch(e){Toast.show('error','Error',e.message)}
+            btn.disabled=false;
+        });
+
+        // Add department
+        $('#addDeptBtn').addEventListener('click',async()=>{
+            const uid=$('#facUniSelect').value;
+            const fid=$('#deptFacSelect').value;
+            const name=$('#deptName').value.trim();
+            if(!uid||!fid||!name){Toast.show('warning','Required','Select faculty and enter department name');return}
+            const btn=$('#addDeptBtn');btn.disabled=true;
+            try{
+                const ref=await db.collection('universities').doc(uid).collection('faculties').doc(fid).collection('departments').add({
+                    name,createdAt:firebase.firestore.FieldValue.serverTimestamp(),createdBy:S.adminUid
+                });
+                S.departments.push({id:ref.id,name,facultyId:fid,universityId:uid});
+                $('#deptName').value='';
+                renderDeptList(uid);refreshDeptSelectForCourses();
+                Toast.show('success','Added',`${name} department added`);
+            }catch(e){Toast.show('error','Error',e.message)}
+            btn.disabled=false;
+        });
+
+        // Dept faculty select change
+        $('#deptFacSelect').addEventListener('change',e=>{$('#addDeptBtn').disabled=!e.target.value});
+
+        $('#backToStep1').addEventListener('click',()=>goToStep(1,'backward'));
+        $('#nextToStep3').addEventListener('click',()=>{
+            if(!S.faculties.length){Toast.show('warning','Required','Add at least one faculty');return}
+            if(!S.departments.length){Toast.show('warning','Required','Add at least one department');return}
+            refreshCourseUniSelect();goToStep(3,'forward');
+        });
+    }
+
+    function renderFacList(uid){
+        const list=$('#facList');list.innerHTML='';
+        const facs=S.faculties.filter(f=>f.universityId===uid);
+        facs.forEach((f,i)=>{
+            const el=document.createElement('div');el.className='seed-item';el.style.animationDelay=`${i*0.05}s`;
+            el.innerHTML=`
+                <div class="si-icon" style="background:var(--primary-light);color:var(--primary)"><i data-lucide="library"></i></div>
+                <div class="si-info"><div class="si-name">${f.name}</div><div class="si-detail">Faculty/College</div></div>
+                <div class="si-status done"><i data-lucide="check-circle"></i>Saved</div>
+                <button class="remove-btn" data-fid="${f.id}"><i data-lucide="trash-2"></i></button>
+            `;
+            el.querySelector('.remove-btn').addEventListener('click',async()=>{
+                try{await db.collection('universities').doc(uid).collection('faculties').doc(f.id).delete();
+                S.faculties=S.faculties.filter(x=>x.id!==f.id);renderFacList(uid);refreshFacSelectForDept(uid);Toast.show('info','Removed','Faculty removed')}catch(e){Toast.show('error','Error',e.message)}
+            });
+            list.appendChild(el);
+        });
+        lucide.createIcons({nodes:[list]});
+    }
+
+    function refreshFacSelectForDept(uid){
+        const sel=$('#deptFacSelect');
+        sel.innerHTML='<option value="">Select faculty</option>';
+        const facs=S.faculties.filter(f=>f.universityId===uid);
+        facs.forEach(f=>{const o=document.createElement('option');o.value=f.id;o.textContent=f.name;sel.appendChild(o)});
+        $('#addDeptBtn').disabled=true;
+        renderDeptList(uid);
+    }
+
+    function renderDeptList(uid){
+        const list=$('#deptList');list.innerHTML='';
+        const depts=S.departments.filter(d=>d.universityId===uid);
+        depts.forEach((d,i)=>{
+            const fac=S.faculties.find(f=>f.id===d.facultyId);
+            const el=document.createElement('div');el.className='seed-item';el.style.animationDelay=`${i*0.05}s`;
+            el.innerHTML=`
+                <div class="si-icon" style="background:var(--success-light);color:var(--success)"><i data-lucide="book-open"></i></div>
+                <div class="si-info"><div class="si-name">${d.name}</div><div class="si-detail">${fac?fac.name:'Unknown Faculty'}</div></div>
+                <div class="si-status done"><i data-lucide="check-circle"></i>Saved</div>
+                <button class="remove-btn" data-did="${d.id}"><i data-lucide="trash-2"></i></button>
+            `;
+            el.querySelector('.remove-btn').addEventListener('click',async()=>{
+                try{
+                    await db.collection('universities').doc(uid).collection('faculties').doc(d.facultyId).collection('departments').doc(d.id).delete();
+                    S.departments=S.departments.filter(x=>x.id!==d.id);renderDeptList(uid);refreshDeptSelectForCourses();Toast.show('info','Removed','Department removed');
+                }catch(e){Toast.show('error','Error',e.message)}
+            });
+            list.appendChild(el);
+        });
+        lucide.createIcons({nodes:[list]});
+    }
+
+    // ============ STEP 3: COURSES ============
+    function initStep3(){
+        $('#courseUniSelect').addEventListener('change',async e=>{
+            const uid=e.target.value;refreshDeptSelectForCourses(uid)});
+
+        $('#addCourseBtn').addEventListener('click',async()=>{
+            const uid=$('#courseUniSelect').value;
+            const did=$('#courseDeptSelect').value;
+            const level=$('#courseLevelSelect').value;
+            const semester=$('#courseSemSelect').value;
+            const code=$('#courseCode').value.trim().toUpperCase();
+            const name=$('#courseName').value.trim();
+            const units=parseInt($('#courseUnits').value)||3;
+            const type=$('#courseType').value;
+            if(!uid||!did||!level||!semester||!code||!name){Toast.show('warning','Required','Fill all required fields');return}
+            const btn=$('#addCourseBtn');btn.disabled=true;
+            try{
+                const ref=await db.collection('courses').add({
+                    code,name,units,type,universityId:uid,departmentId:did,
+                    level,semester,isGeneral:type==='general',
+                    status:'published',
+                    createdAt:firebase.firestore.FieldValue.serverTimestamp(),
+                    createdBy:S.adminUid
+                });
+                S.courses.push({id:ref.id,code,name,units,type,level,semester});
+                $('#courseCode').value='';$('#courseName').value='';
+                renderCourseList();
+                Toast.show('success','Added',`${code} — ${name} added`);
+            }catch(e){Toast.show('error','Error',e.message)}
+            btn.disabled=false;
+        });
+
+        $('#backToStep2').addEventListener('click',()=>goToStep(2,'backward'));
+        $('#finishSetup').addEventListener('click',async()=>{
+            const btn=$('#finishSetup');btn.classList.add('loading');
+            try{
+                // Mark setup as complete via a metadata doc
+                await db.collection('system_config').doc('setup').set({
+                    setupCompleted:true,
+                    setupBy:S.adminUid,
+                    setupAt:firebase.firestore.FieldValue.serverTimestamp(),
+                    universitiesCount:S.universities.length,
+                    facultiesCount:S.faculties.length,
+                    departmentsCount:S.departments.length,
+                    coursesCount:S.courses.length
+                });
+                btn.classList.remove('loading');
+                // Show success
+                $('#finalUniCount').textContent=S.universities.length;
+                $('#finalFacCount').textContent=S.faculties.length;
+                $('#finalCourseCount').textContent=S.courses.length;
+                goToStep(4,'forward');
+                setTimeout(launchConfetti,500);
+            }catch(e){btn.classList.remove('loading');Toast.show('error','Error',e.message)}
+        });
+    }
+
+    function refreshCourseUniSelect(){
+        const sel=$('#courseUniSelect');
+        sel.innerHTML='<option value="">Select</option>';
+        S.universities.forEach(u=>{const o=document.createElement('option');o.value=u.id;o.textContent=u.shortName;sel.appendChild(o)});
+    }
+
+    function refreshDeptSelectForCourses(uid){
+        const sel=$('#courseDeptSelect');
+        sel.innerHTML='<option value="">Select</option>';
+        if(!uid)return;
+        const depts=S.departments.filter(d=>d.universityId===uid);
+        depts.forEach(d=>{const o=document.createElement('option');o.value=d.id;o.textContent=d.name;sel.appendChild(o)});
+    }
+
+    function renderCourseList(){
+        const list=$('#courseList');list.innerHTML='';
+        S.courses.forEach((c,i)=>{
+            const el=document.createElement('div');el.className='seed-item';el.style.animationDelay=`${i*0.04}s`;
+            const typeColors={core:'var(--primary)',elective:'var(--accent)',general:'var(--success)'};
+            el.innerHTML=`
+                <div class="si-icon" style="background:var(--success-light);color:var(--success)"><i data-lucide="book-marked"></i></div>
+                <div class="si-info"><div class="si-name">${c.code} — ${c.name}</div><div class="si-detail">${c.level}L • ${c.semester==='first'?'1st':'2nd'} Sem • ${c.units} units • <span style="color:${typeColors[c.type]||'var(--text-muted)'}">${c.type}</span></div></div>
+                <div class="si-status done"><i data-lucide="check-circle"></i></div>
+            `;
+            list.appendChild(el);
+        });
+        lucide.createIcons({nodes:[list]});
+    }
+
+    // ============ STEP 4: SUCCESS ============
+    function initStep4(){
+        $('#goToDashboard').addEventListener('click',()=>{window.location.href='admin.html'});
+        $('#goToLogin').addEventListener('click',async()=>{
+            await auth.signOut();window.location.href='index.html';
+        });
+    }
+
+    // ============ INIT ============
+    function init(){
+        lucide.createIcons();
+        Theme.init();
+        initParticles();
+        initStep0();initStep1();initStep2();initStep3();initStep4();
+        updateProgress();
+
+        // Check if already set up
+        auth.onAuthStateChanged(async user=>{
+            try{
+                const setupDoc=await db.collection('system_config').doc('setup').get();
+                if(setupDoc.exists&&setupDoc.data().setupCompleted){
+                    // Already set up — show message or redirect
+                    if(user){
+                        const uDoc=await db.collection('users').doc(user.uid).get();
+                        if(uDoc.exists&&['admin','moderator','content_manager'].includes(uDoc.data().role)){
+                            Toast.show('info','Already Set Up','Redirecting to admin dashboard...');
+                            setTimeout(()=>window.location.href='admin.html',1500);
+                        }else{
+                            Toast.show('info','Already Set Up','Redirecting to login...');
+                            setTimeout(()=>window.location.href='index.html',1500);
+                        }
+                    }
+                }else if(user){
+                    // User logged in but setup not complete — check if admin
+                    const uDoc=await db.collection('users').doc(user.uid).get();
+                    if(uDoc.exists&&uDoc.data().role==='admin'){
+                        S.adminUid=user.uid;
+                        Toast.show('info','Welcome Back','Continue setting up the platform');
+                        // Skip to step 1
+                        goToStep(1,'forward');
+                    }
+                }
+            }catch(e){console.log('Setup check:',e.message)}
+
+            // Hide loading
+            setTimeout(()=>{
+                const o=$('#loadingOverlay');
+                o.classList.add('hidden');
+                setTimeout(()=>o.remove(),600);
+            },800);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded',init);
+    </script>
+</body>
+</html>

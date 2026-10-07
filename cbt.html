@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>FAVOJE — CBT & Tests</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        :root{--primary:#6366F1;--primary-hover:#5558E6;--primary-light:rgba(99,102,241,0.12);--primary-glow:rgba(99,102,241,0.3);--secondary:#4F46E5;--bg:#080B14;--bg-secondary:#0D1117;--surface:#111827;--surface-hover:#1a2234;--surface-border:rgba(255,255,255,0.06);--surface-border-hover:rgba(255,255,255,0.12);--accent:#F97316;--accent-light:rgba(249,115,22,0.12);--success:#10B981;--success-light:rgba(16,185,129,0.12);--danger:#EF4444;--danger-light:rgba(239,68,68,0.12);--warning:#F59E0B;--warning-light:rgba(245,158,11,0.12);--text-primary:#F8FAFC;--text-secondary:#94A3B8;--text-tertiary:#64748B;--text-muted:#475569;--card-radius:16px;--btn-radius:12px;--input-radius:12px;--transition-fast:0.15s ease;--transition-normal:0.3s ease;--transition-smooth:0.4s cubic-bezier(0.4,0,0.2,1);--shadow-sm:0 1px 3px rgba(0,0,0,0.3);--shadow-md:0 4px 12px rgba(0,0,0,0.4);--shadow-lg:0 8px 32px rgba(0,0,0,0.5);--font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;--safe-bottom:env(safe-area-inset-bottom,0px);--nav-height:72px}
+        [data-theme="light"]{--bg:#F1F5F9;--bg-secondary:#E2E8F0;--surface:#FFFFFF;--surface-hover:#F8FAFC;--surface-border:rgba(0,0,0,0.08);--surface-border-hover:rgba(0,0,0,0.15);--text-primary:#0F172A;--text-secondary:#475569;--text-tertiary:#64748B;--text-muted:#94A3B8;--shadow-sm:0 1px 3px rgba(0,0,0,0.08);--shadow-md:0 4px 12px rgba(0,0,0,0.1);--shadow-lg:0 8px 32px rgba(0,0,0,0.12);--primary-light:rgba(99,102,241,0.08);--accent-light:rgba(249,115,22,0.08);--success-light:rgba(16,185,129,0.08);--danger-light:rgba(239,68,68,0.08);--warning-light:rgba(245,158,11,0.08)}
+        *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+        body{font-family:var(--font);background:var(--bg);color:var(--text-primary);min-height:100vh;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased;padding-bottom:calc(var(--nav-height) + var(--safe-bottom) + 16px)}
+        ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--text-muted);border-radius:3px}
+
+        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+        @keyframes fadeInUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes fadeInDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes fadeInLeft{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes fadeInRight{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes scaleIn{from{opacity:0;transform:scale(0.88)}to{opacity:1;transform:scale(1)}}
+        @keyframes bounceIn{0%{opacity:0;transform:scale(0.3)}50%{opacity:1;transform:scale(1.06)}70%{transform:scale(0.94)}100%{opacity:1;transform:scale(1)}}
+        @keyframes slideInRight{from{opacity:0;transform:translateX(100%)}to{opacity:1;transform:translateX(0)}}
+        @keyframes slideInLeft{from{opacity:0;transform:translateX(-100%)}to{opacity:1;transform:translateX(0)}}
+        @keyframes slideUp{from{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}
+        @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+        @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        @keyframes glowPulse{0%,100%{box-shadow:0 0 8px var(--primary-glow)}50%{box-shadow:0 0 24px var(--primary-glow)}}
+        @keyframes popIn{0%{opacity:0;transform:scale(0) rotate(-8deg)}60%{transform:scale(1.1) rotate(2deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
+        @keyframes barGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+        @keyframes particleFloat{0%,100%{transform:translate(0,0) rotate(0deg);opacity:0}10%{opacity:.5}90%{opacity:.5}100%{transform:translate(var(--tx),var(--ty)) rotate(360deg);opacity:0}}
+        @keyframes correctPulse{0%{box-shadow:0 0 0 0 rgba(16,185,129,0.4)}70%{box-shadow:0 0 0 15px rgba(16,185,129,0)}100%{box-shadow:0 0 0 0 rgba(16,185,129,0)}}
+        @keyframes wrongShake{0%,100%{transform:translateX(0)}10%,30%,50%,70%,90%{transform:translateX(-6px)}20%,40%,60%,80%{transform:translateX(6px)}}
+        @keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+        @keyframes expandIn{from{opacity:0;max-height:0}to{opacity:1;max-height:600px}}
+        @keyframes timerPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+        @keyframes urgentPulse{0%,100%{color:var(--danger);transform:scale(1)}50%{color:#ff6b6b;transform:scale(1.08)}}
+        @keyframes confettiFall{0%{transform:translateY(-100vh) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+        @keyframes ripple{to{transform:scale(4);opacity:0}}
+        @keyframes numberTick{0%{transform:translateY(100%);opacity:0}100%{transform:translateY(0);opacity:1}}
+        @keyframes slideDown{from{opacity:0;transform:translateY(-20px);max-height:0}to{opacity:1;transform:translateY(0);max-height:500px}}
+
+        .bg-particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+        .particle{position:absolute;width:3px;height:3px;background:var(--primary);border-radius:50%;opacity:0}
+        .bg-gradient-orb{position:fixed;border-radius:50%;filter:blur(120px);pointer-events:none;z-index:0}
+        .orb-1{width:350px;height:350px;background:rgba(99,102,241,0.06);top:-80px;right:-80px;animation:float 9s ease-in-out infinite}
+        .orb-2{width:280px;height:280px;background:rgba(249,115,22,0.04);bottom:-60px;left:-60px;animation:float 11s ease-in-out infinite reverse}
+        [data-theme="light"] .orb-1{background:rgba(99,102,241,0.04)}[data-theme="light"] .orb-2{background:rgba(249,115,22,0.02)}
+
+        .loading-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:20000;transition:opacity .6s,visibility .6s}
+        .loading-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none}
+        .lo-icon{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;animation:bounceIn .8s ease,float 2s ease-in-out infinite .8s;box-shadow:0 4px 20px rgba(99,102,241,0.4)}
+        .lo-icon i{width:30px;height:30px;color:#fff}
+        .lo-bar{width:100px;height:3px;background:var(--surface);border-radius:3px;overflow:hidden;margin-top:20px}
+        .lo-bar-inner{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent),var(--primary));border-radius:3px;width:40%;animation:shimmer 1.4s ease-in-out infinite;background-size:200% 100%}
+
+        .toast-container{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:10000;display:flex;flex-direction:column;gap:8px;width:92%;max-width:420px}
+        .toast{display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);box-shadow:var(--shadow-lg);animation:fadeInDown .4s ease;position:relative;overflow:hidden}
+        .toast::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px}
+        .toast.success::before{background:var(--success)}.toast.error::before{background:var(--danger)}.toast.info::before{background:var(--primary)}.toast.warning::before{background:var(--warning)}
+        .toast .ti{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .toast.success .ti{background:var(--success-light);color:var(--success)}.toast.error .ti{background:var(--danger-light);color:var(--danger)}.toast.info .ti{background:var(--primary-light);color:var(--primary)}.toast.warning .ti{background:var(--warning-light);color:var(--warning)}
+        .toast .ti i{width:18px;height:18px}.toast .tb{flex:1}.toast .tt{font-size:14px;font-weight:600}.toast .tm{font-size:13px;color:var(--text-secondary)}
+        .toast .tc{background:none;border:none;color:var(--text-muted);cursor:pointer;padding:4px;display:flex}.toast .tc i{width:16px;height:16px}
+        .toast.removing{animation:fadeIn .3s ease reverse forwards}
+
+        .confetti-container{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;overflow:hidden}
+        .confetti-piece{position:absolute;top:-20px;animation:confettiFall linear forwards}
+
+        /* TOP HEADER */
+        .top-header{position:sticky;top:0;z-index:100;background:rgba(8,11,20,0.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--surface-border);padding:14px 20px;animation:fadeInDown .5s ease}
+        [data-theme="light"] .top-header{background:rgba(241,245,249,0.88)}
+        .top-header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+        .th-back{width:38px;height:38px;border-radius:10px;background:var(--surface);border:1px solid var(--surface-border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-secondary);transition:all var(--transition-normal);flex-shrink:0}
+        .th-back:hover{background:var(--primary-light);color:var(--primary);border-color:var(--primary)}
+        .th-back i{width:20px;height:20px}
+        .th-title-area{flex:1;min-width:0}
+        .th-page-title{font-size:18px;font-weight:700;letter-spacing:-0.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .th-page-sub{font-size:12px;color:var(--text-tertiary);font-weight:500}
+        .th-actions{display:flex;gap:8px}
+        .th-btn{width:38px;height:38px;border-radius:10px;background:var(--surface);border:1px solid var(--surface-border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-secondary);transition:all var(--transition-normal)}
+        .th-btn:hover{background:var(--surface-hover);color:var(--primary);border-color:var(--primary)}
+        .th-btn i{width:20px;height:20px}
+
+        .main-content{max-width:1200px;margin:0 auto;padding:20px 16px;position:relative;z-index:1}
+        .view{display:none;opacity:0}.view.active{display:block;animation:fadeIn .4s ease forwards}
+        .view.slide-r{animation:slideInRight .4s ease forwards}.view.slide-l{animation:slideInLeft .4s ease forwards}
+
+        /* ===== MARKETPLACE ===== */
+        .mp-hero{background:linear-gradient(135deg,var(--primary),var(--secondary),#3730A3);border-radius:20px;padding:28px 24px;color:#fff;margin-bottom:20px;position:relative;overflow:hidden;animation:fadeInUp .5s ease .1s both}
+        .mp-hero::before{content:'';position:absolute;top:0;right:0;width:180px;height:180px;background:radial-gradient(circle,rgba(255,255,255,0.08),transparent 70%)}
+        .mp-hero h2{font-size:24px;font-weight:800;margin-bottom:4px;letter-spacing:-0.5px;position:relative;z-index:1}
+        .mp-hero p{font-size:14px;opacity:.85;position:relative;z-index:1}
+        .mp-hero .mp-balance{margin-top:14px;display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:rgba(255,255,255,0.15);border-radius:10px;font-size:14px;font-weight:600;position:relative;z-index:1;backdrop-filter:blur(8px)}
+        .mp-hero .mp-balance i{width:16px;height:16px}
+
+        .mp-tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 0;margin-bottom:20px;animation:fadeInUp .5s ease .15s both;-webkit-overflow-scrolling:touch}
+        .mp-tabs::-webkit-scrollbar{display:none}
+        .mp-tab{padding:10px 20px;background:var(--surface);border:1.5px solid var(--surface-border);border-radius:12px;font-size:13px;font-weight:600;color:var(--text-secondary);cursor:pointer;white-space:nowrap;transition:all var(--transition-normal);font-family:var(--font);flex-shrink:0}
+        .mp-tab:hover{border-color:var(--primary);color:var(--primary)}
+        .mp-tab.active{background:var(--primary);border-color:var(--primary);color:#fff;box-shadow:0 2px 10px rgba(99,102,241,0.3)}
+
+        .mp-search{display:flex;gap:10px;margin-bottom:20px;animation:fadeInUp .5s ease .2s both}
+        .mp-search-wrap{flex:1;position:relative}
+        .mp-search-wrap .si{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted)}.mp-search-wrap .si i{width:18px;height:18px}
+        .mp-search-input{width:100%;padding:13px 14px 13px 44px;background:var(--surface);border:1.5px solid var(--surface-border);border-radius:var(--input-radius);color:var(--text-primary);font-size:14px;font-family:var(--font);outline:none;transition:all var(--transition-normal)}
+        .mp-search-input::placeholder{color:var(--text-muted)}
+        .mp-search-input:focus{border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-light)}
+
+        .tests-grid{display:grid;gap:14px}
+        .test-card{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);padding:20px;cursor:pointer;animation:fadeInUp .5s ease both;transition:all var(--transition-smooth);position:relative;overflow:hidden}
+        .test-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;opacity:0;transition:opacity var(--transition-normal)}
+        .test-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--surface-border-hover)}
+        .test-card:hover::before{opacity:1}
+        .test-card.free::before{background:var(--success)}.test-card.paid::before{background:var(--accent)}
+        .tc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+        .tc-course{font-size:12px;font-weight:700;padding:4px 10px;border-radius:6px;background:var(--primary-light);color:var(--primary)}
+        .tc-price{font-size:13px;font-weight:700;padding:5px 12px;border-radius:8px}
+        .tc-price.free{background:var(--success-light);color:var(--success)}
+        .tc-price.paid{background:var(--accent-light);color:var(--accent)}
+        .tc-title{font-size:16px;font-weight:700;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.4}
+        .tc-meta{display:flex;flex-wrap:wrap;gap:10px;font-size:12px;color:var(--text-tertiary);margin-bottom:14px}
+        .tc-meta span{display:flex;align-items:center;gap:4px}.tc-meta span i{width:14px;height:14px}
+        .tc-diff{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;margin-bottom:14px}
+        .tc-diff.easy{background:var(--success-light);color:var(--success)}
+        .tc-diff.medium{background:var(--warning-light);color:var(--warning)}
+        .tc-diff.hard{background:var(--danger-light);color:var(--danger)}
+        .tc-diff i{width:12px;height:12px}
+        .tc-btn{width:100%;padding:12px;border:none;border-radius:var(--btn-radius);font-size:14px;font-weight:600;font-family:var(--font);cursor:pointer;transition:all var(--transition-normal);display:flex;align-items:center;justify-content:center;gap:8px}
+        .tc-btn i{width:18px;height:18px}
+        .tc-btn.start-free{background:var(--success-light);color:var(--success)}
+        .tc-btn.start-free:hover{background:var(--success);color:#fff}
+        .tc-btn.start-paid{background:var(--accent-light);color:var(--accent)}
+        .tc-btn.start-paid:hover{background:var(--accent);color:#fff}
+        .tc-btn.purchased{background:var(--primary-light);color:var(--primary)}
+        .tc-btn.purchased:hover{background:var(--primary);color:#fff}
+
+        /* ===== PURCHASE MODAL ===== */
+        .modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:5000;display:none;align-items:flex-end;justify-content:center;padding:0;animation:fadeIn .3s ease}
+        .modal-overlay.open{display:flex}
+        @media(min-width:768px){.modal-overlay{align-items:center;padding:20px}}
+        .modal{background:var(--surface);border:1px solid var(--surface-border);border-radius:20px 20px 0 0;padding:28px 24px;padding-bottom:calc(28px + var(--safe-bottom));max-width:480px;width:100%;animation:slideUp .4s cubic-bezier(0.4,0,0.2,1);position:relative;max-height:90vh;overflow-y:auto}
+        @media(min-width:768px){.modal{border-radius:20px;padding-bottom:28px}}
+        .modal-handle{width:40px;height:4px;background:var(--text-muted);border-radius:4px;margin:0 auto 20px;opacity:.4}
+        .modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:8px;background:var(--bg);border:none;color:var(--text-muted);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--transition-fast)}
+        .modal-close:hover{color:var(--danger);background:var(--danger-light)}
+        .modal-close i{width:18px;height:18px}
+        .modal h3{font-size:18px;font-weight:700;margin-bottom:6px}
+        .modal p.modal-desc{font-size:14px;color:var(--text-secondary);margin-bottom:20px}
+        .purchase-details{display:flex;flex-direction:column;gap:12px;margin-bottom:24px}
+        .pd-row{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:var(--bg);border-radius:12px}
+        .pd-row .pd-label{font-size:13px;color:var(--text-tertiary);font-weight:500}
+        .pd-row .pd-value{font-size:14px;font-weight:700}
+        .pd-row .pd-value.price{color:var(--accent)}
+        .pd-row .pd-value.balance{color:var(--primary)}
+        .pd-row .pd-value.after{color:var(--success)}
+        .pd-row .pd-value.insufficient{color:var(--danger)}
+        .modal-actions{display:flex;gap:10px}
+        .modal-actions .m-btn{flex:1;padding:14px;border:none;border-radius:var(--btn-radius);font-size:15px;font-weight:600;font-family:var(--font);cursor:pointer;transition:all var(--transition-normal);display:flex;align-items:center;justify-content:center;gap:8px}
+        .m-btn i{width:18px;height:18px}
+        .m-btn.cancel{background:var(--bg);color:var(--text-secondary)}
+        .m-btn.cancel:hover{color:var(--text-primary)}
+        .m-btn.confirm{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;box-shadow:0 4px 16px rgba(99,102,241,0.3)}
+        .m-btn.confirm:hover{transform:translateY(-2px)}
+        .m-btn.confirm:disabled{opacity:.5;cursor:not-allowed;transform:none}
+        .m-btn.add-balance{background:linear-gradient(135deg,var(--accent),#ea580c);color:#fff}
+        .m-btn.add-balance:hover{transform:translateY(-2px)}
+        .m-btn-spinner{display:none;width:20px;height:20px;border:2.5px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite}
+        .m-btn.loading .m-btn-text{display:none}.m-btn.loading .m-btn-spinner{display:inline-block}.m-btn.loading{pointer-events:none}
+
+        .purchase-success{text-align:center;padding:20px 0}
+        .ps-icon{width:72px;height:72px;border-radius:50%;background:var(--success-light);color:var(--success);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;animation:bounceIn .6s ease}
+        .ps-icon i{width:36px;height:36px}
+        .ps-title{font-size:20px;font-weight:800;margin-bottom:6px}
+        .ps-msg{font-size:14px;color:var(--text-secondary);margin-bottom:20px}
+
+        /* ===== CBT EXAM VIEW ===== */
+        .cbt-header{position:sticky;top:62px;z-index:90;background:rgba(8,11,20,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--surface-border);padding:12px 16px;animation:fadeInDown .4s ease}
+        [data-theme="light"] .cbt-header{background:rgba(241,245,249,0.92)}
+        .cbt-header-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+        .cbt-timer{display:flex;align-items:center;gap:8px;padding:8px 16px;background:var(--surface);border:1.5px solid var(--surface-border);border-radius:12px;font-size:16px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:0.5px;transition:all var(--transition-normal)}
+        .cbt-timer i{width:18px;height:18px}
+        .cbt-timer.warning{border-color:var(--warning);color:var(--warning);background:var(--warning-light)}
+        .cbt-timer.danger{border-color:var(--danger);color:var(--danger);background:var(--danger-light);animation:urgentPulse 1s ease infinite}
+        .cbt-progress{flex:1;min-width:100px}
+        .cbt-prog-bar{height:5px;background:var(--surface-border);border-radius:5px;overflow:hidden}
+        .cbt-prog-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:5px;transition:width .3s ease}
+        .cbt-prog-text{font-size:11px;color:var(--text-tertiary);font-weight:600;margin-top:4px;text-align:center}
+        .cbt-submit-btn{padding:8px 20px;background:var(--success);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;font-family:var(--font);cursor:pointer;transition:all var(--transition-normal);display:flex;align-items:center;gap:6px}
+        .cbt-submit-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(16,185,129,0.3)}
+        .cbt-submit-btn i{width:16px;height:16px}
+
+        .cbt-body{max-width:900px;margin:0 auto;padding:20px 0}
+        .cbt-question-card{background:var(--surface);border:1px solid var(--surface-border);border-radius:20px;padding:28px 22px;margin-bottom:16px;animation:scaleIn .4s ease}
+        .cbt-q-num{font-size:13px;font-weight:700;color:var(--primary);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+        .cbt-q-num i{width:16px;height:16px}
+        .cbt-q-text{font-size:16px;font-weight:600;line-height:1.7;margin-bottom:24px}
+        .cbt-options{display:flex;flex-direction:column;gap:10px}
+        .cbt-opt{display:flex;align-items:center;gap:14px;padding:16px;background:var(--bg);border:2px solid var(--surface-border);border-radius:14px;cursor:pointer;transition:all var(--transition-smooth);font-size:15px;font-weight:500;text-align:left;width:100%;font-family:var(--font);color:var(--text-primary)}
+        .cbt-opt:hover{border-color:var(--primary);background:var(--primary-light);transform:translateX(4px)}
+        .cbt-opt .ol{width:32px;height:32px;border-radius:10px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0;transition:all var(--transition-normal)}
+        .cbt-opt:hover .ol{background:var(--primary);color:#fff}
+        .cbt-opt .ot{flex:1;line-height:1.5}
+        .cbt-opt.selected{border-color:var(--primary);background:var(--primary-light)}
+        .cbt-opt.selected .ol{background:var(--primary);color:#fff}
+        .cbt-opt.flagged{border-color:var(--warning)}
+
+        .cbt-nav{display:flex;gap:10px;margin-bottom:20px}
+        .cn-btn{flex:1;padding:14px;border:none;border-radius:var(--btn-radius);font-size:14px;font-weight:600;font-family:var(--font);cursor:pointer;transition:all var(--transition-normal);display:flex;align-items:center;justify-content:center;gap:8px}
+        .cn-btn i{width:18px;height:18px}
+        .cn-btn.prev{background:var(--surface);color:var(--text-secondary);border:1px solid var(--surface-border)}
+        .cn-btn.prev:hover{border-color:var(--primary);color:var(--primary)}
+        .cn-btn.next{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff}
+        .cn-btn.next:hover{transform:translateY(-2px)}
+        .cn-btn:disabled{opacity:.5;cursor:not-allowed;transform:none!important}
+        .cn-btn.flag{background:var(--warning-light);color:var(--warning);border:1px solid transparent;flex:0 0 auto;width:48px}
+        .cn-btn.flag:hover{background:var(--warning);color:#fff}
+        .cn-btn.flag.flagged{background:var(--warning);color:#fff}
+
+        /* Q Navigator */
+        .q-navigator{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--card-radius);padding:18px;margin-bottom:20px;animation:fadeInUp .5s ease .2s both}
+        .qn-title{font-size:13px;font-weight:700;color:var(--text-tertiary);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+        .qn-title i{width:16px;height:16px}
+        .qn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(38px,1fr));gap:6px}
+        .qn-dot{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;cursor:pointer;transition:all var(--transition-normal);border:2px solid var(--surface-border);background:var(--bg);color:var(--text-secondary)}
+        .qn-dot:hover{border-color:var(--primary);transform:scale(1.08)}
+        .qn-dot.current{border-color:var(--primary);background:var(--primary);color:#fff;box-shadow:0 0 10px var(--primary-glow)}
+        .qn-dot.answered{border-color:var(--success);background:var(--success-light);color:var(--success)}
+        .qn-dot.flagged{border-color:var(--warning);background:var(--warning-light);color:var(--warning)}
+        .qn-dot.flagged.answered{background:var(--warning-light);border-color:var(--warning)}
+        .qn-legend{display:flex;gap:14px;margin-top:12px;font-size:11px;color:var(--text-muted);flex-wrap:wrap}
+        .qn-legend span{display:flex;align-items:center;gap:4px}
+        .qn-legend .leg-dot{width:10px;height:10px;border-radius:3px}
+        .leg-dot.lg-current{background:var(--primary)}.leg-dot.lg-answered{background:var(--success)}.leg-dot.lg-flagged{background:var(--warning)}.leg-dot.lg-unanswered{background:var(--surface-border)}
+
+        /* ===== SUBMIT CONFIRM MODAL ===== */
+        .submit-modal .sm-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+        .sm-stat{text-align:center;padding:14px;background:var(--bg);border-radius:12px}
+        .sm-stat .sv{font-size:22px;font-weight:800}.sm-stat .sl{font-size:11px;color:var(--text-tertiary);font-weight:600}
+        .sm-warn{padding:14px;background:var(--warning-light);border-radius:12px;border:1px solid rgba(245,158,11,0.2);margin-bottom:20px;display:flex;align-items:center;gap:10px;font-size:13px;color:var(--warning);font-weight:500}
+        .sm-warn i{width:20px;height:20px;flex-shrink:0}
+
+        /* ===== CBT RESULTS ===== */
+        .cbt-results{text-align:center}
+        .cr-ring{width:140px;height:140px;position:relative;margin:0 auto 20px;animation:scaleIn .6s ease .2s both}
+        .cr-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+        .cr-ring .rr-bg{fill:none;stroke:var(--surface-border);stroke-width:10}
+        .cr-ring .rr-fill{fill:none;stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset 1.5s cubic-bezier(0.4,0,0.2,1)}
+        .cr-ring .rr-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+        .cr-ring .rr-val{font-size:32px;font-weight:900}.cr-ring .rr-lab{font-size:11px;color:var(--text-tertiary);font-weight:600}
+        .cr-title{font-size:22px;font-weight:800;margin-bottom:4px;animation:fadeInUp .5s ease .3s both}
+        .cr-sub{font-size:14px;color:var(--text-secondary);margin-bottom:24px;animation:fadeInUp .5s ease .4s both}
+        .cr-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:24px;max-width:400px;margin-left:auto;margin-right:auto}
+        .cr-stat{padding:16px;background:var(--surface);border:1px solid var(--surface-border);border-radius:14px;animation:popIn .4s ease both}
+        .cr-stat:nth-child(1){animation-delay:.5s}.cr-stat:nth-child(2){animation-delay:.55s}.cr-stat:nth-child(3){animation-delay:.6s}.cr-stat:nth-child(4){animation-delay:.65s}
+        .cr-stat .csv{font-size:22px;font-weight:800}.cr-stat .csl{font-size:12px;color:var(--text-tertiary);font-weight:500}
+        .cr-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;max-width:400px;margin:0 auto}
+        .cr-btn{flex:1;min-width:140px;padding:14px 20px;border:none;border-radius:var(--btn-radius);font-size:14px;font-weight:600;font-family:var(--font);cursor:pointer;transition:all var(--transition-normal);display:flex;align-items:center;justify-content:center;gap:8px}
+        .cr-btn i{width:18px;height:18px}
+        .cr-btn.primary{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff}
+        .cr-btn.primary:hover{transform:translateY(-2px)}
+        .cr-btn.ghost{background:var(--surface);color:var(--text-primary);border:1px solid var(--surface-border)}
+        .cr-btn.ghost:hover{border-color:var(--primary);color:var(--primary)}
+
+        .cr-topic-perf{margin-top:24px;text-align:left}
+        .cr-topic-perf h3{font-size:16px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+        .cr-topic-perf h3 i{width:18px;height:18px;color:var(--primary)}
+        .tp-item{display:flex;align-items:center;gap:12px;padding:14px;background:var(--surface);border:1px solid var(--surface-border);border-radius:12px;margin-bottom:8px;animation:fadeInLeft .4s ease both}
+        .tp-item:nth-child(2){animation-delay:.05s}.tp-item:nth-child(3){animation-delay:.1s}.tp-item:nth-child(4){animation-delay:.15s}
+        .tp-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .tp-icon i{width:16px;height:16px}
+        .tp-icon.good{background:var(--success-light);color:var(--success)}.tp-icon.mid{background:var(--warning-light);color:var(--warning)}.tp-icon.bad{background:var(--danger-light);color:var(--danger)}
+        .tp-info{flex:1;min-width:0}.tp-name{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .tp-detail{font-size:11px;color:var(--text-tertiary)}
+        .tp-pct{font-size:15px;font-weight:800}
+        .tp-pct.good{color:var(--success)}.tp-pct.mid{color:var(--warning)}.tp-pct.bad{color:var(--danger)}
+
+        .empty-state{text-align:center;padding:60px 20px}
+        .empty-icon{width:72px;height:72px;border-radius:50%;background:var(--surface);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:var(--text-muted)}
+        .empty-icon i{width:32px;height:32px}
+        .empty-state h4{font-size:18px;font-weight:700;margin-bottom:6px}
+        .empty-state p{font-size:14px;color:var(--text-secondary)}
+
+        .bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:1000;background:rgba(8,11,20,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--surface-border);padding:8px 0 calc(8px + var(--safe-bottom));animation:slideUp .5s ease .3s both}
+        [data-theme="light"] .bottom-nav{background:rgba(241,245,249,0.92)}
+        .nav-inner{display:flex;max-width:600px;margin:0 auto;padding:0 8px}
+        .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;cursor:pointer;color:var(--text-muted);transition:all var(--transition-normal);text-decoration:none;position:relative;border-radius:12px}
+        .nav-item.active{color:var(--primary)}
+        .nav-item.active::before{content:'';position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:24px;height:3px;background:var(--primary);border-radius:0 0 3px 3px}
+        .nav-item i{width:22px;height:22px}.nav-item span{font-size:11px;font-weight:600}
+        .bottom-nav.hidden-nav{transform:translateY(100%);opacity:0}
+
+        @media(min-width:1024px){.bottom-nav{display:none}body{padding-bottom:0;padding-left:240px}.desktop-sidebar{display:flex!important}}
+        .desktop-sidebar{display:none;position:fixed;top:0;left:0;width:240px;height:100%;background:var(--surface);border-right:1px solid var(--surface-border);z-index:1001;flex-direction:column;padding:20px 0;animation:fadeInLeft .5s ease}
+        .ds-brand{display:flex;align-items:center;gap:10px;padding:0 20px;margin-bottom:32px}
+        .ds-brand .brand-icon{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center}.ds-brand .brand-icon i{width:20px;height:20px;color:#fff}
+        .ds-brand .brand-name{font-size:20px;font-weight:800;letter-spacing:-1px;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .ds-nav{flex:1;display:flex;flex-direction:column;gap:4px;padding:0 12px}
+        .ds-nav-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:12px;color:var(--text-secondary);font-size:14px;font-weight:500;cursor:pointer;transition:all var(--transition-normal);text-decoration:none}
+        .ds-nav-item:hover{background:var(--surface-hover);color:var(--text-primary)}
+        .ds-nav-item.active{background:var(--primary-light);color:var(--primary);font-weight:600}
+        .ds-nav-item i{width:20px;height:20px}
+
+        @media(max-width:360px){.tc-meta{gap:6px}.cr-stats{grid-template-columns:1fr 1fr}.submit-modal .sm-stats{grid-template-columns:1fr}}
+        @media(min-width:768px){.main-content{padding:24px 32px}.tests-grid{grid-template-columns:1fr 1fr}}
+        @media(min-width:1200px){.tests-grid{grid-template-columns:1fr 1fr 1fr}}
+    </style>
+</head>
+<body>
+    <div class="loading-overlay" id="loadingOverlay"><div class="lo-icon"><i data-lucide="graduation-cap"></i></div><div class="lo-bar"><div class="lo-bar-inner"></div></div></div>
+    <div class="bg-particles" id="bgParticles"></div>
+    <div class="bg-gradient-orb orb-1"></div><div class="bg-gradient-orb orb-2"></div>
+    <div class="toast-container" id="toastContainer"></div>
+    <div class="confetti-container" id="confettiContainer"></div>
+
+    <nav class="desktop-sidebar">
+        <div class="ds-brand"><div class="brand-icon"><i data-lucide="graduation-cap"></i></div><span class="brand-name">FAVOJE</span></div>
+        <div class="ds-nav">
+            <a class="ds-nav-item" href="home.html"><i data-lucide="home"></i>Home</a>
+            <a class="ds-nav-item" href="courses.html"><i data-lucide="book-open"></i>Courses</a>
+            <a class="ds-nav-item active" href="cbt.html"><i data-lucide="file-text"></i>Practice</a>
+            <a class="ds-nav-item" href="leaderboard.html"><i data-lucide="trophy"></i>Leaderboard</a>
+            <a class="ds-nav-item" href="profile.html"><i data-lucide="user"></i>Profile</a>
+        </div>
+    </nav>
+
+    <header class="top-header" id="topHeader">
+        <div class="top-header-inner">
+            <button class="th-back" id="headerBack" style="display:none"><i data-lucide="arrow-left"></i></button>
+            <div class="th-title-area"><div class="th-page-title" id="pageTitle">Test Library</div><div class="th-page-sub" id="pageSub">Discover assessments</div></div>
+            <div class="th-actions"><button class="th-btn" id="themeToggle"><i data-lucide="moon"></i></button></div>
+        </div>
+    </header>
+
+    <main class="main-content" id="mainContent">
+        <!-- MARKETPLACE -->
+        <div class="view active" id="marketplaceView">
+            <div class="mp-hero">
+                <h2>Test Library</h2>
+                <p>Discover free and premium assessments</p>
+                <div class="mp-balance"><i data-lucide="wallet"></i>Balance: ₦<span id="heroBalance">0</span></div>
+            </div>
+            <div class="mp-tabs" id="mpTabs">
+                <button class="mp-tab active" data-filter="all">All Tests</button>
+                <button class="mp-tab" data-filter="free">Free</button>
+                <button class="mp-tab" data-filter="paid">Premium</button>
+                <button class="mp-tab" data-filter="popular">Popular</button>
+                <button class="mp-tab" data-filter="new">New</button>
+            </div>
+            <div class="mp-search">
+                <div class="mp-search-wrap"><span class="si"><i data-lucide="search"></i></span><input class="mp-search-input" id="testSearch" placeholder="Search tests..."></div>
+            </div>
+            <div class="tests-grid" id="testsGrid"></div>
+        </div>
+
+        <!-- CBT EXAM -->
+        <div class="view" id="cbtView">
+            <div class="cbt-header" id="cbtHeader"></div>
+            <div class="cbt-body">
+                <div id="cbtQuestionArea"></div>
+                <div class="cbt-nav" id="cbtNav"></div>
+                <div class="q-navigator" id="qNavigator"></div>
+            </div>
+        </div>
+
+        <!-- CBT RESULTS -->
+        <div class="view" id="cbtResultsView">
+            <div class="cbt-results" id="cbtResults"></div>
+        </div>
+    </main>
+
+    <!-- Purchase Modal -->
+    <div class="modal-overlay" id="purchaseModal">
+        <div class="modal" id="purchaseModalContent"></div>
+    </div>
+
+    <!-- Submit Confirm Modal -->
+    <div class="modal-overlay submit-modal" id="submitModal">
+        <div class="modal" id="submitModalContent"></div>
+    </div>
+
+    <nav class="bottom-nav" id="bottomNav">
+        <div class="nav-inner">
+            <a class="nav-item" href="home.html"><i data-lucide="home"></i><span>Home</span></a>
+            <a class="nav-item" href="courses.html"><i data-lucide="book-open"></i><span>Courses</span></a>
+            <a class="nav-item active" href="cbt.html"><i data-lucide="file-text"></i><span>Practice</span></a>
+            <a class="nav-item" href="leaderboard.html"><i data-lucide="trophy"></i><span>Board</span></a>
+            <a class="nav-item" href="profile.html"><i data-lucide="user"></i><span>Profile</span></a>
+        </div>
+    </nav>
+
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+
+    <script>
+    const firebaseConfig={apiKey: "AIzaSyC1SmazNPbak8vMvi-jD40EGqpvWmWdd0U",
+  authDomain: "favoje-fcb02.firebaseapp.com",
+  projectId: "favoje-fcb02",
+  storageBucket: "favoje-fcb02.firebasestorage.app",
+  messagingSenderId: "837946471768",
+  appId: "1:837946471768:web:6ea76eee926fe77bdc212d"};
+    firebase.initializeApp(firebaseConfig);const auth=firebase.auth(),db=firebase.firestore();
+    const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+
+    const S={user:null,profile:null,balance:0,tests:[],purchases:{},currentTest:null,questions:[],currentQ:0,answers:{},flags:{},timer:null,timeLeft:0,startTime:null,viewStack:['marketplace'],theme:localStorage.getItem('favoje-theme')||'dark',activeFilter:'all',searchTerm:''};
+
+    const Toast={show(t,ti,m,d=3500){const ic={success:'check-circle',error:'x-circle',warning:'alert-triangle',info:'info'};const el=document.createElement('div');el.className=`toast ${t}`;el.innerHTML=`<div class="ti"><i data-lucide="${ic[t]}"></i></div><div class="tb"><div class="tt">${ti}</div><div class="tm">${m}</div></div><button class="tc"><i data-lucide="x"></i></button>`;$('#toastContainer').appendChild(el);lucide.createIcons({nodes:[el]});const cl=()=>{el.classList.add('removing');setTimeout(()=>el.remove(),300)};el.querySelector('.tc').onclick=cl;setTimeout(cl,d)}};
+    const Theme={init(){this.apply(S.theme);$('#themeToggle').onclick=()=>this.toggle()},apply(t){document.documentElement.setAttribute('data-theme',t);S.theme=t;localStorage.setItem('favoje-theme',t);this.icon()},toggle(){this.apply(S.theme==='dark'?'light':'dark')},icon(){const b=$('#themeToggle');b.innerHTML=`<i data-lucide="${S.theme==='dark'?'sun':'moon'}"></i>`;lucide.createIcons({nodes:[b]})}};
+    function initParticles(){const c=$('#bgParticles');for(let i=0;i<18;i++){const p=document.createElement('div');p.className='particle';p.style.left=Math.random()*100+'%';p.style.top=Math.random()*100+'%';p.style.setProperty('--tx',(Math.random()*200-100)+'px');p.style.setProperty('--ty',(Math.random()*200-100)+'px');p.style.animation=`particleFloat ${5+Math.random()*10}s ease-in-out infinite`;p.style.animationDelay=Math.random()*5+'s';const s=(2+Math.random()*3)+'px';p.style.width=s;p.style.height=s;c.appendChild(p)}}
+    function launchConfetti(){const c=$('#confettiContainer');const colors=['#6366F1','#F97316','#10B981','#F59E0B','#EF4444','#8B5CF6','#EC4899'];for(let i=0;i<50;i++){const p=document.createElement('div');p.className='confetti-piece';p.style.left=Math.random()*100+'%';p.style.background=colors[Math.floor(Math.random()*colors.length)];p.style.width=(6+Math.random()*8)+'px';p.style.height=p.style.width;p.style.borderRadius=Math.random()>.5?'50%':'2px';p.style.animationDuration=(2+Math.random()*3)+'s';p.style.animationDelay=Math.random()*1.5+'s';c.appendChild(p);setTimeout(()=>p.remove(),5000)}}
+    const fmt=n=>new Intl.NumberFormat('en-NG').format(n||0);
+
+    function showView(id,dir='right'){$$('.view').forEach(v=>{v.classList.remove('active','slide-r','slide-l')});const v=$(`#${id}`);v.classList.add('active',dir==='right'?'slide-r':'slide-l');window.scrollTo({top:0,behavior:'smooth'})}
+    function navTo(id){S.viewStack.push(id);showView(id+'View','right');updateHeader();const bn=$('#bottomNav');if(id==='cbt')bn.classList.add('hidden-nav');else bn.classList.remove('hidden-nav')}
+    function goBack(){if(S.viewStack.length<=1)return;if(S.timer&&S.viewStack[S.viewStack.length-1]==='cbt'){showSubmitConfirm();return}S.viewStack.pop();const prev=S.viewStack[S.viewStack.length-1];showView(prev+'View','left');updateHeader();$('#bottomNav').classList.remove('hidden-nav')}
+    function updateHeader(){const cur=S.viewStack[S.viewStack.length-1];$('#headerBack').style.display=S.viewStack.length>1?'flex':'none';
+        if(cur==='marketplace'){$('#pageTitle').textContent='Test Library';$('#pageSub').textContent='Discover assessments'}
+        else if(cur==='cbt'){$('#pageTitle').textContent=S.currentTest?.title||'CBT';$('#pageSub').textContent=`Q${S.currentQ+1}/${S.questions.length}`}
+        else if(cur==='cbtResults'){$('#pageTitle').textContent='Results';$('#pageSub').textContent=S.currentTest?.courseCode||''}}
+
+    // ========== LOAD TESTS ==========
+    async function loadTests(){
+        const grid=$('#testsGrid');
+        grid.innerHTML=Array(4).fill('<div style="height:220px;border-radius:16px" class="skeleton"></div>').join('');
+        try{
+            const snap=await db.collection('tests').where('status','==','published').orderBy('createdAt','desc').get();
+            S.tests=[];snap.forEach(d=>S.tests.push({id:d.id,...d.data()}));
+            // Load user's purchases
+            const purSnap=await db.collection('test_purchases').where('userId','==',S.user.uid).get();
+            S.purchases={};purSnap.forEach(d=>{const p=d.data();S.purchases[p.testId]=p});
+            renderTests();
+        }catch(e){console.error(e);grid.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon"><i data-lucide="alert-circle"></i></div><h4>Error Loading Tests</h4><p>${e.message}</p></div>`;lucide.createIcons({nodes:[grid]})}
+    }
+
+    function renderTests(){
+        const grid=$('#testsGrid');grid.innerHTML='';
+        let filtered=[...S.tests];
+        if(S.activeFilter==='free')filtered=filtered.filter(t=>!t.price||t.price===0);
+        else if(S.activeFilter==='paid')filtered=filtered.filter(t=>t.price>0);
+        else if(S.activeFilter==='popular')filtered.sort((a,b)=>(b.attemptCount||0)-(a.attemptCount||0));
+        else if(S.activeFilter==='new')filtered.sort((a,b)=>{const ta=a.createdAt?.toDate?a.createdAt.toDate():new Date(0);const tb=b.createdAt?.toDate?b.createdAt.toDate():new Date(0);return tb-ta});
+        if(S.searchTerm){const s=S.searchTerm.toLowerCase();filtered=filtered.filter(t=>(t.title||'').toLowerCase().includes(s)||(t.courseCode||'').toLowerCase().includes(s))}
+        if(!filtered.length){grid.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon"><i data-lucide="file-text"></i></div><h4>No Tests Found</h4><p>Try a different filter or search</p></div>`;lucide.createIcons({nodes:[grid]});return}
+
+        filtered.forEach((t,i)=>{
+            const isFree=!t.price||t.price===0;
+            const isPurchased=!!S.purchases[t.id];
+            const diffClass=(t.difficulty||'medium').toLowerCase();
+            const card=document.createElement('div');
+            card.className=`test-card ${isFree?'free':'paid'}`;
+            card.style.animationDelay=`${0.1+i*0.06}s`;
+            card.innerHTML=`
+                <div class="tc-top">
+                    <span class="tc-course">${t.courseCode||'GEN'}</span>
+                    <span class="tc-price ${isFree?'free':'paid'}">${isFree?'FREE':'₦'+fmt(t.price)}</span>
+                </div>
+                <div class="tc-title">${t.title||'Untitled Test'}</div>
+                <div class="tc-meta">
+                    <span><i data-lucide="help-circle"></i>${t.questionCount||0}Q</span>
+                    <span><i data-lucide="clock"></i>${t.duration||30} min</span>
+                    <span><i data-lucide="repeat"></i>${t.attemptLimit||'∞'} tries</span>
+                </div>
+                <div class="tc-diff ${diffClass}"><i data-lucide="signal"></i>${(t.difficulty||'Medium').charAt(0).toUpperCase()+(t.difficulty||'Medium').slice(1)}</div>
+                <button class="tc-btn ${isFree?'start-free':isPurchased?'purchased':'start-paid'}">
+                    <i data-lucide="${isFree||isPurchased?'play':'lock'}"></i>
+                    ${isFree?'Start Free':isPurchased?'Start Test':'₦'+fmt(t.price)+' — Unlock'}
+                </button>
+            `;
+            card.querySelector('.tc-btn').onclick=(e)=>{e.stopPropagation();handleTestAction(t,isFree,isPurchased)};
+            card.onclick=()=>handleTestAction(t,isFree,isPurchased);
+            grid.appendChild(card);
+        });
+        lucide.createIcons({nodes:[grid]});
+    }
+
+    function handleTestAction(test,isFree,isPurchased){
+        if(isFree||isPurchased){startCBT(test)}
+        else{showPurchaseModal(test)}
+    }
+
+    // ========== PURCHASE MODAL ==========
+    function showPurchaseModal(test){
+        const modal=$('#purchaseModal');
+        const content=$('#purchaseModalContent');
+        const price=test.price||0;
+        const sufficient=S.balance>=price;
+        const afterBalance=S.balance-price;
+
+        content.innerHTML=`
+            <div class="modal-handle"></div>
+            <button class="modal-close" id="pmClose"><i data-lucide="x"></i></button>
+            <h3>${test.title||'Test'}</h3>
+            <p class="modal-desc">${test.courseCode||''} • ${test.questionCount||0} Questions • ${test.duration||30} Minutes</p>
+            <div class="purchase-details">
+                <div class="pd-row"><span class="pd-label">Test Price</span><span class="pd-value price">₦${fmt(price)}</span></div>
+                <div class="pd-row"><span class="pd-label">Your Balance</span><span class="pd-value balance">₦${fmt(S.balance)}</span></div>
+                <div class="pd-row"><span class="pd-label">After Purchase</span><span class="pd-value ${sufficient?'after':'insufficient'}">${sufficient?'₦'+fmt(afterBalance):'Insufficient'}</span></div>
+            </div>
+            ${!sufficient?`<div class="sm-warn"><i data-lucide="alert-triangle"></i>You need ₦${fmt(price-S.balance)} more. Add balance to continue.</div>`:''}
+            <div class="modal-actions">
+                <button class="m-btn cancel" id="pmCancel">Cancel</button>
+                ${sufficient?
+                    `<button class="m-btn confirm" id="pmConfirm"><span class="m-btn-text">Pay ₦${fmt(price)}</span><div class="m-btn-spinner"></div></button>`:
+                    `<button class="m-btn add-balance" id="pmAddBal"><i data-lucide="plus"></i><span>Add Balance</span></button>`
+                }
+            </div>
+        `;
+        modal.classList.add('open');
+        lucide.createIcons({nodes:[content]});
+        $('#pmClose').onclick=$('#pmCancel').onclick=()=>modal.classList.remove('open');
+        if(sufficient){
+            $('#pmConfirm').onclick=()=>processPurchase(test,price);
+        }else{
+            $('#pmAddBal').onclick=()=>{modal.classList.remove('open');window.location.href='profile.html?tab=wallet'};
+        }
+    }
+
+    async function processPurchase(test,price){
+        const btn=$('#pmConfirm');btn.classList.add('loading');
+        try{
+            // Check idempotency
+            const existing=await db.collection('test_purchases').where('userId','==',S.user.uid).where('testId','==',test.id).limit(1).get();
+            if(!existing.empty){btn.classList.remove('loading');$('#purchaseModal').classList.remove('open');Toast.show('info','Already Purchased','You already own this test');startCBT(test);return}
+            // Check balance again from server
+            const walletDoc=await db.collection('wallet_accounts').doc(S.user.uid).get();
+            const serverBalance=walletDoc.exists?walletDoc.data().balance||0:0;
+            if(serverBalance<price){btn.classList.remove('loading');Toast.show('error','Insufficient Balance','Your balance is not enough');return}
+            // Create purchase record
+            const purchaseRef=db.collection('test_purchases').doc();
+            const txRef=db.collection('wallet_transactions').doc();
+            const batch=db.batch();
+            batch.set(purchaseRef,{userId:S.user.uid,testId:test.id,testTitle:test.title||'',amount:price,reference:'FAV-PUR-'+purchaseRef.id.substring(0,8).toUpperCase(),createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+            batch.set(txRef,{userId:S.user.uid,type:'debit',category:'test_purchase',amount:price,description:`${test.courseCode||''} — ${test.title||'Test'}`,reference:'FAV-PUR-'+purchaseRef.id.substring(0,8).toUpperCase(),status:'completed',testId:test.id,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+            batch.update(db.collection('wallet_accounts').doc(S.user.uid),{balance:firebase.firestore.FieldValue.increment(-price),totalSpent:firebase.firestore.FieldValue.increment(price),updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
+            await batch.commit();
+
+            S.balance-=price;S.purchases[test.id]={testId:test.id};
+            $('#heroBalance').textContent=fmt(S.balance);
+            btn.classList.remove('loading');
+
+            // Show success
+            const content=$('#purchaseModalContent');
+            content.innerHTML=`
+                <div class="purchase-success">
+                    <div class="ps-icon"><i data-lucide="check-circle"></i></div>
+                    <div class="ps-title">Test Unlocked! 🎉</div>
+                    <div class="ps-msg">₦${fmt(price)} deducted from your balance</div>
+                    <div class="modal-actions"><button class="m-btn confirm" id="pmStart" style="flex:1"><i data-lucide="play"></i><span class="m-btn-text">Start Test Now</span></button></div>
+                </div>
+            `;
+            lucide.createIcons({nodes:[content]});
+            $('#pmStart').onclick=()=>{$('#purchaseModal').classList.remove('open');startCBT(test)};
+            // Create notification
+            db.collection('notifications').add({userId:S.user.uid,type:'test',title:'Test Unlocked!',message:`${test.title} is ready. Good luck!`,read:false,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+        }catch(e){console.error(e);btn.classList.remove('loading');Toast.show('error','Purchase Failed',e.message)}
+    }
+
+    // ========== START CBT ==========
+    async function startCBT(test){
+        S.currentTest=test;S.answers={};S.flags={};S.currentQ=0;
+        try{
+            // Load test questions
+            let questions=[];
+            if(test.questionIds&&test.questionIds.length){
+                const chunks=[];const ids=[...test.questionIds];while(ids.length)chunks.push(ids.splice(0,10));
+                for(const chunk of chunks){const snap=await db.collection('questions').where(firebase.firestore.FieldPath.documentId(),'in',chunk).get();snap.forEach(d=>questions.push({id:d.id,...d.data()}))}
+            }else{
+                const snap=await db.collection('questions').where('courseId','==',test.courseId||'').where('status','==','published').limit(test.questionCount||50).get();
+                snap.forEach(d=>questions.push({id:d.id,...d.data()}));
+            }
+            // Shuffle
+            for(let i=questions.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[questions[i],questions[j]]=[questions[j],questions[i]]}
+            S.questions=questions.slice(0,test.questionCount||50);
+            if(!S.questions.length){Toast.show('warning','No Questions','This test has no questions yet');return}
+            S.timeLeft=(test.duration||30)*60;S.startTime=Date.now();
+            navTo('cbt');
+            renderCBTHeader();renderCBTQuestion();startTimer();
+        }catch(e){console.error(e);Toast.show('error','Error','Could not load test questions: '+e.message)}
+    }
+
+    // ========== TIMER ==========
+    function startTimer(){
+        clearInterval(S.timer);
+        S.timer=setInterval(()=>{
+            S.timeLeft--;
+            if(S.timeLeft<=0){clearInterval(S.timer);S.timer=null;finishCBT();return}
+            updateTimerDisplay();
+        },1000);
+    }
+    function updateTimerDisplay(){
+        const el=$('#cbtTimer');if(!el)return;
+        const m=Math.floor(S.timeLeft/60);const s=S.timeLeft%60;
+        el.querySelector('.timer-text').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+        el.classList.remove('warning','danger');
+        if(S.timeLeft<=60)el.classList.add('danger');
+        else if(S.timeLeft<=300)el.classList.add('warning');
+    }
+
+    // ========== RENDER CBT ==========
+    function renderCBTHeader(){
+        const h=$('#cbtHeader');
+        const answered=Object.keys(S.answers).length;
+        const pct=Math.round((answered/S.questions.length)*100);
+        const m=Math.floor(S.timeLeft/60);const sec=S.timeLeft%60;
+        h.innerHTML=`
+            <div class="cbt-header-inner">
+                <div class="cbt-timer" id="cbtTimer"><i data-lucide="clock"></i><span class="timer-text">${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}</span></div>
+                <div class="cbt-progress"><div class="cbt-prog-bar"><div class="cbt-prog-fill" style="width:${pct}%"></div></div><div class="cbt-prog-text">${answered}/${S.questions.length} answered</div></div>
+                <button class="cbt-submit-btn" id="cbtSubmitBtn"><i data-lucide="send"></i>Submit</button>
+            </div>
+        `;
+        lucide.createIcons({nodes:[h]});
+        $('#cbtSubmitBtn').onclick=showSubmitConfirm;
+    }
+
+    function renderCBTQuestion(){
+        const q=S.questions[S.currentQ];if(!q)return;
+        updateHeader();
+        const qa=$('#cbtQuestionArea');
+        const letters=['A','B','C','D','E','F'];
+        const selectedIdx=S.answers[q.id];
+        qa.innerHTML=`
+            <div class="cbt-question-card">
+                <div class="cbt-q-num"><i data-lucide="hash"></i>Question ${S.currentQ+1}</div>
+                <div class="cbt-q-text">${q.question||''}</div>
+                <div class="cbt-options">
+                    ${(q.options||[]).map((o,i)=>`
+                        <button class="cbt-opt ${selectedIdx===i?'selected':''} ${S.flags[q.id]?'flagged':''}" data-idx="${i}">
+                            <span class="ol">${letters[i]}</span>
+                            <span class="ot">${o.text||''}</span>
+                        </button>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+        lucide.createIcons({nodes:[qa]});
+        qa.querySelectorAll('.cbt-opt').forEach(btn=>{btn.onclick=()=>{S.answers[q.id]=parseInt(btn.dataset.idx);renderCBTQuestion();renderCBTHeader();renderQNavigator()}});
+        renderCBTNav();renderQNavigator();
+    }
+
+    function renderCBTNav(){
+        const nav=$('#cbtNav');
+        const isFirst=S.currentQ===0;const isLast=S.currentQ===S.questions.length-1;
+        const q=S.questions[S.currentQ];const isFlagged=S.flags[q?.id];
+        nav.innerHTML=`
+            <button class="cn-btn prev" ${isFirst?'disabled':''}><i data-lucide="arrow-left"></i>Prev</button>
+            <button class="cn-btn flag ${isFlagged?'flagged':''}" title="Flag"><i data-lucide="flag"></i></button>
+            <button class="cn-btn next" ${isLast?'disabled':''}><span>Next</span><i data-lucide="arrow-right"></i></button>
+        `;
+        lucide.createIcons({nodes:[nav]});
+        nav.querySelector('.prev').onclick=()=>{if(S.currentQ>0){S.currentQ--;renderCBTQuestion()}};
+        nav.querySelector('.next').onclick=()=>{if(S.currentQ<S.questions.length-1){S.currentQ++;renderCBTQuestion()}};
+        nav.querySelector('.flag').onclick=()=>{S.flags[q.id]=!S.flags[q.id];renderCBTQuestion()};
+    }
+
+    function renderQNavigator(){
+        const nav=$('#qNavigator');
+        nav.innerHTML=`
+            <div class="qn-title"><i data-lucide="grid-3x3"></i>Question Navigator</div>
+            <div class="qn-grid">${S.questions.map((q,i)=>{
+                let cls='qn-dot';
+                if(i===S.currentQ)cls+=' current';
+                if(S.answers[q.id]!==undefined)cls+=' answered';
+                if(S.flags[q.id])cls+=' flagged';
+                return`<button class="${cls}" data-qi="${i}">${i+1}</button>`;
+            }).join('')}</div>
+            <div class="qn-legend">
+                <span><div class="leg-dot lg-current"></div>Current</span>
+                <span><div class="leg-dot lg-answered"></div>Answered</span>
+                <span><div class="leg-dot lg-flagged"></div>Flagged</span>
+                <span><div class="leg-dot lg-unanswered"></div>Unanswered</span>
+            </div>
+        `;
+        lucide.createIcons({nodes:[nav]});
+        nav.querySelectorAll('.qn-dot').forEach(d=>{d.onclick=()=>{S.currentQ=parseInt(d.dataset.qi);renderCBTQuestion()}});
+    }
+
+    // ========== SUBMIT CONFIRM ==========
+    function showSubmitConfirm(){
+        const modal=$('#submitModal');const content=$('#submitModalContent');
+        const answered=Object.keys(S.answers).length;const unanswered=S.questions.length-answered;const flagged=Object.values(S.flags).filter(Boolean).length;
+        content.innerHTML=`
+            <div class="modal-handle"></div>
+            <button class="modal-close" id="smClose"><i data-lucide="x"></i></button>
+            <h3>Submit Test?</h3>
+            <p class="modal-desc">Are you sure you want to submit your answers?</p>
+            <div class="sm-stats">
+                <div class="sm-stat"><div class="sv" style="color:var(--success)">${answered}</div><div class="sl">ANSWERED</div></div>
+                <div class="sm-stat"><div class="sv" style="color:var(--danger)">${unanswered}</div><div class="sl">UNANSWERED</div></div>
+                <div class="sm-stat"><div class="sv" style="color:var(--warning)">${flagged}</div><div class="sl">FLAGGED</div></div>
+            </div>
+            ${unanswered>0?`<div class="sm-warn"><i data-lucide="alert-triangle"></i>You have ${unanswered} unanswered question${unanswered>1?'s':''}.</div>`:''}
+            <div class="modal-actions">
+                <button class="m-btn cancel" id="smCancel">Continue Test</button>
+                <button class="m-btn confirm" id="smConfirm"><i data-lucide="send"></i><span class="m-btn-text">Submit</span><div class="m-btn-spinner"></div></button>
+            </div>
+        `;
+        modal.classList.add('open');lucide.createIcons({nodes:[content]});
+        $('#smClose').onclick=$('#smCancel').onclick=()=>modal.classList.remove('open');
+        $('#smConfirm').onclick=()=>{modal.classList.remove('open');finishCBT()};
+    }
+
+    // ========== FINISH CBT ==========
+    async function finishCBT(){
+        clearInterval(S.timer);S.timer=null;
+        const totalQ=S.questions.length;let correct=0;const topicStats={};
+        S.questions.forEach(q=>{
+            const ans=S.answers[q.id];const isCorrect=ans!==undefined&&q.options&&q.options[ans]?.isCorrect;
+            if(isCorrect)correct++;
+            const tn=q.topicName||q.topic||'General';const tid=q.topicId||'general';
+            if(!topicStats[tid])topicStats[tid]={name:tn,total:0,correct:0};
+            topicStats[tid].total++;if(isCorrect)topicStats[tid].correct++;
+        });
+        const score=totalQ>0?Math.round((correct/totalQ)*100):0;
+        const timeUsed=Math.round((Date.now()-S.startTime)/1000);
+        navTo('cbtResults');
+        renderCBTResults(score,correct,totalQ,timeUsed,topicStats);
+        if(score>=70)launchConfetti();
+        await saveCBTAttempt(score,correct,totalQ,timeUsed,topicStats);
+    }
+
+    function renderCBTResults(score,correct,total,timeUsed,topicStats){
+        const container=$('#cbtResults');
+        const circ=2*Math.PI*55;
+        const color=score>=70?'var(--success)':score>=45?'var(--warning)':'var(--danger)';
+        const tm=Math.floor(timeUsed/60);const ts=timeUsed%60;
+        container.innerHTML=`
+            <div class="cr-ring"><svg viewBox="0 0 130 130"><circle class="rr-bg" cx="65" cy="65" r="55"/><circle class="rr-fill" id="crFill" cx="65" cy="65" r="55" stroke="${color}" stroke-dasharray="${circ}" stroke-dashoffset="${circ}"/></svg>
+                <div class="rr-center"><div class="rr-val" style="color:${color}">${score}%</div><div class="rr-lab">SCORE</div></div>
+            </div>
+            <div class="cr-title">${score>=70?'Great Job! 🎉':score>=45?'Keep Practicing! 💪':'Need Improvement 📚'}</div>
+            <div class="cr-sub">${S.currentTest?.title||'Test'} • ${S.currentTest?.courseCode||''}</div>
+            <div class="cr-stats">
+                <div class="cr-stat"><div class="csv" style="color:var(--success)">${correct}</div><div class="csl">Correct</div></div>
+                <div class="cr-stat"><div class="csv" style="color:var(--danger)">${total-correct}</div><div class="csl">Incorrect</div></div>
+                <div class="cr-stat"><div class="csv" style="color:var(--primary)">${total}</div><div class="csl">Total</div></div>
+                <div class="cr-stat"><div class="csv" style="color:var(--accent)">${tm}:${String(ts).padStart(2,'0')}</div><div class="csl">Time Used</div></div>
+            </div>
+            <div class="cr-actions">
+                <button class="cr-btn ghost" id="crBack"><i data-lucide="arrow-left"></i>Back to Tests</button>
+                <button class="cr-btn primary" id="crCourses"><i data-lucide="book-open"></i>My Courses</button>
+            </div>
+            <div class="cr-topic-perf">
+                <h3><i data-lucide="bar-chart-3"></i>Topic Breakdown</h3>
+                ${Object.values(topicStats).map(t=>{
+                    const p=t.total>0?Math.round((t.correct/t.total)*100):0;
+                    const cls=p>=70?'good':p>=45?'mid':'bad';
+                    const icon=p>=70?'check-circle':p>=45?'clock':'alert-circle';
+                    return`<div class="tp-item"><div class="tp-icon ${cls}"><i data-lucide="${icon}"></i></div><div class="tp-info"><div class="tp-name">${t.name}</div><div class="tp-detail">${t.correct}/${t.total} correct</div></div><span class="tp-pct ${cls}">${p}%</span></div>`;
+                }).join('')}
+            </div>
+        `;
+        lucide.createIcons({nodes:[container]});
+        setTimeout(()=>{const off=circ-(score/100)*circ;$('#crFill').style.strokeDashoffset=off},300);
+        $('#crBack').onclick=()=>{S.viewStack=['marketplace'];showView('marketplaceView','left');updateHeader();$('#bottomNav').classList.remove('hidden-nav')};
+        $('#crCourses').onclick=()=>{window.location.href='courses.html'};
+    }
+
+    // ========== SAVE CBT ATTEMPT ==========
+    async function saveCBTAttempt(score,correct,total,timeUsed,topicStats){
+        try{
+            await db.collection('attempts').add({userId:S.user.uid,courseId:S.currentTest?.courseId||'',courseCode:S.currentTest?.courseCode||'',testId:S.currentTest?.id||'',testTitle:S.currentTest?.title||'',type:'cbt',score,correctAnswers:correct,totalQuestions:total,timeUsed,topicStats,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+            await db.collection('users').doc(S.user.uid).update({questionsAttempted:firebase.firestore.FieldValue.increment(total),questionsCorrect:firebase.firestore.FieldValue.increment(correct),testsCompleted:firebase.firestore.FieldValue.increment(1),bestScore:Math.max(S.profile.bestScore||0,score),updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
+            // Update topic perf
+            for(const[tid,stats] of Object.entries(topicStats)){
+                const ref=db.collection('topic_performance').doc(`${S.user.uid}_${tid}`);
+                const ex=await ref.get();
+                if(ex.exists){const p=ex.data();const nt=(p.attempted||0)+stats.total;const nc=(p.correct||0)+stats.correct;await ref.update({attempted:nt,correct:nc,accuracy:Math.round((nc/nt)*100),updatedAt:firebase.firestore.FieldValue.serverTimestamp()})}
+                else{await ref.set({userId:S.user.uid,topicId:tid,topicName:stats.name,courseId:S.currentTest?.courseId||'',courseCode:S.currentTest?.courseCode||'',attempted:stats.total,correct:stats.correct,accuracy:Math.round((stats.correct/stats.total)*100),createdAt:firebase.firestore.FieldValue.serverTimestamp(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()})}
+            }
+            // Streak
+            const today=new Date().toISOString().split('T')[0];const sRef=db.collection('streaks').doc(S.user.uid);const sDoc=await sRef.get();
+            if(sDoc.exists){const sd=sDoc.data();const wd=sd.weekData||{};wd[today]=true;let ns=sd.currentStreak||0;const y=new Date();y.setDate(y.getDate()-1);const ys=y.toISOString().split('T')[0];if(!sd.weekData||!sd.weekData[today]){if(sd.lastPracticeDate===ys||sd.lastPracticeDate===today)ns++;else ns=1}await sRef.update({currentStreak:ns,longestStreak:Math.max(sd.longestStreak||0,ns),lastPracticeDate:today,weekData:wd,updatedAt:firebase.firestore.FieldValue.serverTimestamp()})}
+            // Notification
+            await db.collection('notifications').add({userId:S.user.uid,type:'test',title:`Test Complete: ${score}%`,message:`${S.currentTest?.title||'Test'} — ${correct}/${total} correct`,read:false,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+        }catch(e){console.error('Save attempt error:',e)}
+    }
+
+    // ========== TABS & SEARCH ==========
+    function initTabs(){
+        $$('.mp-tab').forEach(tab=>{tab.onclick=()=>{$$('.mp-tab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');S.activeFilter=tab.dataset.filter;renderTests()}});
+        let timer;$('#testSearch').addEventListener('input',e=>{clearTimeout(timer);timer=setTimeout(()=>{S.searchTerm=e.target.value;renderTests()},300)});
+    }
+
+    // ========== LOAD BALANCE ==========
+    async function loadBalance(){
+        try{const doc=await db.collection('wallet_accounts').doc(S.user.uid).get();S.balance=doc.exists?doc.data().balance||0:0;$('#heroBalance').textContent=fmt(S.balance)}catch(e){console.error(e)}
+    }
+
+    // ========== INIT ==========
+    function init(){
+        lucide.createIcons();Theme.init();initParticles();initTabs();
+        $('#headerBack').onclick=goBack;
+
+        // Check URL params for direct test access
+        const params=new URLSearchParams(window.location.search);
+        const directTest=params.get('test');
+        const directCourse=params.get('course');
+
+        auth.onAuthStateChanged(async user=>{
+            if(!user){window.location.href='index.html';return}
+            S.user=user;
+            try{
+                const doc=await db.collection('users').doc(user.uid).get();
+                if(!doc.exists){window.location.href='index.html';return}
+                S.profile=doc.data();
+                if(!S.profile.onboardingCompleted){window.location.href='onboarding.html';return}
+                await loadBalance();await loadTests();
+
+                // Handle direct test link
+                if(directTest){
+                    const test=S.tests.find(t=>t.id===directTest);
+                    if(test){const isFree=!test.price||test.price===0;const isPurchased=!!S.purchases[test.id];handleTestAction(test,isFree,isPurchased)}
+                }
+            }catch(e){console.error(e);Toast.show('error','Error','Could not load data')}
+            setTimeout(()=>{const o=$('#loadingOverlay');o.classList.add('hidden');setTimeout(()=>o.remove(),600)},500);
+        });
+    }
+    document.addEventListener('DOMContentLoaded',init);
+    </script>
+</body>
+</html>
